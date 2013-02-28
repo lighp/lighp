@@ -1,0 +1,28 @@
+[
+	{
+		"url":"/admin/portfolio-projects\\.html",
+		"action":"listProjects"
+	},
+	{
+		"url":"/admin/portfolio-categories-insert\\.html",
+		"action":"insertCategory"
+	},
+	{
+		"url":"/admin/portfolio-categories\\.html",
+		"action":"listCategories"
+	},
+	{
+		"url":"/admin/portfolio-projects-insert\\.html",
+		"action":"insertProject"
+	},
+	{
+		"url":"/admin/portfolio-projects-update-([a-zA-Z0-9-_.]+)\\.html",
+		"action":"updateProject",
+		"vars": ["name"]
+	},
+	{
+		"url":"/admin/portfolio-projects-delete-([a-zA-Z0-9-_.]+)\\.html",
+		"action":"deleteProject",
+		"vars": ["name"]
+	}
+]

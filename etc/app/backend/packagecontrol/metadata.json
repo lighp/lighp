@@ -1,0 +1,30 @@
+{
+	"title":"Gestionnaire de paquets",
+	"icon":"download-alt",
+	"actions":{
+		"listPackages":{
+			"url":"packagecontrol.html",
+			"title":"Gérer les paquets installés"
+		},
+		"searchPackage":{
+			"url":"packagecontrol-search.html",
+			"title":"Installer un paquet"
+		},
+		"updateCache":{
+			"url":"packagecontrol-update.html",
+			"title":"Vérifier les mises à jour"
+		},
+		"upgradePackages":{
+			"url":"packagecontrol-upgrade.html",
+			"title":"Appliquer les mises à jour"
+		},
+		"listRepositories":{
+			"url":"packagecontrol-repos.html",
+			"title":"Gérer les dépôts"
+		},
+		"addRepository":{
+			"url":"packagecontrol-repos-add.html",
+			"title":"Ajouter un dépôt"
+		}
+	}
+}

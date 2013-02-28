@@ -1,0 +1,7 @@
+[
+	{
+		"url":"/news-(.+)-([0-9]+)\\.html",
+		"action":"show",
+		"vars": ["slug","id"]
+	}
+]

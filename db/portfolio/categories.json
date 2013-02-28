@@ -1,0 +1,14 @@
+[
+	{
+		"name":"computing",
+		"title":"Informatique",
+		"subtitle":"Découvrez mes projets en programmation.",
+		"shortDescription":"Domaine des concepts et autres techniques employées pour le traitement automatique de l’information."
+	},
+	{
+		"name":"arts",
+		"title":"Arts",
+		"subtitle":"Visionnez mes quelques réalisations artistiques.",
+		"shortDescription":"Activité humaine, le produit de cette activité ou l'idée que l'on s'en fait, s'adressant délibérément aux sens, aux émotions et à l'intellect."
+	}
+]

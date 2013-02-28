@@ -1,0 +1,25 @@
+<div class="container marketing">
+	{{#category}}
+		<img class="img-circle pull-right" src="img/categories/{{name}}.png" />
+
+		<div class="page-header">
+			<h1>{{title}}</h1>
+			<p class="lead">{{{shortDescription}}}</p>
+		</div>
+	{{/category}}
+	
+	<div class="row">
+		{{#projects}}
+			{{#changeRow}}
+				</div><!-- /.row -->
+				<div class="row">
+			{{/changeRow}}
+			<div class="span4">
+				<img src="img/projects/medium/{{name}}.png"{{#circled}} class="img-circle"{{/circled}}/>
+				<h2>{{title}}</h2>
+				<p>{{{shortDescription}}}</p>
+				<p><a class="btn" href="project-{{name}}.html">Plus &raquo;</a></p>
+			</div><!-- /.span4 -->
+		{{/projects}}
+	</div><!-- /.row -->
+</div><!-- /.container -->

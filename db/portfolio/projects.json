@@ -1,0 +1,147 @@
+[
+    {
+        "name": "symbiose",
+        "title": "Symbiose",
+        "subtitle": "Le webos libre et flexible.",
+        "category": "computing",
+        "url": "http:\/\/symbiose.fr.cr\/",
+        "shortDescription": "Symbiose est un projet communautaire de webos (bureau en ligne). Sa philosophie est proche de Linux, l'interface par d\u00e9faut reproduit GNOME Shell. Il supporte de nombreuses fonctionnalit\u00e9s, dont le <em>montage de volume<\/em>, c'est \u00e0 dire l'utilisation intuitive de vos documents sur un serveur FTP, Dropbox ou Google Docs dans le webos.",
+        "gallery": [
+            {
+                "source": "desktop.png",
+                "title": "Le bureau"
+            },
+            {
+                "source": "shell.png",
+                "title": "L'interface GNOME Shell"
+            },
+            {
+                "source": "http:\/\/youtu.be\/chS0IIsB-Os",
+                "title": "Mise en ligne d'un fichier"
+            },
+            {
+                "source": "http:\/\/youtu.be\/MVpFlnFCPhA",
+                "title": "Verrouillage d'\u00e9cran"
+            }
+        ]
+    },
+    {
+        "name": "voice-recognition.js",
+        "title": "voice-recognition.js",
+        "subtitle": "Reconnaissance vocale.",
+        "category": "computing",
+        "url": "http:\/\/simonser.fr.nf\/projects\/voice-recognition.js\/",
+        "shortDescription": "Le projet voice-recognition.js est une reconnaissance vocale de bas niveau \u00e9crite en Javascript.",
+        "gallery": [
+            {
+                "source": "http:\/\/youtu.be\/pH8cJPn3Nfc",
+                "title": "Raspberry Pi Experiments"
+            }
+        ]
+    },
+    {
+        "name": "inscrivez-et-connectez-vos-membres-en-un-clic",
+        "title": "Inscrivez et connectez vos membres en un clic",
+        "subtitle": "Un tutoriel sur le Site du Z\u00e9ro.",
+        "category": "computing",
+        "url": "http:\/\/www.siteduzero.com\/tutoriel-3-658012-inscrivez-et-connectez-vos-membres-en-un-clic.html",
+        "shortDescription": "Vous venez de finir de modifier votre script de connexion pour donner la possibilit\u00e9 aux utilisateurs de se souvenir de leur pseudo, et vous \u00eates persuad\u00e9s d'avoir tout fait pour simplifier au maximum la t\u00e2che de vos membres ? D\u00e9trompez-vous : il existe un moyen pour les identifier d'un seul clic."
+    },
+    {
+        "name": "la-ville-dessinee",
+        "title": "La ville dessin\u00e9e",
+        "subtitle": "(ou le dessin sans limite)",
+        "url": "",
+        "shortDescription": "C'est parti du c\u00e9l\u00e8bre jeu \u00ab Sim City \u00bb. On a dessin\u00e9 une feuille, puis on s'est tr\u00e8s vite rendus compte qu'on pouvait continuer sur une autre puis les scotcher. R\u00e9sultat : un dessin de plusieurs m\u00e8tres carr\u00e9s.",
+        "category": "arts"
+    },
+    {
+        "name": "cours-d-informatique",
+        "title": "Cours d'informatique",
+        "subtitle": "Programmation en HTML5\/CSS3 et PHP.",
+        "category": "computing",
+        "url": "http:\/\/www.micronet91.com",
+        "shortDescription": "Je propose des cours de programmation \u00e0 Vigneux-sur-Seine avec l'association <a href=\"http:\/\/www.micronet91.com\/\">Micronet 91<\/a>."
+    },
+    {
+        "name": "radio-hits",
+        "title": "radio-hits",
+        "subtitle": "C'est quoi cette chanson ?",
+        "category": "computing",
+        "url": "http:\/\/simonser.fr.nf\/utils\/radio-hits\/",
+        "shortDescription": "Une interface web pour afficher les titres en cours de lecture sur vos radios pr\u00e9f\u00e9r\u00e9es. Supporte l'affichage des couvertures des albums, un lien vers la vid\u00e9o Youtube, la liste des morceaux d\u00e9j\u00e0 jou\u00e9s, la g\u00e9n\u00e9ration de statistiques et l'ajout des titres que vous aimez dans les favoris."
+    },
+    {
+        "name": "le-centre-culturel",
+        "title": "Le centre culturel",
+        "subtitle": "Un essai architectural.",
+        "category": "arts",
+        "shortDescription": "Un projet architectural de centre culturel en plein Paris. Encore en cours, n'\u00e9tant pas termin\u00e9, rares sont les images du projet."
+    },
+    {
+        "name": "dessins-a-l-encre-de-chine",
+        "title": "Dessins \u00e0 l'encre de Chine",
+        "subtitle": "Une passion...",
+        "category": "arts",
+        "shortDescription": "Quelques-unes de mes r\u00e9alisations \u00e0 l'encre de Chine.",
+        "gallery": [
+            {
+                "source": "montagne-pa.jpg",
+                "title": "Montagne"
+            },
+            {
+                "source": "montagne-la.jpg",
+                "title": "Montagne"
+            },
+            {
+                "source": "montagne-ju.jpg",
+                "title": "Village dans la montagne"
+            },
+            {
+                "source": "ville-1.jpg",
+                "title": "Vile"
+            },
+            {
+                "source": "ville-2.jpg",
+                "title": "Vile"
+            },
+            {
+                "source": "ville-3.jpg",
+                "title": "Vile"
+            },
+            {
+                "source": "temple-1.jpg",
+                "title": "Temple"
+            },
+            {
+                "source": "temple-2.jpg",
+                "title": "Temple"
+            },
+            {
+                "source": "port-1.jpg",
+                "title": "Port"
+            }
+        ]
+    },
+    {
+        "name": "croquis-de-londres-2012",
+        "title": "Croquis de Londres (2012)",
+        "subtitle": "Des monuments.",
+        "category": "arts",
+        "shortDescription": "Voici quelques croquis de certains monuments de Londres que j'ai faits lors de mon voyage en 2012.",
+        "gallery": [
+            {
+                "source": "big-ben.jpg",
+                "title": "Big Ben"
+            },
+            {
+                "source": "golden-jubilee-bridge.jpg",
+                "title": "Golden Jubilee Bridge"
+            },
+            {
+                "source": "tower-bridge.jpg",
+                "title": "Tower Bridge"
+            }
+        ]
+    }
+]

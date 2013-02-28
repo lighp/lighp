@@ -1,0 +1,49 @@
+<div class="container">
+	<div class="page-header">
+		<h1>Rechercher un paquet</h1>
+	</div>
+
+	<form action="" method="get" class="form-horizontal form-search">
+		<div class="input-append">
+			<input type="search" class="search-query input-xxlarge" name="q" placeholder="Entrez votre recherche..." value="{{searchQuery}}" required/>
+			<button class="btn" type="submit"><i class="icon-search"></i></button>
+		</div>
+
+		<select id="package-repo" name="repo">
+			<option value="">Tous les dépôts disponibles</option>
+			{{#repositories}}
+				<option value="{{name}}"{{#selected?}} selected="selected"{{/selected?}}>{{name}}</option>
+			{{/repositories}}
+		</select>
+	</form>
+
+	{{#emptyQuery?}}
+		<div class="alert alert-warning">
+			<h4 class="alert-heading">Recherche vide</h4>
+			<p>Vous n'avez entr&eacute; aucune recherche.</p>
+		</div>
+	{{/emptyQuery?}}
+
+	{{#searched?}}
+		{{#packages?}}
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Version</th>
+					<th>License</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				{{#packages}}
+					{{> partials/table-package}}
+				{{/packages}}
+			</tbody>
+		</table>
+		{{/packages?}}
+		{{^packages?}}
+			<p class="alert alert-warning">Aucun paquet ne correspond &agrave; votre recherche.</p>
+		{{/packages?}}
+	{{/searched?}}
+</div>

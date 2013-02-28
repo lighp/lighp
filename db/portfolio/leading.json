@@ -1,0 +1,17 @@
+[
+	{
+		"name":"symbiose",
+		"kind":"project",
+		"place":"featurette"
+	},
+	{
+		"name":"inscrivez-et-connectez-vos-membres-en-un-clic",
+		"kind":"project",
+		"place":"featurette"
+	},
+	{
+		"name":"la-ville-dessinee",
+		"kind":"project",
+		"place":"featurette"
+	}
+]

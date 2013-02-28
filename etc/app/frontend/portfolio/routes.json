@@ -1,0 +1,20 @@
+[
+	{
+		"url":"/(index\\.html)?",
+		"action":"index"
+	},
+	{
+		"url":"/portfolio.html",
+		"action":"index"
+	},
+	{
+		"url":"/category-([a-zA-Z0-9-_.]+).html",
+		"action":"showCategory",
+		"vars": ["name"]
+	},
+	{
+		"url":"/project-([a-zA-Z0-9-_.]+).html",
+		"action":"showProject",
+		"vars": ["name"]
+	}
+]

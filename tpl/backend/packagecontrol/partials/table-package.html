@@ -1,0 +1,15 @@
+<tr>
+	<td><strong>{{#url}}<a href="{{url}}" title="Acc&eacute;der au site web" target="_blank">{{/url}}{{title}}{{#url}}</a>{{/url}}</strong> - {{subtitle}}</td>
+	<td>{{version}}</td>
+	<td>{{license}}</td>
+	<td>
+		<div class="btn-group">
+			{{^installed}}
+				<a class="btn btn-primary" href="packagecontrol-install-{{name}}.html"><i class="icon-arrow-down icon-white"></i>&nbsp;Installer</a>
+			{{/installed}}
+			{{#installed}}
+				<a class="btn btn-danger" href="packagecontrol-remove-{{name}}.html"><i class="icon-trash icon-white"></i>&nbsp;Supprimer</a>
+			{{/installed}}
+		</div>
+	</td>
+</tr>

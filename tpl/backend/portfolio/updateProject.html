@@ -1,0 +1,16 @@
+<div class="container">
+	<div class="page-header">
+		<h1>Modifier un projet</h1>
+	</div>
+
+	{{#updated?}}
+		<div class="alert alert-block alert-success">
+			<h4 class="alert-heading">Projet modifi&eacute;</h4>
+			<p>Le projet a bien &eacute;t&eacute; modifi&eacute;.</p>
+			<p><a class="btn" href="module-portfolio.html">Retour</a></p>
+		</div>
+	{{/updated?}}
+	{{^updated?}}
+		{{> partials/form-project}}
+	{{/updated?}}
+</div>

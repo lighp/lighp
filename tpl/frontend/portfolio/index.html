@@ -1,0 +1,59 @@
+<!-- Marketing messaging and featurettes
+================================================== -->
+<!-- Wrap the rest of the page in another container to center all the content. -->
+<div class="container marketing">
+	<!-- Three columns of text below the carousel -->
+	<div class="row">
+		{{#categories}}
+			<div class="span4">
+				<img class="img-circle" src="img/categories/{{name}}.png">
+				<h2>{{title}}</h2>
+				<p>{{{shortDescription}}}</p>
+				<p><a class="btn btn-inverse" href="category-{{name}}.html">Plus &raquo;</a></p>
+			</div><!-- /.span4 -->
+		{{/categories}}
+
+		<div class="span4">
+			<img src="img/categories/contact.png">
+			<h2>Contact</h2>
+			<p>N'h&eacute;sitez pas &agrave; me contacter pour toute question !</p>
+			<p><a class="btn" href="contact.html">Contact &raquo;</a></p>
+		</div><!-- /.span4 -->
+	</div><!-- /.row -->
+
+
+	<!-- START THE FEATURETTES -->
+	<hr class="featurette-divider" />
+	{{#featuretteProjects}}
+		<div class="featurette">
+			<img class="featurette-image pull-left" src="img/projects/large/{{name}}.png">
+			<h2 class="featurette-heading">{{title}}. <span class="muted">{{subtitle}}</span></h2>
+			<p class="lead">{{{shortDescription}}}</p>
+			<p><a class="btn btn-large btn-primary" href="project-{{name}}.html">En savoir plus &raquo;</a></p>
+		</div>
+		<hr class="featurette-divider" />
+	{{/featuretteProjects}}
+	<!-- /END THE FEATURETTES -->
+	
+	<div class="btn-group pull-right">
+		{{#categories}}
+			<a href="category-{{name}}.html" class="btn btn-large btn-inverse">{{title}}</a>
+		{{/categories}}
+	</div>
+
+	<h1>Autres projets</h1>
+	<div class="row">
+		{{#otherProjects}}
+			{{#changeRow}}
+				</div><!-- /.row -->
+				<div class="row">
+			{{/changeRow}}
+			<div class="span4">
+				<img src="img/projects/medium/{{name}}.png"{{#circled}} class="img-circle"{{/circled}}/>
+				<h2>{{title}}</h2>
+				<p>{{{shortDescription}}}</p>
+				<p><a class="btn" href="project-{{name}}.html">Plus &raquo;</a></p>
+			</div><!-- /.span4 -->
+		{{/otherProjects}}
+	</div><!-- /.row -->
+</div><!-- /.container -->

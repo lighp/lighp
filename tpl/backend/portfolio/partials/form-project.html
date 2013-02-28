@@ -1,0 +1,55 @@
+<form action="" method="post" class="form-horizontal">
+	{{#error}}
+		<div class="alert alert-block alert-error">
+			<button class="close" data-dismiss="alert" type="button">&times;</button>
+			<h4 class="alert-heading">Erreur</h4>
+			<p>Une erreur est survenue lors du traitement de la requ&ecirc;te : {{error}}.</p>
+		</div>
+	{{/error}}
+
+	<div class="control-group">
+		<label class="control-label" for="project-name">Nom unique du projet</label>
+		<div class="controls">
+			<input type="text" name="project-name" id="project-name" value="{{#project}}{{name}}{{/project}}" placeholder="Nom" required><span class="help-inline">(seuls les caract&egrave;res alphanum&eacute;riques et les suivants sont accept&eacute;s : &laquo;_, -, . &raquo;)</span>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="project-title">Titre du projet</label>
+		<div class="controls">
+			<input type="text" name="project-title" id="project-title" value="{{#project}}{{title}}{{/project}}" placeholder="Titre" required>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="project-subtitle">Sous-titre du projet</label>
+		<div class="controls">
+			<input type="text" name="project-subtitle" id="project-subtitle" value="{{#project}}{{subtitle}}{{/project}}" placeholder="Sous-titre" class="input-xxlarge">
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="project-category">Cat&eacute;gorie du projet</label>
+		<div class="controls">
+			<select name="project-category" id="project-category">
+				{{#categories}}
+					<option value="{{name}}"{{#selected?}} selected="selected"{{/selected?}}>{{title}}</option>
+				{{/categories}}
+			</select>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="project-url">URL du projet</label>
+		<div class="controls">
+			<input type="url" name="project-url" id="project-url" value="{{#project}}{{url}}{{/project}}" placeholder="URL">
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="project-shortDescription">Courte description du projet</label>
+		<div class="controls">
+			<textarea name="project-shortDescription" id="project-shortDescription" rows="5" class="input-xxlarge">{{#project}}{{shortDescription}}{{/project}}</textarea>
+		</div>
+	</div>
+
+	<div class="form-actions">
+		<button type="submit" class="btn btn-primary">Valider</button>
+		<a class="btn" href="module-portfolio.html">Annuler</a>
+	</div>
+</form>

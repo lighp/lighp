@@ -1,0 +1,24 @@
+<div class="container">
+	<div class="page-header">
+		<h1>G&eacute;rer les paquets</h1>
+	</div>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Nom</th>
+				<th>Version</th>
+				<th>License</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#packages}}
+				{{> partials/table-package}}
+			{{/packages}}
+		</tbody>
+	</table>
+	{{^packages}}
+		<p class="alert alert-info">Il n'y a actuellement aucun paquet install&eacute;.</p>
+	{{/packages}}
+</div>

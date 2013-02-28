@@ -1,0 +1,11 @@
+{
+	"pdo":{
+		"callback":["\\core\\dao\\PDOFactory","getMysqlConnexion"],
+		"config":{}
+	},
+	"json":{
+		"callback":["\\core\\dao\\JSONDBFactory","getLocalConnexion"],
+		"config":{},
+		"default":1
+	}
+}

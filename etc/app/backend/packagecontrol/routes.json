@@ -1,0 +1,42 @@
+[
+	{
+		"url":"/admin/packagecontrol\\.html",
+		"action":"listPackages"
+	},
+	{
+		"url":"/admin/packagecontrol-search\\.html(\\?q=(.*)&repo=(.*))?",
+		"action":"searchPackage",
+		"vars": ["","q","repo"]
+	},
+	{
+		"url":"/admin/packagecontrol-install-([a-zA-Z0-9-_.]+)\\.html",
+		"action":"installPackage",
+		"vars": ["name"]
+	},
+	{
+		"url":"/admin/packagecontrol-remove-([a-zA-Z0-9-_.]+)\\.html",
+		"action":"removePackage",
+		"vars": ["name"]
+	},
+	{
+		"url":"/admin/packagecontrol-update\\.html",
+		"action":"updateCache"
+	},
+	{
+		"url":"/admin/packagecontrol-upgrade\\.html",
+		"action":"upgradePackages"
+	},
+	{
+		"url":"/admin/packagecontrol-repos\\.html",
+		"action":"listRepositories"
+	},
+	{
+		"url":"/admin/packagecontrol-repos-add\\.html",
+		"action":"addRepository"
+	},
+	{
+		"url":"/admin/packagecontrol-repos-remove-([a-zA-Z0-9-_.]+)\\.html",
+		"action":"removeRepository",
+		"vars": ["name"]
+	}
+]

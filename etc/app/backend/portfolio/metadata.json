@@ -1,0 +1,22 @@
+{
+	"title":"Portfolio",
+	"icon":"briefcase",
+	"actions":{
+		"listProjects":{
+			"url":"portfolio-projects.html",
+			"title":"Gérer un projet"
+		},
+		"insertProject":{
+			"url":"portfolio-projects-insert.html",
+			"title":"Créer un projet"
+		},
+		"listCategories":{
+			"url":"portfolio-categories.html",
+			"title":"Gérer une catégorie"
+		},
+		"insertCategory":{
+			"url":"portfolio-categories-insert.html",
+			"title":"Créer une catégorie"
+		}
+	}
+}

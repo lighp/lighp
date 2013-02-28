@@ -1,0 +1,33 @@
+<div class="container">
+	{{#project}}
+		<div class="featurette">
+			<img class="featurette-image pull-left" src="img/projects/large/{{name}}.png" />
+			<h2 class="featurette-heading">{{title}}. <span class="muted">{{subtitle}}</span></h2>
+			<p class="lead">{{{shortDescription}}}</p>
+			<p>
+				{{#url}}
+					<a class="btn btn-large btn-primary" href="{{url}}">Acc&eacute;der au site Web &raquo;</a>
+				{{/url}}
+				<a class="btn btn-large btn-inverse" href="category-{{category}}.html">Projets similaires</a>
+			</p>
+		</div><!-- /.featurette -->
+
+		{{#description}}
+		<h2>Description</h2>
+		<p>{{{description}}}</p>
+		{{/description}}
+
+		{{#gallery?}}
+		<h2>Gallerie</h2>
+		<ul class="thumbnails">
+			{{#gallery}}
+				{{#changeRow}}
+					</ul>
+					<ul class="thumbnails">
+				{{/changeRow}}
+				<li>{{title}}</li>
+			{{/gallery}}
+		</ul><!-- /.thumbnails -->
+		{{/gallery?}}
+	{{/project}}
+</div><!-- /.container -->
