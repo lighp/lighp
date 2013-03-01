@@ -138,7 +138,17 @@ class PackagecontrolController extends \core\BackController {
 	}
 
 	public function executeUpgradePackages(\core\HTTPRequest $request) {
-		
+		$packageManager = $this->managers->getManagerOf('Packagecontrol');
+		$localRepo = $this->managers->getManagerOf('LocalRepository');
+
+		$upgrades = $packageManager->calculateUpgrades($localRepo);
+
+		$this->page->addVar('upgrades', $upgrades);
+		$this->page->addVar('upgrades?', (count($upgrades) > 0));
+
+		if ($request->postExists('check')) {
+			$this->page->addVar('upgraded?', true);
+		}
 	}
 
 	public function executeListRepositories(\core\HTTPRequest $request) {

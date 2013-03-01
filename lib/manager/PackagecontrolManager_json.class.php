@@ -415,6 +415,10 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 		$filesFile->write($files);
 	}
 
+	public function calculateUpgrades(LocalRepositoryManager $localRepository) {
+		return array();
+	}
+
 	public function getRemoteRepositoriesList() {
 		$file = $this->dao->open('packagecontrol/repositories');
 		$repos = $file->read();
