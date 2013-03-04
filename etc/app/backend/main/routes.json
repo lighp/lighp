@@ -9,8 +9,8 @@
 		"vars": ["name"]
 	},
 	{
-		"url":"/admin/search\\.html\\?q=(.*)",
+		"url":"/admin/search\\.html\\?q=([^&]*)(&module=([^&]*))?",
 		"action":"search",
-		"vars": ["query"]
+		"vars": ["query","","module"]
 	}
 ]

@@ -62,7 +62,14 @@ class MainController extends \core\BackController {
 	}
 
 	public function executeSearch(\core\HTTPRequest $request) {
-		$query = $request->getData('q');
+		$query = $request->getData('query');
+		$this->page->addVar('searchQuery', $query);
+
+		$module = $request->getData('module');
+		if (!empty($module)) {
+			$backend = $this->_getBackend($module);
+			$this->page->addVar('backend', $backend);
+		}
 
 		if (empty($query)) {
 			$this->page->addVar('emptyQuery?', true);
@@ -71,49 +78,41 @@ class MainController extends \core\BackController {
 
 		$escapedQuery = preg_quote($query);
 
-		$backends = $this->_listBackends();
-		$matchingBackends = array();
+		if (!empty($module)) {
+			$backends = array($backend);
+		} else {
+			$backends = $this->_listBackends();
+		}
+		
+		$matchingActions = array();
 
-		$nbrBackends = count($backends);
-		$backendsHitsPower = strlen((string) $nbrBackends);
-		$backendsHitsFactor = pow(10, $backendsHitsPower);
-
+		$nbrActions = 0;
 		foreach($backends as $i => $backend) {
-			$backendHits = 0;
+			$nbrActions += count($backend['actions']);
+		}
+		$actionsHitsPower = strlen((string) $nbrActions);
+		$actionsHitsFactor = pow(10, $actionsHitsPower);
 
-			$actions = array();
+		$i = 0;
+		foreach($backends as $backend) {
+			$backend['title'] = preg_replace('#('.$escapedQuery.')#i', '<strong>$1</strong>', $backend['title'], -1, $backendHits);
 
-			$nbrActions = count($backend['actions']);
-			$actionsHitsPower = strlen((string) $nbrActions);
-			$actionsHitsFactor = pow(10, $actionsHitsPower);
+			foreach ($backend['actions'] as $action) {
+				$action['title'] = preg_replace('#('.$escapedQuery.')#i', '<strong>$1</strong>', $action['title'], -1, $actionHits);
 
-			foreach ($backend['actions'] as $j => $action) {
-				preg_match_all('#'.$escapedQuery.'#i', $action['title'], $matches);
-				
-				if (is_array($matches[0]) && count($matches[0]) > 0) {
-					$actionHits = count($matches[0]);
-					$backendHits += $actionHits;
-
-					foreach ($matches[0] as $match) {
-						$action['title'] = str_replace($match, '<strong>'.$match.'</strong>', $action['title']);
-					}
-
-					$actions[$actionHits * $actionsHitsFactor + ($nbrActions - $j)] = $action;
+				$totalHits = $backendHits + $actionHits;
+				if ($totalHits > 0) {
+					$action['backend'] = $backend;
+					$matchingActions[$totalHits * $actionsHitsFactor + ($nbrActions - $i)] = $action;
 				}
-			}
 
-			if ($backendHits > 0) {
-				krsort($actions);
-				$backend['actions'] = array_values($actions);
-				$backend['backendTitle'] = $backend['title']; //Rename backend title to manage duplicates with actions' titles
-
-				$matchingBackends[$backendHits * $backendsHitsFactor + ($nbrBackends - $i)] = $backend;
+				$i++;
 			}
 		}
 
-		krsort($matchingBackends);
-		$matchingBackends = array_values($matchingBackends);
+		krsort($matchingActions);
+		$matchingActions = array_values($matchingActions);
 
-		$this->page->addVar('backends', $matchingBackends);
+		$this->page->addVar('actions', $matchingActions);
 	}
 }

@@ -1,14 +1,14 @@
 <div class="container">
 	<div class="page-header">
-		<h1>Recherche</h1>
+		<h1>Recherche{{#backend}} : {{backend.title}}{{/backend}}</h1>
 	</div>
 
+	{{> partials/form-search}}
+
 	<ul class="nav nav-tabs nav-stacked">
-	{{#backends}}
 		{{#actions}}
-			<li><a href="{{url}}"><i class="icon-{{#icon}}{{icon}}{{/icon}}{{^icon}}cog{{/icon}}"></i>&nbsp;{{backendTitle}} : {{{title}}}</a></li>
+			<li><a href="{{url}}"><i class="icon-{{backend.icon}}{{^backend}}cog{{/backend}}"></i>&nbsp;{{{backend.title}}} : {{{title}}}</a></li>
 		{{/actions}}
-	{{/backends}}
 	</ul>
 
 	{{#emptyQuery?}}
@@ -19,12 +19,12 @@
 		</div>
 	{{/emptyQuery?}}
 	{{^emptyQuery?}}
-		{{^backends}}
+		{{^actions}}
 			<div class="alert alert-warning">
 				<h4 class="alert-heading">Aucun r&eacute;sultat</h4>
 				<p>Les termes de votre recherche ne correspondent &agrave; aucune action.</p>
 				<p><a class="btn" href="index.html">Retour</a></p>
 			</div>
-		{{/backends}}
+		{{/actions}}
 	{{/emptyQuery?}}
 </div>

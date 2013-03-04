@@ -43,6 +43,17 @@ class LocalRepositoryManager_json extends LocalRepositoryManager {
 		}
 	}
 
+	public function getPackageMetadata($pkgName) {
+		$metadataFile = $this->dao->open('packagecontrol/packages');
+		$metadatas = $metadataFile->read();
+
+		foreach($metadatas as $metadata) {
+			if ($metadata['name'] == $pkgName) {
+				return new \lib\entities\PackageMetadata($metadata);
+			}
+		}
+	}
+
 	public function packageExists($pkgName) {
 		$metadataFile = $this->dao->open('packagecontrol/packages');
 		$metadatas = $metadataFile->read();

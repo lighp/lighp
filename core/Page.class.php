@@ -74,9 +74,14 @@ class Page extends ApplicationComponent {
 			$suffixes = array('octets', 'Kio', 'Mio', 'Gio', 'Tio');
 			$precision = 2;
 
-			$base = log($bytes) / log(1024);
+			$base = 0;
+			$roundedBytes = 0;
+			if ($bytes != 0) {
+				$base = log(abs($bytes)) / log(1024);
+				$roundedBytes = round(pow(1024, $base - floor($base)), $precision);
+			}
 
-			return round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
+			return (($bytes < 0) ? '-' : '') . $roundedBytes . ' ' . $suffixes[floor($base)];
 		});
 
 		return $mustache;

@@ -1,0 +1,10 @@
+{{! We will use filters}}
+{{%FILTERS}}
+
+<tr>
+	<td><strong>{{#url}}<a href="{{url}}" title="Acc&eacute;der au site web" target="_blank">{{/url}}{{title}}{{#url}}</a>{{/url}}</strong> - {{subtitle}}</td>
+	<td>{{version}}</td>
+	<td>{{license}}</td>
+	<td>{{size | filesize}}</td>
+	<td>{{extractedSize | filesize}}</td>
+</tr>

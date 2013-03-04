@@ -19,6 +19,35 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 		return $list;
 	}
 
+	public function getPackageMetadata($pkgName) {
+		$remoteRepositories = $this->getRemoteRepositoriesList();
+
+		$list = array();
+
+		foreach($remoteRepositories as $repo) {
+			try {
+				if ($repo->packageExists($pkgName)) {
+					$list[] = $repo->getPackageMetadata($pkgName);
+				}
+			} catch(\Exception $e) {
+				continue;
+			}
+		}
+
+		$maxVersion = 0;
+		$selectedPkg = null;
+
+		foreach($list as $pkg) {
+			$version = $pkg['version'];
+			if (version_compare($version, $maxVersion, '>')) {
+				$maxVersion = $version;
+				$selectedPkg = $pkg;
+			}
+		}
+
+		return $selectedPkg;
+	}
+
 	public function getPackage($pkgName) {
 		$remoteRepositories = $this->getRemoteRepositoriesList();
 
@@ -416,7 +445,19 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 	}
 
 	public function calculateUpgrades(LocalRepositoryManager $localRepository) {
-		return array();
+		$installedPkgs = $localRepository->getPackagesList();
+
+		$upgrades = array();
+
+		foreach ($installedPkgs as $installedPkg) {
+			$remotePkg = $this->getPackageMetadata($installedPkg['name']);
+
+			if ($remotePkg !== null && version_compare($remotePkg['version'], $installedPkg['version'], '>')) {
+				$upgrades[] = $this->getPackage($installedPkg['name']);
+			}
+		}
+
+		return $upgrades;
 	}
 
 	public function getRemoteRepositoriesList() {

@@ -43,6 +43,10 @@ class RemoteRepository implements Repository {
 	}
 
 	public function getPackageMetadata($pkgName) {
+		if ($this->packages === null) {
+			$this->getPackagesList();
+		}
+
 		return (isset($this->packages[$pkgName])) ? $this->packages[$pkgName] : null;
 	}
 

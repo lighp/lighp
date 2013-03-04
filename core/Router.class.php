@@ -22,7 +22,9 @@ class Router {
 					$listVars = array();
 
 					foreach ($varsValues as $key => $match) {
-						$listVars[$varsNames[$key]] = $match;
+						if (!empty($varsNames[$key])) {
+							$listVars[$varsNames[$key]] = urldecode($match);
+						}
 					}
 
 					$route->setVars($listVars);

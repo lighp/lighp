@@ -10,13 +10,9 @@
 			"url":"packagecontrol-search.html",
 			"title":"Installer un paquet"
 		},
-		"updateCache":{
-			"url":"packagecontrol-update.html",
-			"title":"Vérifier les mises à jour"
-		},
 		"upgradePackages":{
 			"url":"packagecontrol-upgrade.html",
-			"title":"Appliquer les mises à jour"
+			"title":"Vérifier les mises à jour"
 		},
 		"listRepositories":{
 			"url":"packagecontrol-repos.html",

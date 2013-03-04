@@ -142,12 +142,43 @@ class PackagecontrolController extends \core\BackController {
 		$localRepo = $this->managers->getManagerOf('LocalRepository');
 
 		$upgrades = $packageManager->calculateUpgrades($localRepo);
+		$upgradesNbr = count($upgrades);
 
 		$this->page->addVar('upgrades', $upgrades);
-		$this->page->addVar('upgrades?', (count($upgrades) > 0));
+		$this->page->addVar('upgradesNbr', $upgradesNbr);
+		$this->page->addVar('upgrades?', ($upgradesNbr > 0));
 
 		if ($request->postExists('check')) {
+			try {
+				$localPkgs = array();
+				foreach($upgrades as $pkg) {
+					$localPkgs[] = $localRepo->getPackage($pkg->metadata()['name']);
+				}
+				$localRepo->remove($localPkgs);
+
+				$packageManager->install($upgrades, $localRepo);
+			} catch (\Exception $e) {
+				$this->page->addVar('error', $e->getMessage());
+				return;
+			}
+
 			$this->page->addVar('upgraded?', true);
+		} else {
+			$downloadSize = 0;
+			$extractedSize = 0;
+			$netSize = 0;
+
+			foreach($upgrades as $pkg) {
+				$downloadSize += $pkg->metadata()['size'];
+				$extractedSize += $pkg->metadata()['extractedSize'];
+
+				$localPkg = $localRepo->getPackageMetadata($pkg->metadata()['name']);
+				$netSize += $pkg->metadata()['extractedSize'] - $localPkg['extractedSize'];
+			}
+
+			$this->page->addVar('downloadSize', $downloadSize);
+			$this->page->addVar('extractedSize', $extractedSize);
+			$this->page->addVar('netSize', $netSize);
 		}
 	}
 

@@ -3,12 +3,7 @@
 		<h1>Espace d'administration</h1>
 	</div>
 
-	<form action="search.html" method="get" class="form-search">
-		<div class="input-append">
-			<input type="search" class="search-query input-xxlarge" name="q" placeholder="Entrez une action..." value="{{searchQuery}}" required/>
-			<button class="btn" type="submit"><i class="icon-search"></i></button>
-		</div>
-	</form>
+	{{> partials/form-search}}
 
 	<ul class="nav nav-tabs nav-stacked">
 		{{#backends}}
