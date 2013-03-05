@@ -131,6 +131,164 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 		return array_values($matchingPackages);
 	}
 
+	protected function _mergeTrees($tree1, $tree2) {
+		$mergedTree = $tree1;
+
+		foreach ($tree2 as $depName => $dep) {
+			if (!isset($mergedTree[$depName])) {
+				$mergedTree[$depName] = $dep;
+			} else {
+				$mergedTree[$depName] = $this->_mergeDependencies($mergedTree[$depName], $dep);
+			}
+		}
+
+		return $mergedTree;
+	}
+
+	protected function _mergeDependencies($dep1, $dep2) {
+		if ($dep1['name'] != $dep2['name']) {
+			return null;
+		}
+
+		$mergedDep = array_merge($dep1, $dep2);
+
+		//If specific versions are specified
+		if (!empty($dep1['maxVersion']) && !empty($dep2['maxVersion'])) { //If both have a max. version
+			//The max. version is the lower one
+			if (version_compare($dep1['maxVersion'], $dep2['maxVersion'], '=')) { //If both versions are equivalent
+				$mergedDep['maxVersion'] = $dep2['maxVersion']; //Keep this dependency's version
+
+				//The max. operator is the more restrictive
+				$mergedDep['maxVersionStrict'] = ($dep1['maxVersionStrict'] || $dep2['maxVersionStrict']);
+			} else if (version_compare($dep1['maxVersion'], $dep2['maxVersion'], '>')) { //If the actual max. version is greater than this one
+				//Keep this dependency's version and operator
+				$mergedDep['maxVersion'] = $dep2['maxVersion'];
+				$mergedDep['maxVersionStrict'] = $dep2['maxVersionStrict'];
+			} else { //If the actual max. version is lower than this one
+				$mergedDep['maxVersion'] = $dep1['maxVersion'];
+				$mergedDep['maxVersionStrict'] = $dep1['maxVersionStrict'];
+			}
+		}
+		if (!empty($dep1['minVersion']) && !empty($dep2['minVersion'])) { //If both have a min. version
+			//The min. version is the greater one
+			if (version_compare($dep1['minVersion'], $dep2['minVersion'], '=')) { //If both versions are equivalent
+				$mergedDep['minVersion'] = $dep2['minVersion']; //Keep this dependency's version
+
+				//The min. operator is the more restrictive
+				$mergedDep['minVersionStrict'] = ($dep1['minVersionStrict'] || $dep2['minVersionStrict']);
+			} else if (version_compare($dep1['minVersion'], $dep2['minVersion'], '>')) { //If the actual min. version is greater than this one
+				$mergedDep['minVersion'] = $dep1['minVersion'];
+				$mergedDep['minVersionStrict'] = $dep1['minVersionStrict'];
+			} else { //If the actual min. version is lower than this one
+				//Keep this dependency's version and operator
+				$mergedDep['minVersion'] = $dep2['minVersion'];
+				$mergedDep['minVersionStrict'] = $dep2['minVersionStrict'];
+			}
+		}
+
+		//merge parents and levels
+		$mergedDep['parents'] = array_merge($dep1['parents'], $dep2['parents']);
+		$mergedDep['level'] = ($dep1['level'] > $dep2['level']) ? $dep1['level'] : $dep2['level'];
+
+		return $mergedDep;
+	}
+
+	public function _compareDependenciesLevel($dep1, $dep2) {
+		return $dep1['level'] - $dep2['level'];
+	}
+
+	protected function _createTreeNode($pkgName) {
+		return array(
+			'name' => $pkgName,
+			'maxVersion' => null,
+			'maxVersionStrict' => false,
+			'minVersion' => null,
+			'minVersionStrict' => false,
+			'parents' => array(),
+			'level' => 0
+		);
+	}
+
+	protected function _calculateTree(\lib\Package $pkg, LocalRepositoryManager $localRepository) {
+		$pkgName = $pkg->metadata()['name']; //Package's name
+
+		$tree = array(); //Package's tree
+
+		$tree[$pkgName] = $this->_createTreeNode($pkgName); //Firstly, create this package's node
+
+		//Here are allowed operators to target specific versions
+		$operators = array(
+			'<' => -2,
+			'<=' => -1,
+			'=' => 0,
+			'>=' => 1,
+			'>' => 2
+		);
+
+		$remoteRepositories = $this->getRemoteRepositoriesList(); //Remote repositories
+
+		//Then add dependencies
+		$pkgDeps = $pkg->depends();
+		foreach ($pkgDeps as $dep) {
+			$depToAdd = $this->_createTreeNode($dep['name']);
+
+			$depToAdd['parents'][] = $pkgName;
+			$depToAdd['level'] = 1;
+
+			//If specific versions are specified
+			if (isset($pkgDep['versionOperator']) && isset($pkgDep['version'])) {
+				//Versionning support
+				$pkgDepOperator = $operators[$pkgDep['operator']];
+
+				if ($pkgDepOperator <= 0) { //If the operator is <, <= or =
+					$depToAdd['maxVersion'] = $pkgDep['version'];
+					$depToAdd['maxVersionStrict'] = ($pkgDep['operator'] <= -2);
+				}
+				if ($pkgDepOperator >= 0) { //If the operator is >, >= or =
+					$depToAdd['minVersion'] = $pkgDep['version'];
+					$depToAdd['minVersionStrict'] = ($pkgDep['operator'] >= 2);
+				}
+			}
+
+			//Find dependency in repositories
+			$depPkg = null;
+
+			//Check if the requiered package is already installed
+			$localPkg = $this->_resolveDependency($dep, $localRepository);
+			if ($localPkg === null) { //No => we must download it from remote repositories
+				$found = false;
+				foreach($remoteRepositories as $repo) {
+					$remotePkg = $this->_resolveDependency($dep, $repo);
+
+					if ($remotePkg !== null) { //Package found
+						$depPkg = $remotePkg;
+						$found = true;
+						break;
+					}
+				}
+
+				if (!$found) { //Package not found, trigger an error
+					throw new \RuntimeException('Cannot resolve the dependency tree : package "'.$pkgName.'" requires "'.$dep['name'].$dep['versionOperator'].$dep['version'].'"');
+				}
+			} else {
+				$depPkg = $localPkg;
+			}
+
+			//Then, calculate this dependency's tree
+			$depTree = $this->_calculateTree($depPkg, $localRepository);
+			foreach($depTree as $depsDepName => $depsDep) { //Add 1 to every dependencies' levels
+				$depTree[$depsDepName]['level']++;
+			}
+			$depTree[$depToAdd['name']] = $depToAdd;
+
+			$tree = $this->_mergeTrees($tree, $depTree); //Merge this dependency's tree and the final tree
+		}
+
+		uasort($tree, array($this, '_compareDependenciesLevel'));
+
+		return $tree;
+	}
+
 	protected function _resolveDependency($dep, \lib\Repository $repository) {
 		$pkg = $repository->getPackage($dep['name']);
 
@@ -293,125 +451,57 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 		}
 
 		//First, resolve the dependency tree
-		
-		//Here are allowed operators to target specific versions
-		$operators = array(
-			'<' => -2,
-			'<=' => -1,
-			'=' => 0,
-			'>=' => 1,
-			'>' => 2
-		);
+		$tree = array();
 
-		$dependencies = array(); //Array in which dependencies are stored
-		
-		//TODO: this is a 1-depth dependency tree !
 		foreach ($pkgList as $pkg) { //For each package to install
-			$pkgName = $pkg->metadata()['name'];
-			$pkgDeps = $pkg->depends();
+			$pkgTree = $this->_calculateTree($pkg, $localRepository);
 
-			foreach($pkgDeps as $pkgDep) { //For each dependency of this package
-				$depToAdd = array(
-					'pkgs' => array($pkgName => $pkgDep),
-					'name' => $pkgDep['name']
-				);
-
-				if (isset($dependencies[$pkgDep['name']])) { //If this dependency is already requiered by another package
-					$actualDep = $dependencies[$pkgDep['name']];
-
-					//If specific versions are specified
-					if (isset($pkgDep['versionOperator']) && isset($pkgDep['version'])) {
-						//Versionning support
-						$pkgDepOperator = $operators[$pkgDep['operator']];
-
-						if ($pkgDepOperator <= 0) { //If the operator is <, <= or =
-							$depToAdd['maxVersion'] = $pkgDep['version'];
-							$depToAdd['maxVersionOperator'] = $pkgDep['operator'];
-						}
-						if ($pkgDepOperator >= 0) { //If the operator is >, >= or =
-							$depToAdd['minVersion'] = $pkgDep['version'];
-							$depToAdd['minVersionOperator'] = $pkgDep['operator'];
-						}
-
-						//If actual dependency has a version restriction
-						if (isset($actualDep['minVersion']) || isset($actualDep['maxVersion'])) {
-							//Determine keys in common
-							$comparableKeys = array_intersect(array_keys($actualDep), array_keys($depToAdd));
-
-							if (in_array('maxVersion', $comparableKeys)) { //If both have a max. version
-								//The max. version is the lower one
-								if (version_compare($actualDep['maxVersion'], $depToAdd['maxVersion'], '=')) { //If both versions are equivalent
-									//$depToAdd['maxVersion'] = $depToAdd['maxVersion']; //Keep this dependency's version
-
-									//The max. operator is the more restrictive => the lower one
-									$depToAdd['maxVersionOperator'] = ($operators[$actualDep['operator']] < $operators[$depToAdd['operator']]) ? $actualDep['maxVersionOperator'] : $depToAdd['maxVersionOperator'];
-								} else if (version_compare($actualDep['maxVersion'], $depToAdd['maxVersion'], '>')) { //If the actual max. version is greater than this one
-									//Keep this dependency's version and operator
-									//$depToAdd['maxVersion'] = $depToAdd['maxVersion'];
-									//$depToAdd['maxVersionOperator'] = $depToAdd['maxVersionOperator'];
-								} else { //If the actual max. version is lower than this one
-									$depToAdd['maxVersion'] = $actualDep['maxVersion'];
-									$depToAdd['maxVersionOperator'] = $actualDep['maxVersionOperator'];
-								}
-							}
-							if (in_array('minVersion', $comparableKeys)) { //If both have a min. version
-								//The min. version is the greater one
-								if (version_compare($actualDep['minVersion'], $depToAdd['minVersion'], '=')) { //If both versions are equivalent
-									//$depToAdd['minVersion'] = $depToAdd['minVersion']; //Keep this dependency's version
-
-									//The min. operator is the more restrictive => the greater one
-									$depToAdd['minVersionOperator'] = ($operators[$actualDep['operator']] > $operators[$depToAdd['operator']]) ? $actualDep['minVersionOperator'] : $depToAdd['minVersionOperator'];
-								} else if (version_compare($actualDep['minVersion'], $depToAdd['minVersion'], '>')) { //If the actual min. version is greater than this one
-									$depToAdd['minVersion'] = $actualDep['minVersion'];
-									$depToAdd['minVersionOperator'] = $actualDep['minVersionOperator'];
-								} else { //If the actual min. version is lower than this one
-									//Keep this dependency's version and operator
-									//$depToAdd['minVersion'] = $depToAdd['minVersion'];
-									//$depToAdd['minVersionOperator'] = $depToAdd['minVersionOperator'];
-								}
-							}
-						} else {
-							$depToAdd['pkgs'] = array_merge($depToAdd['pkgs'], $actualDep['pkgs']);
-						}
-					}
-				}
-
-				$dependencies[$depToAdd['name']] = $depToAdd;
-			}
+			$tree = $this->_mergeTrees($tree, $pkgTree);
 		}
 
 		$remoteRepositories = $this->getRemoteRepositoriesList(); //Remote repositories
-		$dependenciesPackages = array(); //Packages to install
+		$packagesToInstall = array(); //Packages to install
 
-		//Check if we can install all dependencies
-		foreach($dependencies as $dep) {
+		//Check if we can install all packages
+		foreach($tree as $node) {
+			if ($node['level'] == 0) { //If node's level is 0 => it's a package asked by the user
+				$found = false;
+				foreach($pkgList as $pkg) {
+					if ($pkg->metadata()['name'] == $node['name']) {
+						$packagesToInstall[] = $pkg;
+						$found = true;
+						break;
+					}
+				}
+				if ($found) {
+					continue;
+				}
+			}
+
 			//First check if the requiered package is already installed
-			$localPkg = $this->_resolveDependency($dep, $localRepository);
+			$localPkg = $this->_resolveDependency($node, $localRepository);
 
 			if ($localPkg === null) { //No => we must download it from remote repositories
 				$found = false;
 				foreach($remoteRepositories as $repo) {
-					$remotePkg = $this->_resolveDependency($dep, $repo);
+					$remotePkg = $this->_resolveDependency($node, $repo);
 
 					if ($remotePkg !== null) { //Package found
-						$dependenciesPackages[] = $remotePkg;
+						$packagesToInstall[] = $remotePkg;
 						$found = true;
 						break;
 					}
 				}
 
 				if (!$found) { //Package not found, trigger an error
-					$pkgsRequiringThisDep = implode('", "', array_keys($dep['pkgs']));
-					$minVersion = (isset($dep['minVersion'])) ? ' '.$dep['minVersionOperator'].$dep['minVersion'] : '';
-					$maxVersion = (isset($dep['maxVersion'])) ? ' '.$dep['maxVersionOperator'].$dep['maxVersion'] : '';
+					$pkgsRequiringThisDep = implode('", "', $node['parents']);
+					$minVersion = (isset($node['minVersion'])) ? (($node['minVersionStrict']) ? '>' : '>=').$node['minVersion'] : '';
+					$maxVersion = (isset($node['maxVersion'])) ? (($node['maxVersionStrict']) ? '<' : '<=').$node['maxVersion'] : '';
 
-					throw new \RuntimeException('Cannot resolve the dependency tree : packages "'.$pkgsRequiringThisDep.'" require "'.$dep['name'].$maxVersion.$minVersion.'"');
+					throw new \RuntimeException('Cannot resolve the dependency tree : packages "'.$pkgsRequiringThisDep.'" require "'.$node['name'].$maxVersion.$minVersion.'"');
 				}
 			}
 		}
-
-		//Merge dependencies and packages to install
-		$packagesToInstall = array_merge($dependenciesPackages, $pkgList);
 
 		//Second, download the packages' sources
 		$tmpDir = new \core\TemporaryDirectory(); //Create a temporary folder
