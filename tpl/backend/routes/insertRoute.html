@@ -1,0 +1,16 @@
+<div class="container">
+	<div class="page-header">
+		<h1>Ajouter une route</h1>
+	</div>
+
+	{{#inserted?}}
+		<div class="alert alert-block alert-success">
+			<h4 class="alert-heading">Route ajout&eacute;e</h4>
+			<p>La route a bien &eacute;t&eacute; ajout&eacute;e.</p>
+			<p><a class="btn" href="module-routes.html">Retour</a></p>
+		</div>
+	{{/inserted?}}
+	{{^inserted?}}
+		{{> partials/form-route}}
+	{{/inserted?}}
+</div>

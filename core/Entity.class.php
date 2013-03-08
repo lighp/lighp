@@ -1,9 +1,22 @@
 <?php
 namespace core;
 
+/**
+ * A data entity.
+ * @author Simon Ser
+ * @since 1.0alpha1
+ */
 abstract class Entity implements \ArrayAccess {
+	/**
+	 * The identifier of this entity.
+	 * @var int
+	 */
 	protected $id;
 
+	/**
+	 * Initialize this entity.
+	 * @param array $data The data to store in this entity.
+	 */
 	public function __construct($data = array()) {
 		if (!$data instanceof \Traversable && !is_array($data)) {
 			throw new \InvalidArgumentException('Invalid data : variable must be an array or traversable');
@@ -14,18 +27,34 @@ abstract class Entity implements \ArrayAccess {
 		}
 	}
 
+	/**
+	 * Determine if this entity is new.
+	 * @return boolean True if it is new, false otherwise.
+	 */
 	public function isNew() {
 		return empty($this->id);
 	}
 
+	/**
+	 * Get this entity's identifier.
+	 * @return int
+	 */
 	public function id() {
 		return $this->id;
 	}
 
+	/**
+	 * Set this entity's identifier.
+	 * @param int $id The new identifier.
+	 */
 	public function setId($id) {
 		$this->id = (int) $id;
 	}
 
+	/**
+	 * Store data in this entity.
+	 * @param array $data The data to store.
+	 */
 	public function hydrate($data) {
 		if (!$data instanceof \Traversable && !is_array($data)) {
 			throw new \InvalidArgumentException('Invalid data : variable must be an array or traversable');
@@ -62,6 +91,10 @@ abstract class Entity implements \ArrayAccess {
 		throw new \Exception('Cannot delete any field');
 	}
 
+	/**
+	 * Convert this entity to an array containing the data.
+	 * @return array This entity's data.
+	 */
 	public function toArray() {
 		$data = array();
 

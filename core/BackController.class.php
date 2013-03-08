@@ -1,12 +1,43 @@
 <?php
 namespace core;
 
+/**
+ * An back controller.
+ * Back controllers are stored in /ctrl.
+ * @author Simon Ser
+ * @since 1.0alpha1
+ */
 abstract class BackController extends ApplicationComponent {
+	/**
+	 * The action.
+	 * @var string
+	 */
 	protected $action = '';
+
+	/**
+	 * The module.
+	 * @var string
+	 */
 	protected $module = '';
+
+	/**
+	 * The page.
+	 * @var Page
+	 */
 	protected $page = null;
+
+	/**
+	 * The view (the template).
+	 * @var string
+	 */
 	protected $view = '';
 
+	/**
+	 * Initialize the back controller.
+	 * @param Application $app    The application.
+	 * @param string      $module The module.
+	 * @param string      $action The action.
+	 */
 	public function __construct(Application $app, $module, $action) {
 		parent::__construct($app);
 
@@ -19,6 +50,9 @@ abstract class BackController extends ApplicationComponent {
 		$this->setView($action);
 	}
 
+	/**
+	 * Execute the back controller.
+	 */
 	public function execute() {
 		$method = 'execute'.ucfirst($this->action);
 
@@ -29,10 +63,18 @@ abstract class BackController extends ApplicationComponent {
 		$this->$method($this->app->httpRequest());
 	}
 
+	/**
+	 * Get this back controller's page.
+	 * @return Page
+	 */
 	public function page() {
 		return $this->page;
 	}
 
+	/**
+	 * Set this back controller's module.
+	 * @param string $module The module.
+	 */
 	public function setModule($module) {
 		if (!is_string($module) || empty($module)) {
 			throw new \InvalidArgumentException('Invalid module name');
@@ -41,6 +83,10 @@ abstract class BackController extends ApplicationComponent {
 		$this->module = $module;
 	}
 
+	/**
+	 * Set this back controller's action.
+	 * @param string $module The action.
+	 */
 	public function setAction($action) {
 		if (!is_string($action) || empty($action)) {
 			throw new \InvalidArgumentException('Invalid action name');
@@ -49,6 +95,10 @@ abstract class BackController extends ApplicationComponent {
 		$this->action = $action;
 	}
 
+	/**
+	 * Set this back controller's view.
+	 * @param string $module The view.
+	 */
 	public function setView($view) {
 		if (!is_string($view) || empty($view)) {
 			throw new \InvalidArgumentException('Invalid view name');

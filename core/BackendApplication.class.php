@@ -1,7 +1,15 @@
 <?php
 namespace core;
 
+/**
+ * A backend (where you can manage the framework).
+ * @author Simon Ser
+ * @since 1.0alpha1
+ */
 class BackendApplication extends \core\Application {
+	/**
+	 * Initialize this backend.
+	 */
 	public function __construct() {
 		parent::__construct();
 

@@ -1,16 +1,42 @@
 <?php
 namespace core;
- 
+
+/**
+ * An application (e.g. frontend/backend).
+ * @author Simon Ser
+ * @since 1.0alpha1
+ */
 abstract class Application {
+	/**
+	 * The HTTP request.
+	 * @var HTTPRequest
+	 */
 	protected $httpRequest;
+
+	/**
+	 * The HTTP response.
+	 * @var HTTPResponse
+	 */
 	protected $httpResponse;
+
+	/**
+	 * The application's name.
+	 * @var string
+	 */
 	protected $name;
 
+	/**
+	 * Initialize a new application.
+	 */
 	public function __construct() {
 		$this->httpRequest = new HTTPRequest;
 		$this->httpResponse = new HTTPResponse;
 	}
 
+	/**
+	 * Get the back controller matching with the HTTP request.
+	 * @return BackController The controller.
+	 */
 	public function getController() {
 		$router = new Router;
 
@@ -22,12 +48,15 @@ abstract class Application {
 		}
 
 		while (false !== ($module = $dir->read())) {
-			if ($module == '.' || $module == '..') {
+			// Notice that "." is a valid module name
+			// In fact, you can create a routes file like this : $configPath.'/routes.json'
+			if ($module == '..') {
 				continue;
 			}
 
-			$routesPath = $configPath . '/' . $module . '/routes.json';
-			if (file_exists($routesPath)) {
+			$modulePath = $configPath . '/' . $module;
+			$routesPath = $modulePath . '/routes.json';
+			if (is_dir($modulePath) && file_exists($routesPath)) {
 				$json = file_get_contents($routesPath);
 				if ($json === false) { continue; }
 
@@ -36,38 +65,60 @@ abstract class Application {
 
 				foreach ($routes as $route) {
 					$varsNames = (isset($route['vars']) && is_array($route['vars'])) ? $route['vars'] : array();
-					$router->addRoute(new Route($route['url'], $module, $route['action'], $varsNames));
+
+					if ($module == '.') { //Global route
+						$routeModule = $route['module'];
+					} else {
+						$routeModule = $module;
+					}
+
+					$router->addRoute(new Route($route['url'], $routeModule, $route['action'], $varsNames));
 				}
 			}
 		}
 		$dir->close();
 
-		try { //On récupère la route correspondante à l'URL
+		try { //Let's get the route matching with the URL
 			$matchedRoute = $router->getRoute($this->httpRequest->requestURI());
 		} catch (\RuntimeException $e) {
-			if ($e->getCode() == Router::NO_ROUTE) { //Si aucune route ne correspond, c'est que la page demandée n'existe pas
+			if ($e->getCode() == Router::NO_ROUTE) { //No route matching, the page doesn't exist
 				$this->httpResponse->redirect404($this);
 			}
 		}
 
-		//On ajoute les variables de l'URL au tableau $_GET
+		//Add variables to the $_GET array
 		$_GET = array_merge($_GET, $matchedRoute->vars());
 
-		//On instancie le contrôleur
+		//And then create the controller
 		$controllerClass = 'ctrl\\'.$this->name.'\\'.$matchedRoute->module().'\\'.ucfirst($matchedRoute->module()).'Controller';
 		return new $controllerClass($this, $matchedRoute->module(), $matchedRoute->action());
 	}
 
+	/**
+	 * Launch the application.
+	 */
 	abstract public function run();
 
+	/**
+	 * Get the HTTP request.
+	 * @return HTTPRequest
+	 */
 	public function httpRequest() {
 		return $this->httpRequest;
 	}
 
+	/**
+	 * Get the HTTP response.
+	 * @return HTTPResponse
+	 */
 	public function httpResponse() {
 		return $this->httpResponse;
 	}
 
+	/**
+	 * Get this application's name.
+	 * @return string
+	 */
 	public function name() {
 		return $this->name;
 	}

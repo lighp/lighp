@@ -1,0 +1,14 @@
+{
+	"title":"Routes",
+	"icon":"road",
+	"actions":{
+		"listRoutes":{
+			"url":"routes.html",
+			"title":"Gérer les routes"
+		},
+		"addRoute":{
+			"url":"routes-insert.html",
+			"title":"Ajouter une route"
+		}
+	}
+}

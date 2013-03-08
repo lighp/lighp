@@ -1,17 +1,39 @@
 <?php
 namespace core;
 
+/**
+ * A router.
+ * A router can determine the route matching to a given URL.
+ * @author Simon Ser
+ * @since 1.0alpha1
+ */
 class Router {
+	/**
+	 * The routes.
+	 * @var array
+	 */
 	protected $routes = array();
 
+	/**
+	 * Error code when no route is found.
+	 */
 	const NO_ROUTE = 1;
 
+	/**
+	 * Add a route to the router.
+	 * @param Route $route The route to add.
+	 */
 	public function addRoute(Route $route) {
 		if (!in_array($route, $this->routes)) {
 			$this->routes[] = $route;
 		}
 	}
 
+	/**
+	 * Get the route associated to a given URL.
+	 * @param  string $url The URL.
+	 * @return Route       The route.
+	 */
 	public function getRoute($url) {
 		foreach ($this->routes as $route) {
 			//Si la route correspond à l'URL
