@@ -1,7 +1,7 @@
 <div class="container">
 	{{#project}}
 		<div class="featurette">
-			<img class="featurette-image pull-left" src="img/projects/large/{{name}}.png" />
+			<img class="featurette-image pull-left" src="img/portfolio/project/large/{{name}}.png" />
 			<h2 class="featurette-heading">{{title}}. <span class="muted">{{subtitle}}</span></h2>
 			<p class="lead">{{{shortDescription}}}</p>
 			<p>
@@ -21,11 +21,12 @@
 		<h2>Gallerie</h2>
 		<ul class="thumbnails">
 			{{#gallery}}
-				{{#changeRow}}
+				{{#changeRow?}}
 					</ul>
 					<ul class="thumbnails">
-				{{/changeRow}}
-				<li>{{title}}</li>
+				{{/changeRow?}}
+
+				{{{render}}}
 			{{/gallery}}
 		</ul><!-- /.thumbnails -->
 		{{/gallery?}}

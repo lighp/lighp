@@ -50,25 +50,40 @@ class MainController extends \core\BackController {
 	}
 
 	public function executeIndex(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Espace d\'administration');
+
 		$backends = $this->_listBackends();
 
 		$this->page->addVar('backends', $backends);
 	}
 
 	public function executeShowModule(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Afficher un module');
+		$this->page->addVar('breadcrumb', array(
+			array()
+		));
+
 		$backend = $this->_getBackend($request->getData('name'));
 
-		$this->page->addVar('backend', $backend);
+		if (!empty($backend)) {
+			$this->page->addVar('backend', $backend);
+			$this->page->addVar('title', $backend['title']);
+			$this->page->addVar('breadcrumb', array(
+				array('title' => $backend['title'])
+			));
+		}
 	}
 
 	public function executeSearch(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Recherche');
+
 		$query = $request->getData('query');
 		$this->page->addVar('searchQuery', $query);
 
 		$module = $request->getData('module');
 		if (!empty($module)) {
-			$backend = $this->_getBackend($module);
-			$this->page->addVar('backend', $backend);
+			$searchBackend = $this->_getBackend($module);
+			$this->page->addVar('backend', $searchBackend);
 		}
 
 		if (empty($query)) {
@@ -79,7 +94,7 @@ class MainController extends \core\BackController {
 		$escapedQuery = preg_quote($query);
 
 		if (!empty($module)) {
-			$backends = array($backend);
+			$backends = array($searchBackend);
 		} else {
 			$backends = $this->_listBackends();
 		}
@@ -114,5 +129,13 @@ class MainController extends \core\BackController {
 		$matchingActions = array_values($matchingActions);
 
 		$this->page->addVar('actions', $matchingActions);
+
+		$breadcrumb = array();
+		if (count($backends) == 1) {
+			$breadcrumb[] = array('url' => 'module-'.$searchBackend['name'].'.html', 'title' => $searchBackend['title']);
+			$this->page->addVar('title', 'Recherche : '.lcfirst($searchBackend['title']));
+		}
+		$breadcrumb[] = array('title' => 'Recherche');
+		$this->page->addVar('breadcrumb', $breadcrumb);
 	}
 }

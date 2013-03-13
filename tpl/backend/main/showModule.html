@@ -1,25 +1,19 @@
-<div class="container">
-	{{#backend}}
-		<div class="page-header">
-			<h1>{{title}}</h1>
-		</div>
+{{#backend}}
+	{{> partials/form-search}}
 
-		{{> partials/form-search}}
-
-		<ul class="nav nav-tabs nav-stacked">
-			{{#actions}}
-				<li><a href="{{url}}">{{title}}</a></li>
-			{{/actions}}
-		</ul>
-		{{^actions}}
-			<p>Aucune action n'est associ&eacute;e &agrave; ce module.</p>
+	<ul class="nav nav-tabs nav-stacked">
+		{{#actions}}
+			<li><a href="{{url}}">{{title}}</a></li>
 		{{/actions}}
-	{{/backend}}
-	{{^backend}}
-		<div class="alert alert-error">
-			<h4 class="alert-heading">Introuvable</h4>
-			<p>Le module sp&eacute;cifi&eacute; est introuvable.</p>
-			<p><a class="btn" href="index.html">Retour</a></p>
-		</div>
-	{{/backend}}
-</div>
+	</ul>
+	{{^actions}}
+		<p>Aucune action n'est associ&eacute;e &agrave; ce module.</p>
+	{{/actions}}
+{{/backend}}
+{{^backend}}
+	<div class="alert alert-error">
+		<h4 class="alert-heading">Introuvable</h4>
+		<p>Le module sp&eacute;cifi&eacute; est introuvable.</p>
+		<p><a class="btn" href="index.html">Retour</a></p>
+	</div>
+{{/backend}}

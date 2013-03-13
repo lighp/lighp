@@ -36,7 +36,7 @@ class TemporaryDirectory {
 		$root = $this->_rootPath();
 
 		if (!is_dir($root)) {
-			if (!mkdir($root)) {
+			if (!mkdir($root, 0777, true)) {
 				throw new \RuntimeException('Cannot create temporary folder "'.$root.'"');
 			}
 			chmod($root, 0777);

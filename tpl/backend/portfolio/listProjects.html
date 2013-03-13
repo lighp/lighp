@@ -1,38 +1,32 @@
-<div class="container">
-	<div class="page-header">
-		<h1>G&eacute;rer un projet</h1>
-	</div>
-
-	<table class="table">
-		<thead>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Titre</th>
+			<th>Cat&eacute;gorie</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#projects}}
 			<tr>
-				<th>Titre</th>
-				<th>Cat&eacute;gorie</th>
-				<th></th>
+				<td><a href="../project-{{name}}.html">{{title}}</a> - {{subtitle}}</td>
+				<td>{{#category}}<a href="../category-{{name}}.html">{{title}}</a>{{/category}}</td>
+				<td>
+					<div class="btn-group">
+						<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+							G&eacute;rer
+							<span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="portfolio-projects-update-{{name}}.html"><i class="icon-pencil"></i> Modifier</a></li>
+							<li><a href="portfolio-projects-delete-{{name}}.html"><i class="icon-trash"></i> Supprimer</a></li>
+						</ul>
+					</div>
+				</td>
 			</tr>
-		</thead>
-		<tbody>
-			{{#projects}}
-				<tr>
-					<td><a href="../project-{{name}}.html">{{title}}</a> - {{subtitle}}</td>
-					<td>{{#category}}<a href="../category-{{name}}.html">{{title}}</a>{{/category}}</td>
-					<td>
-						<div class="btn-group">
-							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-								G&eacute;rer
-								<span class="caret"></span>
-							</a>
-							<ul class="dropdown-menu">
-								<li><a href="portfolio-projects-update-{{name}}.html"><i class="icon-pencil"></i> Modifier</a></li>
-								<li><a href="portfolio-projects-delete-{{name}}.html"><i class="icon-trash"></i> Supprimer</a></li>
-							</ul>
-						</div>
-					</td>
-				</tr>
-			{{/projects}}
-		</tbody>
-	</table>
-	{{^projects}}
-		<p class="alert alert-info">Il n'y a actuellement aucun projet dans la base de donn&eacute;es.</p>
-	{{/projects}}
-</div>
+		{{/projects}}
+	</tbody>
+</table>
+{{^projects}}
+	<p class="alert alert-info">Il n'y a actuellement aucun projet dans la base de donn&eacute;es.</p>
+{{/projects}}

@@ -1,0 +1,21 @@
+{{#deleted?}}
+	<div class="alert alert-block alert-success">
+		<h4 class="alert-heading">Catégorie supprimée</h4>
+		<p>La catégorie a bien été supprimée.</p>
+		<p><a class="btn" href="module-portfolio.html">Retour</a></p>
+	</div>
+{{/deleted?}}
+{{^deleted?}}
+	<form action="" method="post">
+		<input type="hidden" name="check" value="1">
+
+		<div class="alert alert-block alert-info">
+			<h4 class="alert-heading">Confirmation</h4>
+			<p>Voulez-vous vraiment supprimer la catégorie <strong>{{category.title}}</strong> ?</p>
+			<p>
+				<input type="submit" class="btn btn-info" value="Valider">
+				<a class="btn" href="module-portfolio.html">Annuler</a>
+			</p>
+		</div>
+	</form>
+{{/deleted?}}

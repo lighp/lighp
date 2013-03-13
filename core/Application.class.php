@@ -20,6 +20,12 @@ abstract class Application {
 	protected $httpResponse;
 
 	/**
+	 * The user.
+	 * @var User
+	 */
+	protected $user;
+
+	/**
 	 * The application's name.
 	 * @var string
 	 */
@@ -31,6 +37,8 @@ abstract class Application {
 	public function __construct() {
 		$this->httpRequest = new HTTPRequest;
 		$this->httpResponse = new HTTPResponse;
+
+		$this->user = new User($this);
 	}
 
 	/**
@@ -78,8 +86,12 @@ abstract class Application {
 		}
 		$dir->close();
 
+		$requestURI = $this->httpRequest->requestURI();
+		$websiteConfig = (new Config(__DIR__.'/../etc/core/website.json'))->read();
+		$requestURI = preg_replace('#^'.preg_quote($websiteConfig['root']).'#', '$1', $requestURI);
+
 		try { //Let's get the route matching with the URL
-			$matchedRoute = $router->getRoute($this->httpRequest->requestURI());
+			$matchedRoute = $router->getRoute($requestURI);
 		} catch (\RuntimeException $e) {
 			if ($e->getCode() == Router::NO_ROUTE) { //No route matching, the page doesn't exist
 				$this->httpResponse->redirect404($this);
@@ -113,6 +125,14 @@ abstract class Application {
 	 */
 	public function httpResponse() {
 		return $this->httpResponse;
+	}
+
+	/**
+	 * Get the user.
+	 * @return User
+	 */
+	public function user() {
+		return $this->user;
 	}
 
 	/**

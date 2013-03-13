@@ -4,13 +4,17 @@
 		"action":"index"
 	},
 	{
-		"url":"/portfolio-category-([a-zA-Z0-9-_.]+).html",
+		"url":"/portfolio-category-([a-zA-Z0-9-_.]+)\\.html",
 		"action":"showCategory",
 		"vars": ["name"]
 	},
 	{
-		"url":"/portfolio-project-([a-zA-Z0-9-_.]+).html",
+		"url":"/portfolio-project-([a-zA-Z0-9-_.]+)\\.html",
 		"action":"showProject",
 		"vars": ["name"]
+	},
+	{
+		"url":"/portfolio-about\\.html",
+		"action":"about"
 	}
 ]

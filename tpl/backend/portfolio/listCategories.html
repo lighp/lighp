@@ -1,0 +1,22 @@
+<table class="table">
+	<thead>
+		<tr>
+			<th>Titre</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#categories}}
+			<tr>
+				<td><a href="../category-{{name}}.html">{{title}}</a> - {{subtitle}}</td>
+				<td>
+					<a href="portfolio-categories-update-{{name}}.html" class="btn"><i class="icon-pencil"></i> Modifier</a>
+					<a href="portfolio-categories-delete-{{name}}.html" class="btn btn-danger"><i class="icon-trash icon-white"></i> Supprimer</a>
+				</td>
+			</tr>
+		{{/categories}}
+	</tbody>
+</table>
+{{^categories}}
+	<p class="alert alert-info">Il n'y a actuellement aucune catégorie dans la base de données.</p>
+{{/categories}}

@@ -14,10 +14,10 @@ class ModuleConfig extends ApplicationComponent {
 	protected $module;
 
 	/**
-	 * The config data.
-	 * @var array
+	 * The config file.
+	 * @var Config
 	 */
-	protected $data = null;
+	protected $config;
 
 	/**
 	 * Initialize the configuration file.
@@ -25,30 +25,34 @@ class ModuleConfig extends ApplicationComponent {
 	 * @param string      $module The module.
 	 */
 	public function __construct(Application $app, $module) {
+		parent::__construct($app);
+
 		$this->module = $module;
+
+		$this->config = new Config($this->_path());
+	}
+
+	/**
+	 * Get this configuration file's path.
+	 * @return string
+	 */
+	protected function _path() {
+		return __DIR__.'/../etc/app/'.$this->app->name().'/'.$this->module.'/config.json';
 	}
 
 	/**
 	 * Get the configuration.
 	 * @return array The configuration.
 	 */
-	public function get() {
-		if (empty($this->data)) {
-			$configPath = __DIR__.'/../etc/app/'.$this->app->name().'/'.$this->module.'/config.json';
+	public function read() {
+		return $this->config->read();
+	}
 
-			if (!file_exists($configPath)) {
-				$this->data = array();
-			} else {
-				$json = file_get_contents($configPath);
-
-				if ($json === false) {
-					$this->data = array();
-				} else {
-					$this->data = json_decode($json, true);
-				}
-			}
-		}
-
-		return $this->data;
+	/**
+	 * Update the configuration.
+	 * @param array $data The new configuration.
+	 */
+	public function write($data) {
+		return $this->config->write($data);
 	}
 }

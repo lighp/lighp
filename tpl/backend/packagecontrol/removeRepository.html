@@ -1,38 +1,32 @@
-<div class="container">
-	<div class="page-header">
-		<h1>Supprimer un d&eacute;p&ocirc;t</h1>
+{{#removed?}}
+	<div class="alert alert-block alert-success">
+		<h4 class="alert-heading">D&eacute;p&ocirc;t supprim&eacute;</h4>
+		<p>Le d&eacute;p&ocirc;t a bien &eacute;t&eacute; supprim&eacute;.</p>
+		<p><a class="btn" href="module-packagecontrol.html">Retour</a></p>
 	</div>
+{{/removed?}}
+{{^removed?}}
+	{{#repository}}
+		{{#error}}
+			<div class="alert alert-block alert-error">
+				<h4 class="alert-heading">Erreur lors de la suppression</h4>
+				<p>Le d&eacute;p&ocirc;t n'a pas p&ucirc; &eacute;t&eacute; supprim&eacute; : {{error}}</p>
+			</div>
+		{{/error}}
+		<form action="" method="post">
+			<input type="hidden" name="check" value="1">
 
-	{{#removed?}}
-		<div class="alert alert-block alert-success">
-			<h4 class="alert-heading">D&eacute;p&ocirc;t supprim&eacute;</h4>
-			<p>Le d&eacute;p&ocirc;t a bien &eacute;t&eacute; supprim&eacute;.</p>
-			<p><a class="btn" href="module-packagecontrol.html">Retour</a></p>
-		</div>
-	{{/removed?}}
-	{{^removed?}}
-		{{#repository}}
-			{{#error}}
-				<div class="alert alert-block alert-error">
-					<h4 class="alert-heading">Erreur lors de la suppression</h4>
-					<p>Le d&eacute;p&ocirc;t n'a pas p&ucirc; &eacute;t&eacute; supprim&eacute; : {{error}}</p>
-				</div>
-			{{/error}}
-			<form action="" method="post">
-				<input type="hidden" name="check" value="1">
-
-				<div class="alert alert-block alert-info">
-					<h4 class="alert-heading">Supprimer le d&eacute;p&ocirc;t {{name}}</h4>
-					<p>Voulez-vous supprimer le d&eacute;p&ocirc;t <strong>{{name}}</strong> ?</p>
-					<p>
-						<button type="submit" class="btn btn-info"><i class="icon-trash icon-white"></i>&nbsp;Supprimer</button>
-						<a class="btn" href="module-packagecontrol.html">Retour</a>
-					</p>
-				</div>
-			</form>
-		{{/repository}}
-		{{^repository}}
-			<p class="alert alert-warning">Le d&eacute;p&ocirc;t sp&eacute;cifi&eacute; est inexistant.</p>
-		{{/repository}}
-	{{/removed?}}
-</div>
+			<div class="alert alert-block alert-info">
+				<h4 class="alert-heading">Supprimer le d&eacute;p&ocirc;t {{name}}</h4>
+				<p>Voulez-vous supprimer le d&eacute;p&ocirc;t <strong>{{name}}</strong> ?</p>
+				<p>
+					<button type="submit" class="btn btn-info"><i class="icon-trash icon-white"></i>&nbsp;Supprimer</button>
+					<a class="btn" href="module-packagecontrol.html">Retour</a>
+				</p>
+			</div>
+		</form>
+	{{/repository}}
+	{{^repository}}
+		<p class="alert alert-warning">Le d&eacute;p&ocirc;t sp&eacute;cifi&eacute; est inexistant.</p>
+	{{/repository}}
+{{/removed?}}

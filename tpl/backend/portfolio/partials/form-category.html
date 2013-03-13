@@ -1,0 +1,39 @@
+<form action="" method="post" class="form-horizontal">
+	{{#error}}
+		<div class="alert alert-block alert-error">
+			<button class="close" data-dismiss="alert" type="button">&times;</button>
+			<h4 class="alert-heading">Erreur</h4>
+			<p>Une erreur est survenue lors du traitement de la requ&ecirc;te : {{error}}.</p>
+		</div>
+	{{/error}}
+
+	<div class="control-group">
+		<label class="control-label" for="category-name">Nom unique de la catégorie</label>
+		<div class="controls">
+			<input type="text" name="category-name" id="category-name" value="{{category.name}}" placeholder="Nom" required><span class="help-inline">(seuls les caract&egrave;res alphanum&eacute;riques et les suivants sont accept&eacute;s : &laquo;_, -, . &raquo;)</span>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="category-title">Titre de la catégorie</label>
+		<div class="controls">
+			<input type="text" name="category-title" id="category-title" value="{{category.title}}" placeholder="Titre" required>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="category-subtitle">Sous-titre de la catégorie</label>
+		<div class="controls">
+			<input type="text" name="category-subtitle" id="category-subtitle" value="{{category.subtitle}}" placeholder="Sous-titre" class="input-xxlarge">
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="category-shortDescription">Courte description de la catégorie</label>
+		<div class="controls">
+			<textarea name="category-shortDescription" id="category-shortDescription" rows="5" class="input-xxlarge">{{category.shortDescription}}</textarea>
+		</div>
+	</div>
+
+	<div class="form-actions">
+		<button type="submit" class="btn btn-primary">Valider</button>
+		<a class="btn" href="module-portfolio.html">Annuler</a>
+	</div>
+</form>

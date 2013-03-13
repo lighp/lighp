@@ -1,35 +1,29 @@
-<div class="container">
-	<div class="page-header">
-		<h1>G&eacute;rer une route</h1>
-	</div>
-
-	<table class="table">
-		<thead>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Masque</th>
+			<th>Module</th>
+			<th>Action</th>
+			<th>Variables</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#routes}}
 			<tr>
-				<th>Masque</th>
-				<th>Module</th>
-				<th>Action</th>
-				<th>Variables</th>
-				<th></th>
+				<td><code>{{url}}</code></td>
+				<td>{{module}}</td>
+				<td>{{action}}</td>
+				<td>{{varsList}}</td>
+				<td>
+					<div class="btn-group">
+						{{#editable?}}<a class="btn btn-danger" href="routes-delete-{{app}}-{{id}}.html"><i class="icon-trash icon-white"></i>&nbsp;Supprimer</a>{{/editable?}}
+					</div>
+				</td>
 			</tr>
-		</thead>
-		<tbody>
-			{{#routes}}
-				<tr>
-					<td><code>{{url}}</code></td>
-					<td>{{module}}</td>
-					<td>{{action}}</td>
-					<td>{{varsList}}</td>
-					<td>
-						<div class="btn-group">
-							{{#editable?}}<a class="btn btn-danger" href="routes-delete-{{app}}-{{id}}.html"><i class="icon-trash icon-white"></i>&nbsp;Supprimer</a>{{/editable?}}
-						</div>
-					</td>
-				</tr>
-			{{/routes}}
-		</tbody>
-	</table>
-	{{^routes}}
-		<p class="alert alert-info">Il n'y a actuellement aucun projet dans la base de donn&eacute;es.</p>
-	{{/routes}}
-</div>
+		{{/routes}}
+	</tbody>
+</table>
+{{^routes}}
+	<p class="alert alert-info">Il n'y a actuellement aucun projet dans la base de donn&eacute;es.</p>
+{{/routes}}

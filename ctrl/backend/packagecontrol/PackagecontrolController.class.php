@@ -2,7 +2,18 @@
 namespace ctrl\backend\packagecontrol;
 
 class PackagecontrolController extends \core\BackController {
+	protected function _addBreadcrumb($page = array()) {
+		$breadcrumb = array(
+			array('url' => 'module-'.$this->module.'.html', 'title' => 'Gestionnaire de paquets')
+		);
+
+		$this->page->addVar('breadcrumb', array_merge($breadcrumb, array($page)));
+	}
+
 	public function executeListPackages(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'G&eacute;rer les paquets install&eacute;s');
+		$this->_addBreadcrumb();
+
 		if (!$request->getExists('repo')) {
 			$repo = $this->managers->getManagerOf('LocalRepository');
 		} else {
@@ -28,6 +39,9 @@ class PackagecontrolController extends \core\BackController {
 	}
 
 	public function executeSearchPackage(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Rechercher un paquet');
+		$this->_addBreadcrumb();
+
 		$packageManager = $this->managers->getManagerOf('Packagecontrol');
 
 		$repositories = $packageManager->getRemoteRepositoriesList();
@@ -65,6 +79,9 @@ class PackagecontrolController extends \core\BackController {
 	}
 
 	public function executeInstallPackage(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Installer un paquet');
+		$this->_addBreadcrumb();
+
 		$packageManager = $this->managers->getManagerOf('Packagecontrol');
 		$localRepo = $this->managers->getManagerOf('LocalRepository');
 
@@ -111,6 +128,9 @@ class PackagecontrolController extends \core\BackController {
 	}
 
 	public function executeRemovePackage(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Supprimer un paquet');
+		$this->_addBreadcrumb();
+
 		$localRepo = $this->managers->getManagerOf('LocalRepository');
 
 		$pkgName = $request->getData('name');
@@ -133,11 +153,12 @@ class PackagecontrolController extends \core\BackController {
 		}
 	}
 
-	public function executeUpdateCache(\core\HTTPRequest $request) {
-
-	}
+	public function executeUpdateCache(\core\HTTPRequest $request) {}
 
 	public function executeUpgradePackages(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Mettre &agrave; jour les paquets');
+		$this->_addBreadcrumb();
+
 		$packageManager = $this->managers->getManagerOf('Packagecontrol');
 		$localRepo = $this->managers->getManagerOf('LocalRepository');
 
@@ -183,6 +204,9 @@ class PackagecontrolController extends \core\BackController {
 	}
 
 	public function executeListRepositories(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'G&eacute;rer les d&eacute;p&ocirc;ts');
+		$this->_addBreadcrumb();
+
 		$packageManager = $this->managers->getManagerOf('Packagecontrol');
 
 		$repos = $packageManager->getRemoteRepositoriesList();
@@ -191,6 +215,9 @@ class PackagecontrolController extends \core\BackController {
 	}
 
 	public function executeAddRepository(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Ajouter un d&eacute;p&ocirc;t');
+		$this->_addBreadcrumb();
+
 		$packageManager = $this->managers->getManagerOf('Packagecontrol');
 
 		if ($request->postExists('repo-url')) {
@@ -211,6 +238,9 @@ class PackagecontrolController extends \core\BackController {
 	}
 
 	public function executeRemoveRepository(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Supprimer un d&eacute;p&ocirc;t');
+		$this->_addBreadcrumb();
+
 		$packageManager = $this->managers->getManagerOf('Packagecontrol');
 
 		$repoName = $request->getData('name');

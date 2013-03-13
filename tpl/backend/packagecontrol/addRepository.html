@@ -1,42 +1,36 @@
-<div class="container">
-	<div class="page-header">
-		<h1>Ajouter un d&eacute;p&ocirc;t</h1>
+{{#added?}}
+	<div class="alert alert-block alert-success">
+		<h4 class="alert-heading">D&eacute;p&ocirc;t ajout&eacute;</h4>
+		<p>Le d&eacute;p&ocirc;t a bien &eacute;t&eacute; ajout&eacute;.</p>
+		<p><a class="btn" href="module-packagecontrol.html">Retour</a></p>
 	</div>
+{{/added?}}
 
-	{{#added?}}
-		<div class="alert alert-block alert-success">
-			<h4 class="alert-heading">D&eacute;p&ocirc;t ajout&eacute;</h4>
-			<p>Le d&eacute;p&ocirc;t a bien &eacute;t&eacute; ajout&eacute;.</p>
-			<p><a class="btn" href="module-packagecontrol.html">Retour</a></p>
+{{^added?}}
+	{{#error}}
+		<div class="alert alert-block alert-error">
+			<h4 class="alert-heading">Erreur lors de l'ajout</h4>
+			<p>Le d&eacute;p&ocirc;t n'a pas p&ucirc; &eacute;t&eacute; ajout&eacute; : {{error}}</p>
 		</div>
-	{{/added?}}
+	{{/error}}
 
-	{{^added?}}
-		{{#error}}
-			<div class="alert alert-block alert-error">
-				<h4 class="alert-heading">Erreur lors de l'ajout</h4>
-				<p>Le d&eacute;p&ocirc;t n'a pas p&ucirc; &eacute;t&eacute; ajout&eacute; : {{error}}</p>
+	<form action="" method="post" class="form-horizontal">
+		<div class="control-group">
+			<label class="control-label" for="repo-name">Nom unique du d&eacute;p&ocirc;t</label>
+			<div class="controls">
+				<input type="text" name="repo-name" id="repo-name" value="{{repo-name}}" placeholder="Nom" required><span class="help-inline">(seuls les caract&egrave;res alphanum&eacute;riques et les suivants sont accept&eacute;s : &laquo;_, -, . &raquo;)</span>
 			</div>
-		{{/error}}
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="repo-url">URL du d&eacute;p&ocirc;t</label>
+			<div class="controls">
+				<input type="url" name="repo-url" id="repo-url" placeholder="http://" value="{{repo-url}}" required class="input-xxlarge">
+			</div>
+		</div>
 
-		<form action="" method="post" class="form-horizontal">
-			<div class="control-group">
-				<label class="control-label" for="repo-name">Nom unique du d&eacute;p&ocirc;t</label>
-				<div class="controls">
-					<input type="text" name="repo-name" id="repo-name" value="{{repo-name}}" placeholder="Nom" required><span class="help-inline">(seuls les caract&egrave;res alphanum&eacute;riques et les suivants sont accept&eacute;s : &laquo;_, -, . &raquo;)</span>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="repo-url">URL du d&eacute;p&ocirc;t</label>
-				<div class="controls">
-					<input type="url" name="repo-url" id="repo-url" placeholder="http://" value="{{repo-url}}" required class="input-xxlarge">
-				</div>
-			</div>
-
-			<div class="form-actions">
-				<button type="submit" class="btn btn-primary">Valider</button>
-				<a class="btn" href="module-packagecontrol.html">Annuler</a>
-			</div>
-		</form>
-	{{/added?}}
-</div>
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">Valider</button>
+			<a class="btn" href="module-packagecontrol.html">Annuler</a>
+		</div>
+	</form>
+{{/added?}}

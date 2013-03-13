@@ -1,50 +1,44 @@
-<div class="container">
-	<div class="page-header">
-		<h1>Supprimer un paquet</h1>
+{{#removed?}}
+	<div class="alert alert-block alert-success">
+		<h4 class="alert-heading">Paquet supprim&eacute;</h4>
+		<p>Le paquet a bien &eacute;t&eacute; supprim&eacute;.</p>
+		<p><a class="btn" href="module-packagecontrol.html">Retour</a></p>
 	</div>
+{{/removed?}}
+{{^removed?}}
+	{{#package}}
+		{{#error}}
+			<div class="alert alert-block alert-error">
+				<h4 class="alert-heading">Erreur lors de la suppression</h4>
+				<p>Le paquet n'a pas p&ucirc; &eacute;t&eacute; supprim&eacute; : {{error}}</p>
+			</div>
+		{{/error}}
+		<form action="" method="post">
+			<input type="hidden" name="check" value="1">
 
-	{{#removed?}}
-		<div class="alert alert-block alert-success">
-			<h4 class="alert-heading">Paquet supprim&eacute;</h4>
-			<p>Le paquet a bien &eacute;t&eacute; supprim&eacute;.</p>
-			<p><a class="btn" href="module-packagecontrol.html">Retour</a></p>
-		</div>
-	{{/removed?}}
-	{{^removed?}}
-		{{#package}}
-			{{#error}}
-				<div class="alert alert-block alert-error">
-					<h4 class="alert-heading">Erreur lors de la suppression</h4>
-					<p>Le paquet n'a pas p&ucirc; &eacute;t&eacute; supprim&eacute; : {{error}}</p>
+			{{#isInstalled?}}
+				<div class="alert alert-block alert-info">
+					<h4 class="alert-heading">Supprimer {{metadata.name}} {{metadata.version}}</h4>
+					<p>Voulez-vous supprimer le paquet <strong>{{metadata.name}} {{metadata.version}}</strong> ?</p>
+					<p>
+						<button type="submit" class="btn btn-info"><i class="icon-trash icon-white"></i>&nbsp;Supprimer</button>
+						<a class="btn" href="module-packagecontrol.html">Retour</a>
+					</p>
 				</div>
-			{{/error}}
-			<form action="" method="post">
-				<input type="hidden" name="check" value="1">
-
-				{{#isInstalled?}}
-					<div class="alert alert-block alert-info">
-						<h4 class="alert-heading">Supprimer {{metadata.name}} {{metadata.version}}</h4>
-						<p>Voulez-vous supprimer le paquet <strong>{{metadata.name}} {{metadata.version}}</strong> ?</p>
-						<p>
-							<button type="submit" class="btn btn-info"><i class="icon-trash icon-white"></i>&nbsp;Supprimer</button>
-							<a class="btn" href="module-packagecontrol.html">Retour</a>
-						</p>
-					</div>
-				{{/isInstalled?}}
-				{{^isInstalled?}}
-					<div class="alert alert-block alert-info">
-						<h4 class="alert-heading">Paquet non install&eacute;</h4>
-						<p>Ce paquet n'est pas encore install&eacute;.</p>
-						<p>
-							<a class="btn btn-info" href="packagecontrol-install-{{name}}.html"><i class="icon-trash icon-white"></i>&nbsp;Installer</a>
-							<a class="btn" href="module-packagecontrol.html">Retour</a>
-						</p>
-					</div>
-				{{/isInstalled?}}
-			</form>
-		{{/package}}
-		{{^package}}
-			<p class="alert alert-warning">Le paquet sp&eacute;cifi&eacute; est inexistant.</p>
-		{{/package}}
-	{{/removed?}}
-</div>
+			{{/isInstalled?}}
+			{{^isInstalled?}}
+				<div class="alert alert-block alert-info">
+					<h4 class="alert-heading">Paquet non install&eacute;</h4>
+					<p>Ce paquet n'est pas encore install&eacute;.</p>
+					<p>
+						<a class="btn btn-info" href="packagecontrol-install-{{name}}.html"><i class="icon-trash icon-white"></i>&nbsp;Installer</a>
+						<a class="btn" href="module-packagecontrol.html">Retour</a>
+					</p>
+				</div>
+			{{/isInstalled?}}
+		</form>
+	{{/package}}
+	{{^package}}
+		<p class="alert alert-warning">Le paquet sp&eacute;cifi&eacute; est inexistant.</p>
+	{{/package}}
+{{/removed?}}

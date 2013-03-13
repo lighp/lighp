@@ -68,6 +68,12 @@ class Page extends ApplicationComponent {
 			throw new \RuntimeException('Cannot read template "'.$layoutPath.'"');
 		}
 
+		$layoutControllerClass = 'ctrl\\'.$this->app->name().'\\LayoutController';
+		if (class_exists($layoutControllerClass)) {
+			$layoutController = new $layoutControllerClass($this->app, $this);
+			$layoutController->execute($this->app->httpRequest());
+		}
+
 		$globalVars = $this->_getGlobalVars();
 
 		$contentLoader = new mustache\loader\FilesystemLoader(dirname($this->templatePath), array('extension' => '.html'));

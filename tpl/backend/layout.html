@@ -1,1 +1,75 @@
-{{> ../frontend/layout}}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="{{WEBSITE_DESCRIPTION}}" />
+	<meta name="author" content="{{WEBSITE_AUTHOR}}" />
+
+	<title>{{#title}}{{{title}}} - {{/title}}{{{WEBSITE_NAME}}}</title>
+
+	<!-- Bootstrap -->
+	<link href="{{WEBSITE_ROOT}}/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link href="{{WEBSITE_ROOT}}/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+</head>
+<body>
+	<div class="navbar-wrapper">
+		<div class="navbar navbar-static-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<a class="brand" href="{{WEBSITE_ROOT}}/">{{{WEBSITE_NAME}}}</a>
+					
+					<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</a>
+
+					<div class="nav-collapse collapse">
+						<form action="search.html" method="get" class="navbar-search form-search pull-right">
+							<div class="input-append">
+								<input type="search" class="search-query" name="q" placeholder="Entrez une action..."/>
+								<button class="btn" type="submit"><i class="icon-search"></i></button>
+							</div>
+						</form>
+
+						<ul class="nav">
+							<li{{^breadcrumb}} class="active"{{/breadcrumb}}><a href="{{WEBSITE_ROOT}}/admin/">Espace d'administration</a></li>
+							{{#breadcrumb}}{{#title}}
+								<li{{^url}} class="active"{{/url}}><a href="{{url}}">{{{title}}}</a></li>
+							{{/title}}{{/breadcrumb}}
+						</ul>
+					</div><!--/.nav-collapse -->
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		{{#title}}<div class="page-header">
+			<h1>{{{title}}}</h1>
+		</div>{{/title}}
+
+		{{{content}}}
+	</div>
+
+	<div class="container">
+		<hr />
+		
+		<!-- FOOTER -->
+		<footer>
+			<p class="pull-right">
+				<span class="muted">Propulsé par <a href="http://github.com/simonser/lighp">Lighp</a></span> &middot; <a href="#">Retour en haut</a>
+			</p>
+			<p>
+				<!--[if lte IE 8]><span style="filter: FlipH; -ms-filter: "FlipH"; display: inline-block;"><![endif]--><span style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); display: inline-block;">&copy;</span><!--[if lte IE 8]></span><![endif]--> 2013 {{WEBSITE_AUTHOR}} &middot; <a href="{{WEBSITE_ROOT}}/index.html">Accueil</a> &middot; <a href="index.html">Espace d'administration</a>
+			</p>
+		</footer>
+
+	</div><!-- /.container -->
+
+	<script type="text/javascript" src="{{WEBSITE_ROOT}}/js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="{{WEBSITE_ROOT}}/js/bootstrap.min.js"></script>
+</body>
+</html>

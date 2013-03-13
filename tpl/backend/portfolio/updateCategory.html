@@ -1,0 +1,10 @@
+{{#updated?}}
+	<div class="alert alert-block alert-success">
+		<h4 class="alert-heading">Catégorie modifiée</h4>
+		<p>La catégorie a bien été modifiée.</p>
+		<p><a class="btn" href="module-portfolio.html">Retour</a></p>
+	</div>
+{{/updated?}}
+{{^updated?}}
+	{{> partials/form-category}}
+{{/updated?}}

@@ -2,6 +2,14 @@
 namespace ctrl\backend\routes;
 
 class RoutesController extends \core\BackController {
+	protected function _addBreadcrumb($page = array()) {
+		$breadcrumb = array(
+			array('url' => 'module-'.$this->module.'.html', 'title' => 'Routes')
+		);
+
+		$this->page->addVar('breadcrumb', array_merge($breadcrumb, array($page)));
+	}
+
 	protected function _listRoutes($appName) {
 		$routes = array();
 
@@ -37,6 +45,9 @@ class RoutesController extends \core\BackController {
 	}
 
 	public function executeListRoutes(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'G&eacute;rer une route');
+		$this->_addBreadcrumb();
+
 		$app = 'frontend';
 		$routes = $this->_listRoutes($app);
 
@@ -63,6 +74,9 @@ class RoutesController extends \core\BackController {
 	}
 
 	public function executeInsertRoute(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Ajouter une route');
+		$this->_addBreadcrumb();
+
 		if ($request->postExists('route-url')) {
 			$routeApp = $request->postData('route-app');
 			$routeVarsList = $request->postData('route-vars');
@@ -102,6 +116,9 @@ class RoutesController extends \core\BackController {
 	}
 
 	public function executeDeleteRoute(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Supprimer une route');
+		$this->_addBreadcrumb();
+
 		$routeApp = $request->getData('app');
 		$routeId = (int) $request->getData('id');
 

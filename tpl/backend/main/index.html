@@ -1,16 +1,10 @@
-<div class="container">
-	<div class="page-header">
-		<h1>Espace d'administration</h1>
-	</div>
+{{> partials/form-search}}
 
-	{{> partials/form-search}}
-
-	<ul class="nav nav-tabs nav-stacked">
-		{{#backends}}
-			<li><a href="module-{{name}}.html"><i class="icon-{{#icon}}{{icon}}{{/icon}}{{^icon}}cog{{/icon}}"></i>&nbsp;{{title}}</a></li>
-		{{/backends}}
-	</ul>
-	{{^backends}}
-		<p class="alert alert-info">Il n'y a actuellement aucun module qui soit administrable via cette page.</p>
+<ul class="nav nav-tabs nav-stacked">
+	{{#backends}}
+		<li><a href="module-{{name}}.html"><i class="icon-{{#icon}}{{icon}}{{/icon}}{{^icon}}cog{{/icon}}"></i>&nbsp;{{title}}</a></li>
 	{{/backends}}
-</div>
+</ul>
+{{^backends}}
+	<p class="alert alert-info">Il n'y a actuellement aucun module qui soit administrable via cette page.</p>
+{{/backends}}

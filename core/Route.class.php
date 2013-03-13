@@ -66,7 +66,7 @@ class Route {
 	 */
 	public function match($url) {
 		// TODO: remove this path
-		if (preg_match('`^/projects/lighp'.$this->url.'$`', $url, $matches)) {
+		if (preg_match('`^'.$this->url.'$`', $url, $matches)) {
 			array_shift($matches);
 			return $matches;
 		} else {

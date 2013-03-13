@@ -5,7 +5,7 @@
         "action": "index"
     },
     {
-        "url": "\/category-([a-zA-Z0-9-_.]+).html",
+        "url": "\/category-([a-zA-Z0-9-_.]+)\\.html",
         "module": "portfolio",
         "action": "showCategory",
         "vars": [
@@ -13,11 +13,16 @@
         ]
     },
     {
-        "url": "\/project-([a-zA-Z0-9-_.]+).html",
+        "url": "\/project-([a-zA-Z0-9-_.]+)\\.html",
         "module": "portfolio",
         "action": "showProject",
         "vars": [
             "name"
         ]
+    },
+    {
+        "url": "\/about\\.html",
+        "module": "portfolio",
+        "action": "about"
     }
 ]

@@ -6,13 +6,29 @@
 	<meta name="description" content="{{WEBSITE_DESCRIPTION}}" />
 	<meta name="author" content="{{WEBSITE_AUTHOR}}" />
 
-	<title>{{#title}}{{title}} - {{WEBSITE_NAME}}{{/title}}{{^title}}{{WEBSITE_NAME}}{{/title}}</title>
+	<title>{{#title}}{{title}} - {{/title}}{{WEBSITE_NAME}}</title>
 
 	<!-- Bootstrap -->
 	<link href="{{WEBSITE_ROOT}}/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link href="{{WEBSITE_ROOT}}/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
 </head>
 <body>
 	{{{content}}}
+
+	<div class="container">
+		<hr />
+		
+		<!-- FOOTER -->
+		<footer>
+			<p class="pull-right">
+				<span class="muted">Propulsé par <a href="http://github.com/simonser/lighp">Lighp</a></span> &middot; <a href="#">Retour en haut</a>
+			</p>
+			<p>
+				<!--[if lte IE 8]><span style="filter: FlipH; -ms-filter: "FlipH"; display: inline-block;"><![endif]--><span style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); display: inline-block;">&copy;</span><!--[if lte IE 8]></span><![endif]--> 2013 {{WEBSITE_AUTHOR}} &middot; <a href="{{WEBSITE_ROOT}}/index.html">Accueil</a>
+			</p>
+		</footer>
+
+	</div><!-- /.container -->
 
 	<script type="text/javascript" src="{{WEBSITE_ROOT}}/js/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="{{WEBSITE_ROOT}}/js/bootstrap.min.js"></script>

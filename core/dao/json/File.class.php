@@ -20,7 +20,8 @@ class File {
 		$path = $this->_getPath();
 
 		if (!file_exists($path)) {
-			throw new \InvalidArgumentException('Cannot open data file "'.$this->index.'" ("'.$path.'" : no such file)');
+			$this->items = new Collection();
+			return;
 		}
 
 		$json = file_get_contents($path);
@@ -55,6 +56,12 @@ class File {
 
 		if ($json === false) {
 			throw new \RuntimeException('Cannot encode data to JSON');
+		}
+
+		$parentPath = dirname($path);
+		if (!is_dir($parentPath)) {
+			mkdir($parentPath, 0777, true);
+			chmod($parentPath, 0777);
 		}
 
 		$result = file_put_contents($path, $json);

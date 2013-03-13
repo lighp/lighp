@@ -24,7 +24,13 @@ abstract class BackController extends ApplicationComponent {
 	 * The page.
 	 * @var Page
 	 */
-	protected $page = null;
+	protected $page;
+
+	/**
+	 * The configuration.
+	 * @var ModuleConfig
+	 */
+	protected $config;
 
 	/**
 	 * The view (the template).
@@ -44,6 +50,7 @@ abstract class BackController extends ApplicationComponent {
 		$daos = new Daos;
 		$this->managers = new Managers($daos);
 		$this->page = new Page($app);
+		$this->config = new ModuleConfig($app, $module);
 
 		$this->setModule($module);
 		$this->setAction($action);
@@ -69,6 +76,14 @@ abstract class BackController extends ApplicationComponent {
 	 */
 	public function page() {
 		return $this->page;
+	}
+
+	/**
+	 * Get this back controller's configuration.
+	 * @return Page
+	 */
+	public function config() {
+		return $this->config;
 	}
 
 	/**

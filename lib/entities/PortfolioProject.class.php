@@ -55,14 +55,6 @@ class PortfolioProject extends \core\Entity {
 		$this->shortDescription = $shortDescription;
 	}
 
-	public function setGallery($gallery) {
-		if (!is_array($gallery)) {
-			throw new \InvalidArgumentException('Invalid project gallery');
-		}
-
-		$this->gallery = $gallery;
-	}
-
 	// GETTERS //
 
 	public function name() {
@@ -87,9 +79,5 @@ class PortfolioProject extends \core\Entity {
 
 	public function shortDescription() {
 		return $this->shortDescription;
-	}
-
-	public function gallery() {
-		return $this->gallery;
 	}
 }

@@ -17,8 +17,7 @@ class BackendApplication extends \core\Application {
 	}
 
 	public function run() {
-		//TODO: check authentification
-		if (true) {
+		if ($this->user->isAdmin()) {
 			$controller = $this->getController();
 		} else {
 			$controller = new \ctrl\backend\login\LoginController($this, 'login', 'index');

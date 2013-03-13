@@ -1,23 +1,17 @@
-<div class="container">
-	<div class="page-header">
-		<h1>G&eacute;rer les d&eacute;p&ocirc;ts</h1>
-	</div>
-
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Nom</th>
-				<th>URL</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			{{#repositories}}
-				{{> partials/table-repository}}
-			{{/repositories}}
-		</tbody>
-	</table>
-	{{^repositories}}
-		<p class="alert alert-info">Il n'y a actuellement aucun d&eacute;p&ocirc;t configur&eacute;.</p>
-	{{/repositories}}
-</div>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Nom</th>
+			<th>URL</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#repositories}}
+			{{> partials/table-repository}}
+		{{/repositories}}
+	</tbody>
+</table>
+{{^repositories}}
+	<p class="alert alert-info">Il n'y a actuellement aucun d&eacute;p&ocirc;t configur&eacute;.</p>
+{{/repositories}}

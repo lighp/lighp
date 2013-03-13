@@ -1,0 +1,63 @@
+<div class="container">
+	<img src="img/contact/icon-medium.png" alt="" class="pull-right" />
+	<div class="page-header">
+		<h1>Contact <small> - n'h&eacute;sitez pas &agrave; me contacter !</small></h1>
+		<p class="lead">Pour me contacter, remplissez le formulaire ci-dessous.</p>
+	</div>
+
+	{{#messageSent?}}
+		<div class="alert alert-block alert-success fade in">
+			<button type="button" class="close" data-dismiss="alert">×</button>
+			<h4>Mail envoy&eacute; !</h4>
+			Votre message a bien &eacute;t&eacute; envoy&eacute;, vous recevrez une r&eacute;ponse prochainement.
+		</div>
+	{{/messageSent?}}
+
+	{{^messageSent?}}
+		{{#error}}
+			<div class="alert alert-block alert-error fade in">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				<h4>Erreur</h4>
+				<p>Une erreur est survenue : {{error}}</p>
+			</div>
+		{{/error}}
+
+		<form action="" method="post" class="form-horizontal">
+			<input type="hidden" name="captcha-id" value="{{captcha.id}}"/>
+
+			<div class="control-group">
+				<label class="control-label" for="inputName">Nom</label>
+				<div class="controls">
+					<input type="text" name="message-sender-name" id="inputName" placeholder="Nom" value="{{message.senderName}}" required/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="inputEmail">E-mail</label>
+				<div class="controls">
+					<input type="email" name="message-sender-email" id="inputEmail" placeholder="E-mail" value="{{message.senderEmail}}" required/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="inputSubject">Sujet</label>
+				<div class="controls">
+					<input type="text" name="message-subject" id="inputSubject" placeholder="Sujet" class="input-xlarge" value="{{message.subject}}"/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="inputContent">Message</label>
+				<div class="controls">
+					<textarea id="inputContent" name="message-content" placeholder="Message" rows="10" cols="50" style="width: 100%;" required>{{message.content}}</textarea>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="inputCaptcha">{{captcha.question}}</label>
+				<div class="controls">
+					<input type="number" name="captcha-value" id="inputCaptcha" placeholder="R&eacute;sultat" class="input-small" required/><span class="help-inline"><span class="muted">Ceci est un code de v&eacute;rification pour &eacute;viter l'envoi d'e-mails non d&eacute;sirables.</span></span>
+				</div>
+			</div>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-primary">Valider</button>
+			</div>
+		</form>
+	{{/messageSent?}}
+</div><!-- /.container -->

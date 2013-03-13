@@ -11,16 +11,34 @@ class PortfolioController extends \core\BackController {
 		$categories = $categoriesManager->getList();
 		$leading = $portfolioManager->getLeading();
 
+		$i = 0;
+		foreach($categories as $key => $cat) {
+			$categories[$key] = $cat->toArray();
+			$categories[$key]['changeRow?'] = ($i % 3 == 0 && $i > 0);
+			$i++;
+		}
+
 		$featuretteProjects = $leading['featurette'];
 
 		$featuretteProjectsNames = array();
-		foreach($featuretteProjects as $project) {
+		$i = 0;
+		foreach($featuretteProjects as $key => $project) {
 			$featuretteProjectsNames[] = $project['name'];
+
+			$featuretteProjects[$key] = $project->toArray();
+			$featuretteProjects[$key]['pullRight?'] = ($i % 2 == 1);
+
+			$i++;
 		}
 
+		$i = 0;
 		foreach($projects as $key => $project) {
 			if (in_array($project['name'], $featuretteProjectsNames)) {
 				unset($projects[$key]);
+			} else {
+				$projects[$key] = $project->toArray();
+				$projects[$key]['changeRow?'] = ($i % 3 == 0 && $i > 0);
+				$i++;
 			}
 		}
 
@@ -38,6 +56,13 @@ class PortfolioController extends \core\BackController {
 		$category = $categoriesManager->get($catName);
 		$projects = $projectsManager->getByCategory($catName);
 
+		$i = 0;
+		foreach($projects as $key => $project) {
+			$projects[$key] = $project->toArray();
+			$projects[$key]['changeRow?'] = ($i % 3 == 0 && $i > 0);
+			$i++;
+		}
+
 		$this->page->addVar('title', $category['title']);
 		$this->page->addVar('category', $category);
 		$this->page->addVar('projects', $projects);
@@ -45,13 +70,28 @@ class PortfolioController extends \core\BackController {
 
 	public function executeShowProject(\core\HTTPRequest $request) {
 		$projectsManager = $this->managers->getManagerOf('PortfolioProjects');
+		$galleriesManager = $this->managers->getManagerOf('PortfolioGalleries');
 
 		$projectName = $request->getData('name');
 
 		$project = $projectsManager->get($projectName);
+		$gallery = $galleriesManager->get($projectName);
+
+		$i = 0;
+		foreach($gallery as $key => $item) {
+			$gallery[$key] = $item->toArray();
+			$gallery[$key]['render'] = $item->render();
+			$gallery[$key]['changeRow?'] = ($i % 3 == 0 && $i > 0);
+			$i++;
+		}
 
 		$this->page->addVar('title', $project['title']);
 		$this->page->addVar('project', $project);
-		$this->page->addVar('gallery?', (count($project['gallery']) > 0));
+		$this->page->addVar('gallery?', (count($gallery) > 0));
+		$this->page->addVar('gallery', $gallery);
+	}
+
+	public function executeAbout(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'À propos');
 	}
 }

@@ -1,15 +1,25 @@
 [
 	{
-		"url":"/admin/portfolio-projects\\.html",
-		"action":"listProjects"
+		"url":"/admin/portfolio-categories\\.html",
+		"action":"listCategories"
 	},
 	{
 		"url":"/admin/portfolio-categories-insert\\.html",
 		"action":"insertCategory"
 	},
 	{
-		"url":"/admin/portfolio-categories\\.html",
-		"action":"listCategories"
+		"url":"/admin/portfolio-categories-update-([a-zA-Z0-9-_.]+)\\.html",
+		"action":"updateCategory",
+		"vars": ["name"]
+	},
+	{
+		"url":"/admin/portfolio-categories-delete-([a-zA-Z0-9-_.]+)\\.html",
+		"action":"deleteCategory",
+		"vars": ["name"]
+	},
+	{
+		"url":"/admin/portfolio-projects\\.html",
+		"action":"listProjects"
 	},
 	{
 		"url":"/admin/portfolio-projects-insert\\.html",
