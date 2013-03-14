@@ -43,4 +43,26 @@ class PortfolioManager_json extends PortfolioManager {
 
 		return $list;
 	}
+
+	public function getAboutTexts() {
+		$aboutTextFile = $this->dao->open('portfolio/about_text');
+
+		$aboutTextRow = $aboutTextFile->read();
+
+		$aboutText = array();
+
+		foreach($aboutTextRow as $text) {
+			$aboutText[$text['name']] = $text['value'];
+		}
+
+		return $aboutText;
+	}
+
+	public function getAboutLinks() {
+		$aboutLinksFile = $this->dao->open('portfolio/about_link');
+
+		$aboutLinks = $aboutLinksFile->read();
+
+		return $aboutLinks->convertToArray();
+	}
 }

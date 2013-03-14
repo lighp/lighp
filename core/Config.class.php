@@ -51,7 +51,11 @@ class Config {
 	}
 
 	public function write(array $data) {
-		$json = json_encode($data, JSON_PRETTY_PRINT);
+		if (defined('JSON_PRETTY_PRINT')) { //PHP >= 5.4
+			$json = json_encode($data, JSON_PRETTY_PRINT);
+		} else {
+			$json = json_encode($data);
+		}
 
 		if ($json === false) {
 			throw new \RuntimeException('Cannot encode configuration to JSON');

@@ -48,6 +48,8 @@ class PortfolioController extends \core\BackController {
 	}
 
 	public function executeShowCategory(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Voir une catégorie');
+
 		$projectsManager = $this->managers->getManagerOf('PortfolioProjects');
 		$categoriesManager = $this->managers->getManagerOf('PortfolioCategories');
 
@@ -69,6 +71,8 @@ class PortfolioController extends \core\BackController {
 	}
 
 	public function executeShowProject(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Voir un projet');
+
 		$projectsManager = $this->managers->getManagerOf('PortfolioProjects');
 		$galleriesManager = $this->managers->getManagerOf('PortfolioGalleries');
 
@@ -93,5 +97,13 @@ class PortfolioController extends \core\BackController {
 
 	public function executeAbout(\core\HTTPRequest $request) {
 		$this->page->addVar('title', 'À propos');
+
+		$portfolioManager = $this->managers->getManagerOf('Portfolio');
+
+		$aboutTexts = $portfolioManager->getAboutTexts();
+		$aboutLinks = $portfolioManager->getAboutLinks();
+
+		$this->page->addVar('aboutTexts', $aboutTexts);
+		$this->page->addVar('aboutLinks', $aboutLinks);
 	}
 }
