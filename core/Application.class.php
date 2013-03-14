@@ -87,7 +87,8 @@ abstract class Application {
 		$dir->close();
 
 		$requestURI = $this->httpRequest->requestURI();
-		$websiteConfig = (new Config(__DIR__.'/../etc/core/website.json'))->read();
+		$websiteConfigFile = new Config(__DIR__.'/../etc/core/website.json');
+		$websiteConfig = $websiteConfigFile->read();
 		$requestURI = preg_replace('#^'.preg_quote($websiteConfig['root']).'#', '$1', $requestURI);
 
 		try { //Let's get the route matching with the URL
