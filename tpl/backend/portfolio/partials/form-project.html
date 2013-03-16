@@ -1,4 +1,4 @@
-<form action="" method="post" class="form-horizontal">
+<form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
 	{{#error}}
 		<div class="alert alert-block alert-error">
 			<button class="close" data-dismiss="alert" type="button">&times;</button>
@@ -10,19 +10,19 @@
 	<div class="control-group">
 		<label class="control-label" for="project-name">Nom unique du projet</label>
 		<div class="controls">
-			<input type="text" name="project-name" id="project-name" value="{{#project}}{{name}}{{/project}}" placeholder="Nom" required><span class="help-inline">(seuls les caract&egrave;res alphanum&eacute;riques et les suivants sont accept&eacute;s : &laquo;_, -, . &raquo;)</span>
+			<input type="text" name="project-name" id="project-name" value="{{project.name}}" placeholder="Nom" pattern="[A-Za-z0-9_.\-]+" required><span class="help-inline">(seuls les caract&egrave;res alphanum&eacute;riques et les suivants sont accept&eacute;s : &laquo;_, -, . &raquo;)</span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="project-title">Titre du projet</label>
 		<div class="controls">
-			<input type="text" name="project-title" id="project-title" value="{{#project}}{{title}}{{/project}}" placeholder="Titre" required>
+			<input type="text" name="project-title" id="project-title" value="{{project.title}}" placeholder="Titre" required>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="project-subtitle">Sous-titre du projet</label>
 		<div class="controls">
-			<input type="text" name="project-subtitle" id="project-subtitle" value="{{#project}}{{subtitle}}{{/project}}" placeholder="Sous-titre" class="input-xxlarge">
+			<input type="text" name="project-subtitle" id="project-subtitle" value="{{project.subtitle}}" placeholder="Sous-titre" class="input-xxlarge">
 		</div>
 	</div>
 	<div class="control-group">
@@ -36,15 +36,50 @@
 		</div>
 	</div>
 	<div class="control-group">
+		<label class="control-label" for="project-largeimage">Image du projet</label>
+		<div class="controls">
+			{{#project.hasImage}}
+				<div class="row">
+					<div class="thumbnail span3">
+						<img src="{{WEBSITE_ROOT}}/img/portfolio/project/large/{{project.name}}.png" alt="Image actuelle"/>
+						<label class="checkbox">
+							<input type="checkbox" name="project-largeimage-remove" id="project-largeimage-remove"> Supprimer l'image actuelle
+						</label>
+					</div>
+				</div>
+			{{/project.hasImage}}
+			<input type="file" name="project-largeimage" id="project-largeimage" accept="image/png"><span class="help-inline">(taille conseillée : 512&times;512 pixels)</span>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="project-mediumimage">Petite image du projet</label>
+		<div class="controls">
+			{{#project.hasImage}}
+				<div class="row">
+					<div class="thumbnail span3">
+						<img src="{{WEBSITE_ROOT}}/img/portfolio/project/medium/{{project.name}}.png" alt="Image actuelle"/>
+					</div>
+				</div>
+			{{/project.hasImage}}
+			<input type="file" name="project-mediumimage" id="project-mediumimage" accept="image/png"><span class="help-inline">(taille conseillée : 140&times;140 pixels)</span>
+		</div>
+	</div>
+	<div class="control-group">
 		<label class="control-label" for="project-url">URL du projet</label>
 		<div class="controls">
-			<input type="url" name="project-url" id="project-url" value="{{#project}}{{url}}{{/project}}" placeholder="URL">
+			<input type="url" name="project-url" id="project-url" value="{{project.url}}" placeholder="URL" class="input-xxlarge">
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="project-shortDescription">Courte description du projet</label>
 		<div class="controls">
-			<textarea name="project-shortDescription" id="project-shortDescription" rows="5" class="input-xxlarge">{{#project}}{{shortDescription}}{{/project}}</textarea>
+			<textarea name="project-shortDescription" id="project-shortDescription" rows="5" class="input-xxlarge">{{project.shortDescription}}</textarea>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="project-description">Description complète du projet</label>
+		<div class="controls">
+			<textarea name="project-description" id="project-description" rows="10" class="input-xxlarge">{{project.description}}</textarea>
 		</div>
 	</div>
 

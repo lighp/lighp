@@ -10,6 +10,45 @@ class PortfolioController extends \core\BackController {
 		$this->page->addVar('breadcrumb', array_merge($breadcrumb, array($page)));
 	}
 
+	protected function _handleImageUpload($uploadFile, $uploadImgDest) {
+		if ($uploadFile['error'] != 0) {
+			throw new \RuntimeException('Cannot upload file : server error [#'.$uploadFile['error'].']');
+		}
+
+		$uploadInfo = pathinfo($uploadFile['name']);
+		$uploadExtension = strtolower($uploadInfo['extension']);
+		if ($uploadExtension != 'png') {
+			throw new \RuntimeException('Cannot upload file : wrong image extension (provided : "'.$uploadExtension.'", accepted : "png")');
+		}
+
+		$uploadSource = $uploadFile['tmp_name'];
+		$uploadDest = __DIR__ . '/../../../public/img/' . $uploadImgDest;
+		$uploadDestDir = dirname($uploadDest);
+
+		if (!is_dir($uploadDestDir)) {
+			mkdir($uploadDestDir, 0777, true);
+			chmod($uploadDestDir, 0777);
+		}
+
+		//if (file_exists($uploadDest)) {
+		//	return;
+		//}
+
+		$result = copy($uploadSource, $uploadDest);
+
+		if ($result === false) {
+			throw new \RuntimeException('Cannot upload file : error while copying file to "'.$uploadDest.'"');
+		}
+
+		chmod($uploadDest, 0777);
+	}
+
+	protected function _removeImage($imgPath) {
+		$filePath = __DIR__ . '/../../../public/img/' . $imgPath;
+
+		unlink($filePath);
+	}
+
 	public function executeListProjects(\core\HTTPRequest $request) {
 		$this->page->addVar('title', 'Gérer un projet');
 		$this->_addBreadcrumb();
@@ -55,7 +94,8 @@ class PortfolioController extends \core\BackController {
 				'subtitle' => $request->postData('project-subtitle'),
 				'category' => $request->postData('project-category'),
 				'url' => $request->postData('project-url'),
-				'shortDescription' => $request->postData('project-shortDescription')
+				'shortDescription' => $request->postData('project-shortDescription'),
+				'description' => $request->postData('project-description')
 			);
 
 			$this->page->addVar('project', $projectData);
@@ -65,6 +105,27 @@ class PortfolioController extends \core\BackController {
 			} catch(\InvalidArgumentException $e) {
 				$this->page->addVar('error', $e->getMessage());
 				return;
+			}
+
+			//Image upload
+			if (isset($_FILES['project-largeimage']) && $_FILES['project-largeimage']['error'] !== UPLOAD_ERR_NO_FILE) {
+				try {
+					$largeImgUploadData = $_FILES['project-largeimage'];
+					$this->_handleImageUpload($largeImgUploadData, 'portfolio/project/large/'.$project['name'].'.png');
+
+					$project->setHasImage(true);
+
+					if (isset($_FILES['project-mediumimage']) && $_FILES['project-mediumimage']['error'] !== UPLOAD_ERR_NO_FILE) {
+						$mediumImgUploadData = $_FILES['project-mediumimage'];
+					} else {
+						$mediumImgUploadData = $_FILES['project-largeimage'];
+					}
+
+					$this->_handleImageUpload($mediumImgUploadData, 'portfolio/project/medium/'.$project['name'].'.png');
+				} catch(\Exception $e) {
+					$this->page->addVar('error', $e->getMessage());
+					return;
+				}
 			}
 
 			try {
@@ -103,22 +164,53 @@ class PortfolioController extends \core\BackController {
 		$this->page->addVar('categories', $list);
 
 		if ($request->postExists('project-name')) {
+			$projectData = array(
+				'name' => $request->postData('project-name'),
+				'title' => $request->postData('project-title'),
+				'subtitle' => $request->postData('project-subtitle'),
+				'category' => $request->postData('project-category'),
+				'url' => $request->postData('project-url'),
+				'shortDescription' => $request->postData('project-shortDescription'),
+				'description' => $request->postData('project-description')
+			);
+
+			$this->page->addVar('project', $projectData);
+
 			try {
-				$project->hydrate(array(
-					'name' => $request->postData('project-name'),
-					'title' => $request->postData('project-title'),
-					'subtitle' => $request->postData('project-subtitle'),
-					'category' => $request->postData('project-category'),
-					'url' => $request->postData('project-url'),
-					'shortDescription' => $request->postData('project-shortDescription')
-				));
+				$project->hydrate($projectData);
 			} catch(\InvalidArgumentException $e) {
-				$this->page->addVar('project', $project);
 				$this->page->addVar('error', $e->getMessage());
 				return;
 			}
 
 			$this->page->addVar('project', $project);
+
+			//Image upload
+			if (isset($_FILES['project-largeimage']) && $_FILES['project-largeimage']['error'] !== UPLOAD_ERR_NO_FILE) {
+				try {
+					$largeImgUploadData = $_FILES['project-largeimage'];
+					$this->_handleImageUpload($largeImgUploadData, 'portfolio/project/large/'.$project['name'].'.png');
+
+					$project->setHasImage(true);
+
+					if (isset($_FILES['project-mediumimage']) && $_FILES['project-mediumimage']['error'] !== UPLOAD_ERR_NO_FILE) {
+						$mediumImgUploadData = $_FILES['project-mediumimage'];
+					} else {
+						$mediumImgUploadData = $_FILES['project-largeimage'];
+					}
+
+					$this->_handleImageUpload($mediumImgUploadData, 'portfolio/project/medium/'.$project['name'].'.png');
+				} catch(\Exception $e) {
+					$this->page->addVar('error', $e->getMessage());
+					return;
+				}
+			}
+
+			if ($request->postExists('project-largeimage-remove') && $request->postData('project-largeimage-remove') == 'on') {
+				$project->setHasImage(false);
+				$this->_removeImage('portfolio/project/medium/'.$project['name'].'.png');
+				$this->_removeImage('portfolio/project/large/'.$project['name'].'.png');
+			}
 
 			try {
 				if ($projectName != $project['name']) { //If we've edited the project's name
@@ -182,7 +274,6 @@ class PortfolioController extends \core\BackController {
 				'subtitle' => $request->postData('category-subtitle'),
 				'shortDescription' => $request->postData('category-shortDescription')
 			);
-
 			$this->page->addVar('category', $categoryData);
 
 			try {
@@ -190,6 +281,27 @@ class PortfolioController extends \core\BackController {
 			} catch(\InvalidArgumentException $e) {
 				$this->page->addVar('error', $e->getMessage());
 				return;
+			}
+
+			//Image upload
+			if (isset($_FILES['category-largeimage']) && $_FILES['category-largeimage']['error'] !== UPLOAD_ERR_NO_FILE) {
+				try {
+					$largeImgUploadData = $_FILES['category-largeimage'];
+					$this->_handleImageUpload($largeImgUploadData, 'portfolio/category/large/'.$category['name'].'.png');
+
+					$category->setHasImage(true);
+
+					if (isset($_FILES['category-mediumimage']) && $_FILES['category-mediumimage']['error'] !== UPLOAD_ERR_NO_FILE) {
+						$mediumImgUploadData = $_FILES['category-mediumimage'];
+					} else {
+						$mediumImgUploadData = $_FILES['category-largeimage'];
+					}
+
+					$this->_handleImageUpload($mediumImgUploadData, 'portfolio/category/medium/'.$category['name'].'.png');
+				} catch(\Exception $e) {
+					$this->page->addVar('error', $e->getMessage());
+					return;
+				}
 			}
 
 			try {
@@ -204,7 +316,7 @@ class PortfolioController extends \core\BackController {
 	}
 
 	public function executeUpdateCategory(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Modifier un catégorie');
+		$this->page->addVar('title', 'Modifier une catégorie');
 		$this->_addBreadcrumb();
 
 		$categoryName = $request->getData('name');
@@ -229,6 +341,32 @@ class PortfolioController extends \core\BackController {
 				return;
 			}
 
+			//Image upload
+			if (isset($_FILES['category-largeimage']) && $_FILES['category-largeimage']['error'] !== UPLOAD_ERR_NO_FILE) {
+				try {
+					$largeImgUploadData = $_FILES['category-largeimage'];
+					$this->_handleImageUpload($largeImgUploadData, 'portfolio/category/large/'.$category['name'].'.png');
+
+					$category->setHasImage(true);
+
+					if (isset($_FILES['category-mediumimage']) && $_FILES['category-mediumimage']['error'] !== UPLOAD_ERR_NO_FILE) {
+						$mediumImgUploadData = $_FILES['category-mediumimage'];
+					} else {
+						$mediumImgUploadData = $_FILES['category-largeimage'];
+					}
+
+					$this->_handleImageUpload($mediumImgUploadData, 'portfolio/category/medium/'.$category['name'].'.png');
+				} catch(\Exception $e) {
+					$this->page->addVar('error', $e->getMessage());
+					return;
+				}
+			}
+			if ($request->postExists('category-largeimage-remove') && $request->postData('category-largeimage-remove') == 'on') {
+				$category->setHasImage(false);
+				$this->_removeImage('portfolio/category/medium/'.$category['name'].'.png');
+				$this->_removeImage('portfolio/category/large/'.$category['name'].'.png');
+			}
+
 			try {
 				if ($categoryName != $category['name']) { //If we've edited the category's name
 					$categoriesManager->delete($categoryName);
@@ -246,7 +384,7 @@ class PortfolioController extends \core\BackController {
 	}
 
 	public function executeDeleteCategory(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Supprimer un catégorie');
+		$this->page->addVar('title', 'Supprimer une catégorie');
 		$this->_addBreadcrumb();
 
 		$categoryName = $request->getData('name');

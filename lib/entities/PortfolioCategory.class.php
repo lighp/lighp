@@ -2,7 +2,7 @@
 namespace lib\entities;
 
 class PortfolioCategory extends \core\Entity {
-	protected $name, $title, $subtitle, $shortDescription;
+	protected $name, $title, $subtitle, $shortDescription, $hasImage;
 
 	// SETTERS //
 
@@ -38,6 +38,14 @@ class PortfolioCategory extends \core\Entity {
 		$this->shortDescription = $shortDescription;
 	}
 
+	public function setHasImage($hasImage) {
+		if (!is_bool($hasImage)) {
+			throw new \InvalidArgumentException('Invalid project image');
+		}
+
+		$this->hasImage = $hasImage;
+	}
+
 	// GETTERS //
 
 	public function name() {
@@ -54,5 +62,9 @@ class PortfolioCategory extends \core\Entity {
 
 	public function shortDescription() {
 		return $this->shortDescription;
+	}
+
+	public function hasImage() {
+		return ($this->hasImage) ? true : false;
 	}
 }

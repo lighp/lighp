@@ -2,12 +2,11 @@
 namespace lib\entities;
 
 class PortfolioProject extends \core\Entity {
-	protected $name, $title, $subtitle, $url, $shortDescription;
+	protected $name, $title, $subtitle, $url, $shortDescription, $description, $hasImage;
 
 	// SETTERS //
 
 	public function setName($name) {
-		
 		if (!is_string($name) || empty($name) || !preg_match('#^[a-zA-Z0-9-_.]+$#', $name)) {
 			throw new \InvalidArgumentException('Invalid project name');
 		}
@@ -55,6 +54,22 @@ class PortfolioProject extends \core\Entity {
 		$this->shortDescription = $shortDescription;
 	}
 
+	public function setDescription($description) {
+		if (!is_string($description)) {
+			throw new \InvalidArgumentException('Invalid project description');
+		}
+
+		$this->description = $description;
+	}
+
+	public function setHasImage($hasImage) {
+		if (!is_bool($hasImage)) {
+			throw new \InvalidArgumentException('Invalid project image');
+		}
+
+		$this->hasImage = $hasImage;
+	}
+
 	// GETTERS //
 
 	public function name() {
@@ -79,5 +94,13 @@ class PortfolioProject extends \core\Entity {
 
 	public function shortDescription() {
 		return $this->shortDescription;
+	}
+
+	public function description() {
+		return $this->description;
+	}
+
+	public function hasImage() {
+		return ($this->hasImage) ? true : false;
 	}
 }

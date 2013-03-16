@@ -10,7 +10,12 @@
 				<div class="row">
 			{{/changeRow?}}
 			<div class="span4">
-				<img class="img-circle" src="img/portfolio/category/{{name}}.png">
+				{{#hasImage}}
+					<img class="img-circle" src="img/portfolio/category/medium/{{name}}.png"/>
+				{{/hasImage}}
+				{{^hasImage}}
+					<img src="img/portfolio/generic/category.png"/>
+				{{/hasImage}}
 				<h2>{{title}}</h2>
 				<p>{{{shortDescription}}}</p>
 				<p><a class="btn btn-inverse" href="category-{{name}}.html">Plus &raquo;</a></p>
@@ -30,7 +35,9 @@
 	<hr class="featurette-divider" />
 	{{#featuretteProjects}}
 		<div class="featurette">
+			{{#hasImage}}
 			<img class="featurette-image pull-{{#pullRight?}}right{{/pullRight?}}{{^pullRight?}}left{{/pullRight?}}" src="img/portfolio/project/large/{{name}}.png">
+			{{/hasImage}}
 			<h2 class="featurette-heading">{{title}}. <span class="muted">{{subtitle}}</span></h2>
 			<p class="lead">{{{shortDescription}}}</p>
 			<p><a class="btn btn-large btn-primary" href="project-{{name}}.html">En savoir plus &raquo;</a></p>
@@ -54,7 +61,12 @@
 				<div class="row">
 			{{/changeRow?}}
 			<div class="span4">
-				<img src="img/portfolio/project/medium/{{name}}.png"{{#circled}} class="img-circle"{{/circled}}/>
+				{{#hasImage}}
+					<img src="img/portfolio/project/medium/{{name}}.png"/>
+				{{/hasImage}}
+				{{^hasImage}}
+					<img src="img/portfolio/generic/project.png"/>
+				{{/hasImage}}
 				<h2>{{title}}</h2>
 				<p>{{{shortDescription}}}</p>
 				<p><a class="btn" href="project-{{name}}.html">Plus &raquo;</a></p>
