@@ -2,9 +2,7 @@
 namespace lib\entities;
 
 abstract class PortfolioGalleryItem extends \core\Entity {
-	protected $source, $title, $projectName;
-
-	protected $templateName;
+	protected $source, $title, $projectName, $kind;
 
 	protected static $enabledItems = array(
 		'\lib\entities\PortfolioGalleryThumbnail',
@@ -38,6 +36,14 @@ abstract class PortfolioGalleryItem extends \core\Entity {
 		$this->projectName = $name;
 	}
 
+	public function setKind($kind) {
+		if (!is_string($kind)) {
+			throw new \InvalidArgumentException('Invalid gallery item kind');
+		}
+
+		$this->kind = $kind;
+	}
+
 	// GETTERS //
 
 	public function source() {
@@ -52,19 +58,16 @@ abstract class PortfolioGalleryItem extends \core\Entity {
 		return $this->projectName;
 	}
 
-	public function templateName() {
-		return $this->templateName;
+	public function link() {
+		return $this->source();
 	}
 
 	abstract public function render();
 
-	// FACTORY //
+	// STATIC //
 	
-	public static function build($data, $id, $projectName) {
-		$data['id'] = (int) $id;
-		$data['projectName'] = $projectName;
-
-		if (isset($data['kind'])) {
+	public static function build($data) {
+		if (isset($data['kind']) && !empty($data['kind'])) {
 			$className = '\lib\entities\PortfolioGallery' . ucfirst($data['kind']);
 
 			if (!in_array($className, self::$enabledItems) || !in_array(__CLASS__, class_parents($className))) {

@@ -68,10 +68,16 @@ class File {
 			chmod($parentPath, 0777);
 		}
 
+		$alreadyExists = file_exists($path);
+
 		$result = file_put_contents($path, $json);
 
 		if ($result === false) {
 			throw new \RuntimeException('Cannot open data file "'.$this->index.'" ("'.$path.'" : error while writing)');
+		}
+
+		if (!$alreadyExists) {
+			chmod($path, 0777);
 		}
 	}
 }

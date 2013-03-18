@@ -1,0 +1,27 @@
+<table class="table">
+	<thead>
+		<tr>
+			<th>Nom</th>
+			<th>Type</th>
+			<th>Emplacement</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#leadingItems}}
+			<tr>
+				<td><a href="portfolio-{{item.kind}}-{{data.name}}.html">{{data.title}}</a></td>
+				<td>{{item.kind}}</td>
+				<td>{{item.place}}</td>
+				<td>
+					<div class="btn-group">
+						<a class="btn btn-danger" href="portfolio-leading-delete-{{item.id}}.html"><i class="icon-trash icon-white"></i>&nbsp;Supprimer</a>
+					</div>
+				</td>
+			</tr>
+		{{/leadingItems}}
+	</tbody>
+</table>
+{{^leadingItems}}
+	<p class="alert alert-info">Aucun item n'est pour l'instant mis en avant.</p>
+{{/leadingItems}}

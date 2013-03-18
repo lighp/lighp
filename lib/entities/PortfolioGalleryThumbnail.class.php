@@ -50,11 +50,7 @@ class PortfolioGalleryThumbnail extends PortfolioGalleryImage {
 			$thumbnail->generate($thumbnailPath);
 		}
 
-		$output = '<li class="span4">';
-		$output .= '<a href="' . $this->_path() . '" class="thumbnail">';
-		$output .= '<img src="' . $this->_thumbnailPath() . '" alt="' . $this->title . '" title="' . $this->title . '" />';
-		$output .= '</a>';
-		$output .= '</li><!-- /.span4 -->';
+		$output = '<img src="' . $this->_thumbnailPath() . '" alt="' . $this->title . '" title="' . $this->title . '" />';
 
 		return $output;
 	}

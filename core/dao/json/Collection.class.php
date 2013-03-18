@@ -1,7 +1,7 @@
 <?php
 namespace core\dao\json;
 
-class Collection implements \ArrayAccess, \IteratorAggregate, \JsonSerializable {
+class Collection implements \ArrayAccess, \IteratorAggregate, \Countable, \JsonSerializable {
 	protected $data;
 
 	public function __construct($data = array()) {
@@ -97,7 +97,15 @@ class Collection implements \ArrayAccess, \IteratorAggregate, \JsonSerializable 
 		return new \ArrayIterator($this->data);
 	}
 
+	public function count() {
+		return count($this->data);
+	}
+
 	public function jsonSerialize() {
 		return $this->data;
+	}
+
+	public function last() {
+		return end($this->data);
 	}
 }

@@ -2,8 +2,6 @@
 namespace lib\entities;
 
 class PortfolioGalleryYoutubeVideo extends PortfolioGalleryItem {
-	protected $templateName = 'gallery-youtubeVideo';
-
 	protected function _videoId() {
 		$src = $this->source;
 
@@ -31,11 +29,7 @@ class PortfolioGalleryYoutubeVideo extends PortfolioGalleryItem {
 	public function render() {
 		$videoId = $this->_videoId();
 
-		$output = '<li>';
-		$output .= '<a href="' . $this->source . '" class="thumbnail">';
-		$output .= '<iframe width="360" height="255" src="http://www.youtube.com/embed/' . $videoId . '" frameborder="0" allowfullscreen></iframe>';
-		$output .= '</a>';
-		$output .= '</li><!-- /li -->';
+		$output = '<iframe width="360" height="255" src="http://www.youtube.com/embed/' . $videoId . '" frameborder="0" allowfullscreen></iframe>';
 
 		return $output;
 	}

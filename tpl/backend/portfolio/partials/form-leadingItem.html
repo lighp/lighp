@@ -1,0 +1,21 @@
+<form action="" method="post" class="form-horizontal">
+	{{#error}}
+		<div class="alert alert-block alert-error">
+			<button class="close" data-dismiss="alert" type="button">&times;</button>
+			<h4 class="alert-heading">Erreur</h4>
+			<p>Une erreur est survenue lors du traitement de la requ&ecirc;te : {{error}}.</p>
+		</div>
+	{{/error}}
+
+	<div class="control-group">
+		<label class="control-label" for="leadingItem-place">Emplacement</label>
+		<div class="controls">
+			<input type="text" name="leadingItem-place" id="leadingItem-place" value="{{leadingItem.place}}" placeholder="Emplacement" pattern="[A-Za-z]+" required><span class="help-inline">(l'emplacement définit à quel endroit de la page l'item sera mis en avant, par exemple : <em>index</em>)</span>
+		</div>
+	</div>
+
+	<div class="form-actions">
+		<button type="submit" class="btn btn-primary">Valider</button>
+		<a class="btn" href="module-portfolio.html">Annuler</a>
+	</div>
+</form>

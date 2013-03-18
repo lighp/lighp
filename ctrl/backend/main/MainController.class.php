@@ -91,7 +91,7 @@ class MainController extends \core\BackController {
 			return;
 		}
 
-		$escapedQuery = preg_quote($query);
+		$escapedQuery = str_replace(' ', '|', preg_quote($query));
 
 		if (!empty($module)) {
 			$backends = array($searchBackend);

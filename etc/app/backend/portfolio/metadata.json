@@ -17,6 +17,10 @@
 		"insertCategory":{
 			"url":"portfolio-categories-insert.html",
 			"title":"Créer une catégorie"
+		},
+		"listLeadingItems":{
+			"url":"portfolio-leading.html",
+			"title":"Gérer un item mis en avant"
 		}
 	}
 }

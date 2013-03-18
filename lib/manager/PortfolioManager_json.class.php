@@ -2,46 +2,84 @@
 namespace lib\manager;
 
 class PortfolioManager_json extends PortfolioManager {
-	public function getLeading() {
+	public function getLeadingItems() {
 		$leadingFile = $this->dao->open('portfolio/leading');
+
+		$leading = $leadingFile->read();
+
+		$list = array();
+
+		foreach($leading as $itemData) {
+			$list[] = new \lib\entities\PortfolioLeadingItem($itemData);
+		}
+
+		return $list;
+	}
+
+	public function getLeadingItemsData() {
 		$projectsFile = $this->dao->open('portfolio/projects');
 		$categoriesFile = $this->dao->open('portfolio/categories');
 
-		$leading = $leadingFile->read();
+		$leadingItems = $this->getLeadingItems();
 		$projects = $projectsFile->read();
 		$categories = $categoriesFile->read();
 
-		$list = array(
-			'featurette' => array(),
-			'carousel' => array()
-		);
+		$list = array();
 
-		foreach($leading as $itemData) {
-			$item = null;
+		foreach($leadingItems as $leadingItem) {
+			$itemData = null;
 
-			switch ($itemData['kind']) {
+			switch ($leadingItem['kind']) {
 				case 'project':
-					$filteredProjects = $projects->filter(array('name' => $itemData['name']));
+					$filteredProjects = $projects->filter(array('name' => $leadingItem['name']));
 					if (!isset($filteredProjects[0])) { continue; }
-					$project = $filteredProjects[0];
-					$item = new \lib\entities\PortfolioProject($project);
+					$itemData = new \lib\entities\PortfolioProject($filteredProjects[0]);
 					break;
 				case 'category':
-					$filteredCategories = $categories->filter(array('name' => $itemData['name']));
+					$filteredCategories = $categories->filter(array('name' => $leadingItem['name']));
 					if (!isset($filteredCategories[0])) { continue; }
-					$category = $filteredCategories[0];
-					$item = new \lib\entities\PortfolioCategory($category);
+					$itemData = new \lib\entities\PortfolioCategory($filteredCategories[0]);
 					break;
-				default:
-					continue;
 			}
 
-			if ($item !== null) {
-				$list[$itemData['place']][] = $item;
+			if ($itemData !== null) {
+				$list[] = array(
+					'item' => $leadingItem,
+					'data' => $itemData
+				);
 			}
 		}
 
 		return $list;
+	}
+
+	public function addLeadingItem(\lib\entities\PortfolioLeadingItem &$leadingItem) {
+		$file = $this->dao->open('portfolio/leading');
+		$items = $file->read();
+
+		$leadingItemId = (count($items) > 0) ? $items->last()['id'] + 1 : 0;
+		$leadingItem->setId($leadingItemId);
+
+		$item = $this->dao->createItem($leadingItem->toArray());
+		$items[] = $item;
+
+		$file->write($items);
+	}
+
+	public function deleteLeadingItem($leadingItemId) {
+		$leadingItemId = (int) $leadingItemId;
+
+		$file = $this->dao->open('portfolio/leading');
+		$items = $file->read();
+
+		foreach($items as $key => $item) {
+			if ($item['id'] == $leadingItemId) {
+				unset($items[$key]);
+				break;
+			}
+		}
+
+		$file->write($items);
 	}
 
 	public function getAboutTexts() {

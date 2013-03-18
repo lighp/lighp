@@ -21,7 +21,7 @@
 		{{/description}}
 
 		{{#gallery?}}
-		<h2>Gallerie</h2>
+		<h2>Galerie</h2>
 		<ul class="thumbnails">
 			{{#gallery}}
 				{{#changeRow?}}
@@ -29,7 +29,11 @@
 					<ul class="thumbnails">
 				{{/changeRow?}}
 
-				{{{render}}}
+				<li class="span4">
+					<a href="{{link}}" class="thumbnail">
+						{{{render}}}
+					</a>
+				</li><!-- /.span4 -->
 			{{/gallery}}
 		</ul><!-- /.thumbnails -->
 		{{/gallery?}}

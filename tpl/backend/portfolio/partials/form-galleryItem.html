@@ -1,0 +1,38 @@
+<form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+	{{#error}}
+		<div class="alert alert-block alert-error">
+			<button class="close" data-dismiss="alert" type="button">&times;</button>
+			<h4 class="alert-heading">Erreur</h4>
+			<p>Une erreur est survenue lors du traitement de la requ&ecirc;te : {{error}}.</p>
+		</div>
+	{{/error}}
+
+	<div class="control-group">
+		<label class="control-label" for="galleryItem-title">Titre de l'item</label>
+		<div class="controls">
+			<input type="text" name="galleryItem-title" id="galleryItem-title" value="{{galleryItem.title}}" placeholder="Titre" required>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="galleryItem-kind">Type de l'item</label>
+		<div class="controls">
+			<select name="galleryItem-kind" id="galleryItem-kind">
+				<option value="">Détection automatique</option>
+				{{#galleryItemKinds}}
+					<option value="{{name}}"{{#selected?}} selected="selected"{{/selected?}}>{{name}}</option>
+				{{/galleryItemKinds}}
+			</select>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="galleryItem-source">Source de l'item</label>
+		<div class="controls">
+			<input type="text" name="galleryItem-source" id="galleryItem-source" value="{{galleryItem.source}}" placeholder="Source" class="input-xxlarge" required><span class="help-inline">(entrez une URL ou un chemin vers un fichier)</span>
+		</div>
+	</div>
+
+	<div class="form-actions">
+		<button type="submit" class="btn btn-primary">Valider</button>
+		<a class="btn" href="module-portfolio.html">Annuler</a>
+	</div>
+</form>

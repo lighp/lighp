@@ -13,12 +13,17 @@
 				<td>{{#category}}<a href="../category-{{name}}.html">{{title}}</a>{{/category}}</td>
 				<td>
 					<div class="btn-group">
-						<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+						<a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
 							G&eacute;rer
 							<span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu">
 							<li><a href="portfolio-projects-update-{{name}}.html"><i class="icon-pencil"></i> Modifier</a></li>
+							<li><a href="portfolio-leading-insert-project-{{name}}.html"><i class="icon-star"></i> Mettre en avant</a></li>
+							<li class="divider"></li>
+							<li><a href="portfolio-galleries-show-{{name}}.html"><i class="icon-picture"></i> Gérer la galerie</a></li>
+							<li><a href="portfolio-galleries-insert-{{name}}.html"><i class="icon-plus-sign"></i> Insérer un item dans la galerie</a></li>
+							<li class="divider"></li>
 							<li><a href="portfolio-projects-delete-{{name}}.html"><i class="icon-trash"></i> Supprimer</a></li>
 						</ul>
 					</div>

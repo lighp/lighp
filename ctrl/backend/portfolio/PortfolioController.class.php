@@ -404,4 +404,180 @@ class PortfolioController extends \core\BackController {
 			$this->page->addVar('deleted?', true);
 		}
 	}
+
+	public function executeListGalleryItems(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Afficher une galerie');
+		$this->_addBreadcrumb();
+
+		$projectName = $request->getData('projectName');
+
+		$galleriesManager = $this->managers->getManagerOf('PortfolioGalleries');
+		$gallery = $galleriesManager->getByProject($projectName);
+		$this->page->addVar('gallery', $gallery);
+	}
+
+	public function executeInsertGalleryItem(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Ajouter un item à la galerie');
+		$this->_addBreadcrumb();
+
+		$projectName = $request->getData('projectName');
+
+		$galleriesManager = $this->managers->getManagerOf('PortfolioGalleries');
+
+		if ($request->postExists('galleryItem-title')) {
+			$galleryItemData = array(
+				'title' => $request->postData('galleryItem-title'),
+				'kind' => $request->postData('galleryItem-kind'),
+				'source' => $request->postData('galleryItem-source'),
+				'projectName' => $projectName
+			);
+
+			$this->page->addVar('galleryItem', $galleryItemData);
+
+			try {
+				$galleryItem = \lib\entities\PortfolioGalleryItem::build($galleryItemData);
+			} catch(\InvalidArgumentException $e) {
+				$this->page->addVar('error', $e->getMessage());
+				return;
+			}
+
+			if (empty($galleryItem)) {
+				$this->page->addVar('error', 'Invalid gallery item source');
+				return;
+			}
+
+			try {
+				$galleriesManager->add($galleryItem);
+			} catch(\Exception $e) {
+				$this->page->addVar('error', $e->getMessage());
+				return;
+			}
+
+			$this->page->addVar('inserted?', true);
+		}
+	}
+
+	public function executeUpdateGalleryItem(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Modifier un item de la galerie');
+		$this->_addBreadcrumb();
+
+		$projectName = $request->getData('projectName');
+		$galleryItemId = $request->getData('id');
+
+		$galleriesManager = $this->managers->getManagerOf('PortfolioGalleries');
+		$galleryItem = $galleriesManager->get($galleryItemId);
+
+		$this->page->addVar('galleryItem', $galleryItem);
+
+		if ($request->postExists('galleryItem-title')) {
+			$galleryItemData = array(
+				'title' => $request->postData('galleryItem-title'),
+				'kind' => $request->postData('galleryItem-kind'),
+				'source' => $request->postData('galleryItem-source'),
+				'projectName' => $projectName
+			);
+
+			$this->page->addVar('galleryItem', $galleryItemData);
+
+			try {
+				$galleryItem->hydrate($galleryItemData);
+			} catch(\InvalidArgumentException $e) {
+				$this->page->addVar('error', $e->getMessage());
+				return;
+			}
+
+			try {
+				$galleriesManager->edit($galleryItem);
+			} catch(\Exception $e) {
+				$this->page->addVar('error', $e->getMessage());
+				return;
+			}
+
+			$this->page->addVar('updated?', true);
+		}
+	}
+
+	public function executeDeleteGalleryItem(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Supprimer un item de la galerie');
+		$this->_addBreadcrumb();
+
+		$projectName = $request->getData('projectName');
+		$galleryItemId = (int) $request->getData('id');
+
+		$galleriesManager = $this->managers->getManagerOf('PortfolioGalleries');
+		
+		try {
+			$galleriesManager->delete($galleryItemId);
+		} catch(\Exception $e) {
+			$this->page->addVar('error', $e->getMessage());
+			return;
+		}
+
+		$this->page->addVar('deleted?', true);
+	}
+
+	public function executeListLeadingItems(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Gérer un item mis en avant');
+		$this->_addBreadcrumb();
+
+		$portfolioManager = $this->managers->getManagerOf('Portfolio');
+
+		$leadingItems = $portfolioManager->getLeadingItemsData();
+
+		$this->page->addVar('leadingItems', $leadingItems);
+	}
+
+	public function executeInsertLeadingItem(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Mettre en avant un item');
+		$this->_addBreadcrumb();
+
+		$portfolioManager = $this->managers->getManagerOf('Portfolio');
+
+		$leadingItemKind = $request->getData('kind');
+		$leadingItemName = $request->getData('name');
+
+		if ($request->postExists('leadingItem-place')) {
+			$leadingItemData = array(
+				'name' => $leadingItemName,
+				'kind' => $leadingItemKind,
+				'place' => $request->postData('leadingItem-place')
+			);
+
+			$this->page->addVar('leadingItem', $leadingItemData);
+
+			try {
+				$leadingItem = new \lib\entities\PortfolioLeadingItem($leadingItemData);
+			} catch(\InvalidArgumentException $e) {
+				$this->page->addVar('error', $e->getMessage());
+				return;
+			}
+
+			try {
+				$portfolioManager->addLeadingItem($leadingItem);
+			} catch(\Exception $e) {
+				$this->page->addVar('error', $e->getMessage());
+				return;
+			}
+
+			$this->page->addVar('inserted?', true);
+		}
+	}
+
+	public function executeDeleteLeadingItem(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Supprimer un item mis en avant');
+		$this->_addBreadcrumb();
+
+		$leadingItemId = (int) $request->getData('id');
+
+		$portfolioManager = $this->managers->getManagerOf('Portfolio');
+		
+		try {
+			$portfolioManager->deleteLeadingItem($leadingItemId);
+		} catch(\Exception $e) {
+			$this->page->addVar('error', $e->getMessage());
+			return;
+		}
+
+		$this->page->addVar('deleted?', true);
+	}
 }

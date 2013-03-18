@@ -107,7 +107,20 @@ class Page extends ApplicationComponent {
 	 * @return object
 	 */
 	protected function _getTemplatesEngine() {
-		$mustache = new mustache\Engine();
+		$mustacheOptions = array();
+
+		$cacheDir = __DIR__.'/../var/cache/core/mustache/';
+
+		if (is_dir($cacheDir)) {
+			$mustacheOptions['cache'] = $cacheDir;
+		} else {
+			if (mkdir($cacheDir, 0777, true)) {
+				chmod($cacheDir, 0777);
+				$mustacheOptions['cache'] = $cacheDir;
+			}
+		}
+
+		$mustache = new mustache\Engine($mustacheOptions);
 
 		$mustache->addHelper('filesize', function($value) {
 			$bytes = (int) $value;

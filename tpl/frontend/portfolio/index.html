@@ -33,18 +33,19 @@
 
 	<!-- START THE FEATURETTES -->
 	<hr class="featurette-divider" />
-	{{#featuretteProjects}}
+	{{#leadingProjects}}
 		<div class="featurette">
-			{{#hasImage}}
-			<img class="featurette-image pull-{{#pullRight?}}right{{/pullRight?}}{{^pullRight?}}left{{/pullRight?}}" src="img/portfolio/project/large/{{name}}.png">
-			{{/hasImage}}
-			<h2 class="featurette-heading">{{title}}. <span class="muted">{{subtitle}}</span></h2>
-			<p class="lead">{{{shortDescription}}}</p>
-			<p><a class="btn btn-large btn-primary" href="project-{{name}}.html">En savoir plus &raquo;</a></p>
+			{{#data.hasImage}}
+			<img class="featurette-image pull-{{#pullRight?}}right{{/pullRight?}}{{^pullRight?}}left{{/pullRight?}}" src="img/portfolio/{{item.kind}}/large/{{item.name}}.png">
+			{{/data.hasImage}}
+			<h2 class="featurette-heading">{{data.title}}. <span class="muted">{{data.subtitle}}</span></h2>
+			<p class="lead">{{{data.shortDescription}}}</p>
+			<p><a class="btn btn-large btn-primary" href="{{item.kind}}-{{item.name}}.html">En savoir plus &raquo;</a></p>
 		</div>
 
-		<hr class="featurette-divider" />
-	{{/featuretteProjects}}
+		<span class="clearfix"></span>
+		<hr class="featurette-divider"/>
+	{{/leadingProjects}}
 	<!-- /END THE FEATURETTES -->
 	
 	<div class="btn-group pull-right">
@@ -74,6 +75,6 @@
 		{{/otherProjects}}
 	</div><!-- /.row -->
 	{{^otherProjects}}
-		<p class="muted">Il n'y a aucun projet pour le moment.</p>
+		<p class="muted">Il n'y a aucun autre projet pour le moment.</p>
 	{{/otherProjects}}
 </div><!-- /.container -->

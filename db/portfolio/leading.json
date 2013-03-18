@@ -1,0 +1,14 @@
+[
+    {
+        "name": "blurp",
+        "kind": "project",
+        "place": "index",
+        "id": 0
+    },
+    {
+        "name": "trololol",
+        "kind": "project",
+        "place": "index",
+        "id": 1
+    }
+]

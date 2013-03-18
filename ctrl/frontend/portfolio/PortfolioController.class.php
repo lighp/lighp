@@ -9,7 +9,7 @@ class PortfolioController extends \core\BackController {
 
 		$projects = $projectsManager->getList();
 		$categories = $categoriesManager->getList();
-		$leading = $portfolioManager->getLeading();
+		$leading = $portfolioManager->getLeadingItemsData();
 
 		$i = 0;
 		foreach($categories as $key => $cat) {
@@ -18,22 +18,26 @@ class PortfolioController extends \core\BackController {
 			$i++;
 		}
 
-		$featuretteProjects = $leading['featurette'];
+		$leadingProjects = array();
 
-		$featuretteProjectsNames = array();
+		$leadingProjectsNames = array();
 		$i = 0;
-		foreach($featuretteProjects as $key => $project) {
-			$featuretteProjectsNames[] = $project['name'];
+		foreach($leading as $leadingItem) {
+			if ($leadingItem['item']['place'] != 'index') {
+				continue;
+			}
 
-			$featuretteProjects[$key] = $project->toArray();
-			$featuretteProjects[$key]['pullRight?'] = ($i % 2 == 1);
+			$leadingProjectsNames[] = $leadingItem['item']['name'];
+
+			$leadingItem['pullRight?'] = ($i % 2 == 1);
+			$leadingProjects[] = $leadingItem;
 
 			$i++;
 		}
 
 		$i = 0;
 		foreach($projects as $key => $project) {
-			if (in_array($project['name'], $featuretteProjectsNames)) {
+			if (in_array($project['name'], $leadingProjectsNames)) {
 				unset($projects[$key]);
 			} else {
 				$projects[$key] = $project->toArray();
@@ -43,7 +47,7 @@ class PortfolioController extends \core\BackController {
 		}
 
 		$this->page->addVar('categories', $categories);
-		$this->page->addVar('featuretteProjects', $featuretteProjects);
+		$this->page->addVar('leadingProjects', $leadingProjects);
 		$this->page->addVar('otherProjects', array_values($projects));
 	}
 

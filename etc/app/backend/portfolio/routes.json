@@ -34,5 +34,40 @@
 		"url":"/admin/portfolio-projects-delete-([a-zA-Z0-9-_.]+)\\.html",
 		"action":"deleteProject",
 		"vars": ["name"]
+	},
+	{
+		"url":"/admin/portfolio-galleries-show-([a-zA-Z0-9-_.]+)\\.html",
+		"action":"listGalleryItems",
+		"vars": ["projectName"]
+	},
+	{
+		"url":"/admin/portfolio-galleries-insert-([a-zA-Z0-9-_.]+)\\.html",
+		"action":"insertGalleryItem",
+		"vars": ["projectName"]
+	},
+	{
+		"url":"/admin/portfolio-galleries-update-([a-zA-Z0-9-_.]+)-([0-9]+)\\.html",
+		"action":"updateGalleryItem",
+		"vars": ["projectName","id"]
+	},
+	{
+		"url":"/admin/portfolio-galleries-delete-([a-zA-Z0-9-_.]+)-([0-9]+)\\.html",
+		"action":"deleteGalleryItem",
+		"vars": ["projectName","id"]
+	},
+	{
+		"url":"/admin/portfolio-leading\\.html",
+		"action":"listLeadingItems",
+		"vars": ["kind","name"]
+	},
+	{
+		"url":"/admin/portfolio-leading-insert-([a-zA-Z]+)-([a-zA-Z0-9-_.]+)\\.html",
+		"action":"insertLeadingItem",
+		"vars": ["kind","name"]
+	},
+	{
+		"url":"/admin/portfolio-leading-delete-([0-9]+)\\.html",
+		"action":"deleteLeadingItem",
+		"vars": ["id"]
 	}
 ]

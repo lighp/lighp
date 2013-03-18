@@ -1,0 +1,13 @@
+{{#deleted?}}
+	<div class="alert alert-block alert-success">
+		<h4 class="alert-heading">Item supprimé</h4>
+		<p>L'item de la galerie a bien été supprimé.</p>
+		<p><a class="btn" href="module-portfolio.html">Retour</a></p>
+	</div>
+{{/deleted?}}
+{{#error}}
+	<div class="alert alert-block alert-error">
+		<h4 class="alert-heading">Erreur</h4>
+		<p>Une erreur est survenue lors de la suppression de l'item : {{error}}.</p>
+	</div>
+{{/error}}
