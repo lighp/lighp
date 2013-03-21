@@ -10,6 +10,10 @@ class LoginController extends \core\BackController {
 		$this->page->addVar('breadcrumb', array_merge($breadcrumb, array($page)));
 	}
 
+	protected function _hashPassword($password) {
+		return hash('sha512', $password);
+	}
+
 	public function executeIndex(\core\HTTPRequest $request) {
 		$this->page->addVar('title', 'Connexion');
 
@@ -19,9 +23,9 @@ class LoginController extends \core\BackController {
 
 			$configData = $this->config->read();
 
-			if ($username == $configData['username'] && $password == $configData['password']) {
+			if ($username == $configData['username'] && $this->_hashPassword($password) == $configData['password']) {
 				$this->app->user()->setAdmin(true);
-				$this->app->httpResponse()->redirect('.');
+				$this->app->httpResponse()->redirect('');
 			} else {
 				$this->page->addVar('error', 'Incorrect username or password');
 			}
@@ -46,12 +50,12 @@ class LoginController extends \core\BackController {
 		if ($request->postExists('login-password')) {
 			$password = $request->postData('login-password');
 
-			if ($password == $configData['password']) {
+			if ($this->_hashPassword($password) == $configData['password']) {
 				$configData['username'] = $request->postData('login-update-username');
 
 				$newPassword = $request->postData('login-update-password');
 				if (!empty($newPassword)) {
-					$configData['password'] = $newPassword;
+					$configData['password'] = $this->_hashPassword($newPassword);
 				}
 
 				try {
