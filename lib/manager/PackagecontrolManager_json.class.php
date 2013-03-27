@@ -382,6 +382,11 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 				chmod($parentDir, 0777);
 			}
 
+			//If the file already exists, do not overwrite it
+			if (file_exists($item['destPath'])) {
+				continue;
+			}
+
 			$itemSource = $zip->getStream($item['sourcePath']); //Get the file's stream
 			$itemDest = fopen($item['destPath'], 'w'); //Destination file
 
