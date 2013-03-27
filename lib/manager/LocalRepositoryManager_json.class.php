@@ -76,23 +76,35 @@ class LocalRepositoryManager_json extends LocalRepositoryManager {
 			$filePath = $root . '/' . $fileData['path'];
 
 			if (file_exists($filePath)) {
-				if (!unlink($filePath)) {
+				//Pre-check
+				if (isset($fileData['md5sum']) && !empty($fileData['md5sum'])) { //If a md5 checksum is specified
+					$fileMd5 = md5_file($filePath); //Calculate the MD5 sum of the existing file
+
+					if ($fileData['md5sum'] != $fileMd5) { //If checksums are different
+						continue; //Do not delete the file
+					}
+				}
+
+				if (!unlink($filePath)) { //Delete this file
 					throw new \RuntimeException('Cannot delete file "'.$filePath.'"');
 				}
 
+				//Delete parent folders while they are empty
 				do {
 					$parentDirPath = dirname($filePath);
 					$parentDir = dir($parentDirPath);
-					$nbrFiles = 0;
+					$isEmpty = true;
 					while (false !== ($entry = $parentDir->read())) {
 						if ($entry == '.' || $entry == '..') { continue; }
-						$nbrFiles++;
+
+						$isEmpty = false;
+						break;
 					}
 
-					if ($nbrFiles == 0) {
+					if ($isEmpty) {
 						rmdir($parentDir);
 					}
-				} while($nbrFiles == 0);
+				} while($isEmpty);
 			}
 		}
 	}
