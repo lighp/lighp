@@ -96,6 +96,23 @@ class PortfolioManager_json extends PortfolioManager {
 		return $aboutText;
 	}
 
+	public function updateAboutTexts($aboutTexts) {
+		$actualAboutTexts = $this->getAboutTexts();
+		$aboutTexts = array_merge($actualAboutTexts, $aboutTexts);
+
+		$aboutTextFile = $this->dao->open('portfolio/about_text');
+
+		$aboutTextRow = $this->dao->createCollection();
+		foreach($aboutTexts as $name => $value) {
+			$aboutTextRow[] = $this->dao->createItem(array(
+				'name' => $name,
+				'value' => $value
+			));
+		}
+
+		$aboutTextFile->write($aboutTextRow);
+	}
+
 	public function getAboutLinks() {
 		$aboutLinksFile = $this->dao->open('portfolio/about_link');
 

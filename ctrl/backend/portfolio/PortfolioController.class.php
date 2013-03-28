@@ -580,4 +580,28 @@ class PortfolioController extends \core\BackController {
 
 		$this->page->addVar('deleted?', true);
 	}
+
+	public function executeUpdateAboutPage(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Modifier mes informations personnelles');
+		$this->_addBreadcrumb();
+
+		$portfolioManager = $this->managers->getManagerOf('Portfolio');
+		$aboutTexts = $portfolioManager->getAboutTexts();
+
+		$this->page->addVar('aboutTexts', $aboutTexts);
+
+		if ($request->postExists('about-shortDescription')) {
+			try {
+				$portfolioManager->updateAboutTexts(array(
+					'shortDescription' => $request->postData('about-shortDescription'),
+					'content' => $request->postData('about-content')
+				));
+			} catch(\Exception $e) {
+				$this->page->addVar('error', $e->getMessage());
+				return;
+			}
+
+			$this->page->addVar('updated?', true);
+		}
+	}
 }

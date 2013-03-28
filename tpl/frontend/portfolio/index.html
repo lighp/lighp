@@ -36,7 +36,7 @@
 	{{#leadingProjects}}
 		<div class="featurette">
 			{{#data.hasImage}}
-			<img class="featurette-image pull-{{#pullRight?}}right{{/pullRight?}}{{^pullRight?}}left{{/pullRight?}}" src="img/portfolio/{{item.kind}}/large/{{item.name}}.png">
+				<img src="img/portfolio/{{item.kind}}/large/{{item.name}}.png" class="featurette-image pull-{{#pullRight?}}right{{/pullRight?}}{{^pullRight?}}left{{/pullRight?}}"/>
 			{{/data.hasImage}}
 			<h2 class="featurette-heading">{{data.title}}. <span class="muted">{{data.subtitle}}</span></h2>
 			<p class="lead">{{{data.shortDescription}}}</p>

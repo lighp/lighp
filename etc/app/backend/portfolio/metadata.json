@@ -21,6 +21,10 @@
 		"listLeadingItems":{
 			"url":"portfolio-leading.html",
 			"title":"Gérer un item mis en avant"
+		},
+		"updateAboutPage":{
+			"url":"portfolio-about.html",
+			"title":"Modifier mes informations personnelles"
 		}
 	}
 }

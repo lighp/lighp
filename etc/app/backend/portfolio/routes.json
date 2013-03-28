@@ -69,5 +69,27 @@
 		"url":"/admin/portfolio-leading-delete-([0-9]+)\\.html",
 		"action":"deleteLeadingItem",
 		"vars": ["id"]
+	},
+	{
+		"url":"/admin/portfolio-about\\.html",
+		"action":"updateAboutPage"
+	},
+	{
+		"url":"/admin/portfolio-about-links\\.html",
+		"action":"listAboutLinks"
+	},
+	{
+		"url":"/admin/portfolio-about-links-insert\\.html",
+		"action":"insertAboutLink"
+	},
+	{
+		"url":"/admin/portfolio-about-links-update-([0-9]+)\\.html",
+		"action":"updateAboutLink",
+		"vars": ["id"]
+	},
+	{
+		"url":"/admin/portfolio-about-links-delete-([0-9]+)\\.html",
+		"action":"deleteAboutLink",
+		"vars": ["id"]
 	}
 ]

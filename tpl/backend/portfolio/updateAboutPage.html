@@ -1,0 +1,36 @@
+{{#updated?}}
+	<div class="alert alert-block alert-success">
+		<h4 class="alert-heading">Informations modifiées</h4>
+		<p>Vos informations personnelles ont bien été modifiées.</p>
+		<p><a class="btn" href="module-portfolio.html">Retour</a></p>
+	</div>
+{{/updated?}}
+{{^updated?}}
+	<form action="" method="post" class="form-horizontal">
+		{{#error}}
+			<div class="alert alert-block alert-error">
+				<button class="close" data-dismiss="alert" type="button">&times;</button>
+				<h4 class="alert-heading">Erreur</h4>
+				<p>Une erreur est survenue lors du traitement de la requ&ecirc;te : {{error}}.</p>
+			</div>
+		{{/error}}
+
+		<div class="control-group">
+			<label class="control-label" for="about-shortDescription">Petite description</label>
+			<div class="controls">
+				<textarea name="about-shortDescription" id="about-shortDescription" rows="5" class="input-xxlarge">{{aboutTexts.shortDescription}}</textarea>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="about-content">Contenu</label>
+			<div class="controls">
+				<textarea name="about-content" id="about-content" rows="10" class="input-xxlarge">{{aboutTexts.content}}</textarea>
+			</div>
+		</div>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">Valider</button>
+			<a class="btn" href="module-portfolio.html">Annuler</a>
+		</div>
+	</form>
+{{/updated?}}
