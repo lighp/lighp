@@ -2,17 +2,11 @@
 namespace core;
 
 /**
- * A model's configuration file.
+ * A module's configuration file.
  * @author Simon Ser
  * @since 1.0alpha1
  */
-class ModuleConfig extends ApplicationComponent {
-	/**
-	 * The associated module.
-	 * @var string
-	 */
-	protected $module;
-
+class ModuleConfig extends ModuleComponent {
 	/**
 	 * The config file.
 	 * @var Config
@@ -25,9 +19,7 @@ class ModuleConfig extends ApplicationComponent {
 	 * @param string      $module The module.
 	 */
 	public function __construct(Application $app, $module) {
-		parent::__construct($app);
-
-		$this->module = $module;
+		parent::__construct($app, $module);
 
 		$this->config = new Config($this->_path());
 	}

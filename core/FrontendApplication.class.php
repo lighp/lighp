@@ -20,7 +20,7 @@ class FrontendApplication extends \core\Application {
 		$controller = $this->getController();
 		$controller->execute();
 
-		$this->httpResponse->setPage($controller->page());
+		$this->httpResponse->setContent($controller->page());
 		$this->httpResponse->send();
 	}
 }

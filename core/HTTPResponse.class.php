@@ -9,9 +9,9 @@ namespace core;
 class HTTPResponse {
 	/**
 	 * The response's content.
-	 * @var Page
+	 * @var ResponseContent
 	 */
-	protected $page;
+	protected $content;
 
 	/**
 	 * Add a HTTP header.
@@ -42,15 +42,15 @@ class HTTPResponse {
 	 * Send the response.
 	 */
 	public function send() {
-		exit($this->page->generate());
+		exit($this->content->generate());
 	}
 
 	/**
 	 * Set the response's content.
-	 * @param Page $page The corresponding page.
+	 * @param ResponseContent $page The response's content.
 	 */
-	public function setPage(Page $page) {
-		$this->page = $page;
+	public function setContent(ResponseContent $content) {
+		$this->content = $content;
 	}
 
 	// Changes compared to the setcookie() function : the last argument is true by default
@@ -76,7 +76,7 @@ class HTTPResponse {
 		$page = new Page($app);
 		$page->setTemplate(__DIR__.'/../tpl/error/404.html');
 
-		$this->setPage($page);
+		$this->setContent($page);
 
 		$this->addHeader('HTTP/1.0 404 Not Found');
 

@@ -33,6 +33,12 @@ abstract class BackController extends ApplicationComponent {
 	protected $config;
 
 	/**
+	 * The module's translation.
+	 * @var ModuleTranslation
+	 */
+	protected $translation;
+
+	/**
 	 * The view (the template).
 	 * @var string
 	 */
@@ -49,8 +55,10 @@ abstract class BackController extends ApplicationComponent {
 
 		$daos = new Daos;
 		$this->managers = new Managers($daos);
-		$this->page = new Page($app);
 		$this->config = new ModuleConfig($app, $module);
+		$this->translation = new ModuleTranslation($app, $module);
+		$this->page = new Page($app);
+		$this->page->setTranslation($this->translation, $action);
 
 		$this->setModule($module);
 		$this->setAction($action);
@@ -80,10 +88,18 @@ abstract class BackController extends ApplicationComponent {
 
 	/**
 	 * Get this back controller's configuration.
-	 * @return Page
+	 * @return ModuleConfig
 	 */
 	public function config() {
 		return $this->config;
+	}
+
+	/**
+	 * Get this back controller's translation.
+	 * @return ModuleTranslation
+	 */
+	public function translation() {
+		return $this->translation;
 	}
 
 	/**

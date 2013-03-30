@@ -6,7 +6,7 @@ namespace core;
  * @author Simon Ser
  * @since 1.0alpha1
  */
-class Page extends ApplicationComponent {
+class Page extends ResponseContent {
 	/**
 	 * The path to the page's template.
 	 * @var string
@@ -18,6 +18,18 @@ class Page extends ApplicationComponent {
 	 * @var array
 	 */
 	protected $vars = array();
+
+	/**
+	 * The page's translation.
+	 * @var ModuleTranslation
+	 */
+	protected $translation;
+
+	/**
+	 * The page's translation's section.
+	 * @var string
+	 */
+	protected $translationSection;
 
 	/**
 	 * Add a page variable.
@@ -138,6 +150,39 @@ class Page extends ApplicationComponent {
 			return (($bytes < 0) ? '-' : '') . $roundedBytes . ' ' . $suffixes[floor($base)];
 		});
 
+		$translation = $this->translation();
+		$translationSection = $this->translationSection();
+		$mustache->addHelper('translate', function($path) use ($translation, $translationSection) {
+			return $translation->get($path, $translationSection);
+		});
+
+		$mustache->addHelper('__', $mustache->getHelper('translate'));
+
 		return $mustache;
+	}
+
+	/**
+	 * Get the page's translation.
+	 * @return ModuleTranslation
+	 */
+	public function translation() {
+		return $this->translation;
+	}
+
+	/**
+	 * Get the page's translation's section.
+	 * @return string
+	 */
+	public function translationSection() {
+		return $this->translationSection;
+	}
+
+	/**
+	 * Set the page's translation.
+	 * @param ModuleTranslation $translation The translation.
+	 */
+	public function setTranslation(ModuleTranslation $translation, $section = null) {
+		$this->translation = $translation;
+		$this->translationSection = $section;
 	}
 }
