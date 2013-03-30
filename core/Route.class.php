@@ -66,7 +66,7 @@ class Route {
 	 */
 	public function match($url) {
 		// TODO: remove this path
-		if (preg_match('`^'.$this->url.'$`', $url, $matches)) {
+		if (preg_match('`^'.$this->url.'$`', $this->_beautifyPath($url), $matches)) {
 			array_shift($matches);
 			return $matches;
 		} else {
@@ -100,7 +100,7 @@ class Route {
 	 */
 	public function setUrl($url) {
 		if (is_string($url)) {
-			$this->url = $url;
+			$this->url = $this->_beautifyPath($url);
 		}
 	}
 
@@ -150,5 +150,34 @@ class Route {
 	 */
 	public function varsNames() {
 		return $this->varsNames;
+	}
+
+	public function buildUrl() {
+		$url = preg_replace('#\\\\(\\\\*)#', '$1', $this->url);
+
+		if ($this->hasVars()) {
+			$vars = $this->vars();
+
+			foreach($this->varsNames as $varKey => $varName) {
+				$varValue = '';
+
+				if (isset($vars[$varName])) {
+					$varValue = $vars[$varName];
+				} elseif (isset($vars[$varKey])) {
+					$varValue = $vars[$varKey];
+				}
+
+				$url = preg_replace('#\(.+\)#', $varValue, $url, 1);
+			}
+		}
+
+		return $this->_beautifyPath($url);
+	}
+
+	protected function _beautifyPath($url) {
+		$url = preg_replace('#/+#', '/', $url);
+		$url = preg_replace('#^/#', '', $url);
+
+		return $url;
 	}
 }

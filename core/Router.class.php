@@ -58,4 +58,18 @@ class Router {
 
 		throw new \RuntimeException('No route matches given URL', self::NO_ROUTE);
 	}
+
+	public function getUrl($module, $action, $vars = array()) {
+		foreach ($this->routes as $route) {
+			if ($route->module() == $module && $route->action() == $action) { //This route matches
+				if ($route->hasVars()) {
+					$route->setVars($vars);
+				}
+
+				return $route->buildUrl();
+			}
+		}
+
+		throw new \RuntimeException('No route matches given module and action');
+	}
 }

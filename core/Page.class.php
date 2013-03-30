@@ -115,6 +115,7 @@ class Page extends ResponseContent {
 	protected function _getTemplatesEngine() {
 		$mustacheOptions = array();
 
+		//Cache
 		$cacheDir = __DIR__.'/../var/cache/core/mustache/';
 
 		if (is_dir($cacheDir)) {
@@ -128,6 +129,7 @@ class Page extends ResponseContent {
 
 		$mustache = new mustache\Engine($mustacheOptions);
 
+		//File size
 		$mustache->addHelper('filesize', function($value) {
 			$bytes = (int) $value;
 
@@ -144,12 +146,48 @@ class Page extends ResponseContent {
 			return (($bytes < 0) ? '-' : '') . $roundedBytes . ' ' . $suffixes[floor($base)];
 		});
 
+		//ucfirst
+		$mustache->addHelper('ucfirst', function($text, $helper = null) {
+			if (!empty($helper)) {
+				$text = $helper->render($text);
+			}
+
+			return ucfirst($text);
+		});
+
+		//Translate
 		$translation = $this->translation();
 		$mustache->addHelper('translate', function($path) use ($translation) {
 			return $translation->get($path);
 		});
 
 		$mustache->addHelper('__', $mustache->getHelper('translate'));
+
+		//URL builder
+		$router = $this->app->router();
+		$mustache->addHelper('buildUrl', function($rawData, $helper) use ($router) {
+			$data = explode(' ', $helper->render($rawData));
+
+			if (count($data) < 2) {
+				return '#';
+			}
+
+			$module = $data[0];
+			$action = $data[1];
+			$vars = array();
+
+			if (count($data) >= 3) {
+				$vars = array_slice($data, 2);
+			}
+
+			try {
+				$url = '{{WEBSITE_ROOT}}/' . $router->getUrl($module, $action, $vars);
+			} catch(\Exception $e) {
+				return '#';
+			}
+
+			return $url;
+		});
 
 		return $mustache;
 	}

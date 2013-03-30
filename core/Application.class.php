@@ -26,6 +26,12 @@ abstract class Application {
 	protected $user;
 
 	/**
+	 * The router.
+	 * @var Router
+	 */
+	protected $router;
+
+	/**
 	 * The application's name.
 	 * @var string
 	 */
@@ -46,45 +52,7 @@ abstract class Application {
 	 * @return BackController The controller.
 	 */
 	public function getController() {
-		$router = new Router;
-
-		$configPath = __DIR__ . '/../etc/app/' . $this->name;
-		$dir = dir($configPath);
-
-		if ($dir === false) {
-			throw new \RuntimeException('Failed to open config directory "'.$configPath.'"');
-		}
-
-		while (false !== ($module = $dir->read())) {
-			// Notice that "." is a valid module name
-			// In fact, you can create a routes file like this : $configPath.'/routes.json'
-			if ($module == '..') {
-				continue;
-			}
-
-			$modulePath = $configPath . '/' . $module;
-			$routesPath = $modulePath . '/routes.json';
-			if (is_dir($modulePath) && file_exists($routesPath)) {
-				$json = file_get_contents($routesPath);
-				if ($json === false) { continue; }
-
-				$routes = json_decode($json, true);
-				if ($routes === null) { continue; }
-
-				foreach ($routes as $route) {
-					$varsNames = (isset($route['vars']) && is_array($route['vars'])) ? $route['vars'] : array();
-
-					if ($module == '.') { //Global route
-						$routeModule = $route['module'];
-					} else {
-						$routeModule = $module;
-					}
-
-					$router->addRoute(new Route($route['url'], $routeModule, $route['action'], $varsNames));
-				}
-			}
-		}
-		$dir->close();
+		$router = $this->router();
 
 		$requestURI = $this->httpRequest->requestURI();
 		$websiteConfigFile = new Config(__DIR__.'/../etc/core/website.json');
@@ -134,6 +102,72 @@ abstract class Application {
 	 */
 	public function user() {
 		return $this->user;
+	}
+
+	/**
+	 * Get the router.
+	 * @return Router The router.
+	 */
+	public function router() {
+		if (empty($this->router)) {
+			$router = new Router;
+
+			$configPath = __DIR__ . '/../etc/app/' . $this->name;
+			$dir = opendir($configPath);
+
+			if ($dir === false) {
+				throw new \RuntimeException('Failed to open config directory "'.$configPath.'"');
+			}
+
+			$modules = array();
+
+			while (false !== ($module = readdir($dir))) {
+				// Notice that "." is a valid module name
+				// In fact, you can create a routes file like this : $configPath.'/routes.json'
+				if ($module == '..') {
+					continue;
+				}
+
+				if (!is_dir($configPath . '/' . $module)) {
+					continue;
+				}
+
+				$modules[] = $module;
+			}
+			closedir($dir);
+
+			//Sorting modules is important :
+			//"." must be at the begining, because it has the greatest priority 
+			sort($modules);
+
+			foreach($modules as $module) {
+				$routesPath = $configPath . '/' . $module . '/routes.json';
+
+				if (file_exists($routesPath)) {
+					$json = file_get_contents($routesPath);
+					if ($json === false) { continue; }
+
+					$routes = json_decode($json, true);
+					if ($routes === null) { continue; }
+
+					foreach ($routes as $route) {
+						$varsNames = (isset($route['vars']) && is_array($route['vars'])) ? $route['vars'] : array();
+
+						if ($module == '.') { //Global route
+							$routeModule = $route['module'];
+						} else {
+							$routeModule = $module;
+						}
+
+						$router->addRoute(new Route($route['url'], $routeModule, $route['action'], $varsNames));
+					}
+				}
+			}
+
+			$this->router = $router;
+		}
+
+		return $this->router;
 	}
 
 	/**

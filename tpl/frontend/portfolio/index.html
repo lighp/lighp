@@ -18,7 +18,7 @@
 				{{/hasImage}}
 				<h2>{{title}}</h2>
 				<p>{{{shortDescription}}}</p>
-				<p><a class="btn btn-inverse" href="category-{{name}}.html">Plus &raquo;</a></p>
+				<p><a class="btn btn-inverse" href="{{#buildUrl}}portfolio showCategory {{name}}{{/buildUrl}}">Plus &raquo;</a></p>
 			</div><!-- /.span4 -->
 		{{/categories}}
 
@@ -26,7 +26,10 @@
 			<img src="img/contact/icon-medium.png">
 			<h2>Contact</h2>
 			<p>N'h&eacute;sitez pas &agrave; me contacter pour toute question !</p>
-			<p><a class="btn" href="contact.html">Contact &raquo;</a></p>
+			<p class="btn-group">
+				<a class="btn btn-primary" href="{{#buildUrl}}portfolio about{{/buildUrl}}">À propos</a>
+				<a class="btn" href="{{#buildUrl}}contact index{{/buildUrl}}">Contact</a>
+			</p>
 		</div><!-- /.span4 -->
 	</div><!-- /.row -->
 
@@ -40,7 +43,7 @@
 			{{/data.hasImage}}
 			<h2 class="featurette-heading">{{data.title}}. <span class="muted">{{data.subtitle}}</span></h2>
 			<p class="lead">{{{data.shortDescription}}}</p>
-			<p><a class="btn btn-large btn-primary" href="{{item.kind}}-{{item.name}}.html">En savoir plus &raquo;</a></p>
+			<p><a class="btn btn-large btn-primary" href="{{#buildUrl}}portfolio show{{#ucfirst}}{{item.kind}}{{/ucfirst}} {{item.name}}{{/buildUrl}}">En savoir plus &raquo;</a></p>
 		</div>
 
 		<span class="clearfix"></span>
@@ -50,7 +53,7 @@
 	
 	<div class="btn-group pull-right">
 		{{#categories}}
-			<a href="category-{{name}}.html" class="btn btn-large btn-inverse">{{title}}</a>
+			<a href="{{#buildUrl}}portfolio showCategory {{name}}{{/buildUrl}}" class="btn btn-large btn-inverse">{{title}}</a>
 		{{/categories}}
 	</div>
 
@@ -70,7 +73,7 @@
 				{{/hasImage}}
 				<h2>{{title}}</h2>
 				<p>{{{shortDescription}}}</p>
-				<p><a class="btn" href="project-{{name}}.html">Plus &raquo;</a></p>
+				<p><a class="btn" href="{{#buildUrl}}portfolio showProject {{name}}{{/buildUrl}}">Plus &raquo;</a></p>
 			</div><!-- /.span4 -->
 		{{/otherProjects}}
 	</div><!-- /.row -->
