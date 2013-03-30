@@ -153,13 +153,13 @@ class Route {
 	}
 
 	public function buildUrl() {
-		$url = preg_replace('#\\\\(\\\\*)#', '$1', $this->url);
+		$url = $this->url;
 
 		if ($this->hasVars()) {
 			$vars = $this->vars();
 
 			foreach($this->varsNames as $varKey => $varName) {
-				$varValue = '';
+				$varValue = '$1';
 
 				if (isset($vars[$varName])) {
 					$varValue = $vars[$varName];
@@ -167,9 +167,16 @@ class Route {
 					$varValue = $vars[$varKey];
 				}
 
-				$url = preg_replace('#\(.+\)#', $varValue, $url, 1);
+				$url = preg_replace('#\\((.+)\\)#', $varValue, $url, 1);
 			}
 		}
+
+		$specialCharRegex = '\\.\\+\\?\\[\\^\\]\\$\\(\\)\\{\\}\\=\\!\\<\\>\\|\\:'; //Backslashes are processed apart
+		$url = preg_replace('#^['.$specialCharRegex.']#', '', $url); //Special char at the begining
+		$url = preg_replace('#([^\\\\])['.$specialCharRegex.']+#', '$1', $url); //Unescaped special char in the URL
+		//$url = preg_replace('#'.$specialCharRegex.'$#', '', $url); //Special char at the end
+		$url = preg_replace('#\\\\(['.$specialCharRegex.'\\\\])#', '$1', $url); //Escaped char or \
+		$url = preg_replace('#[^\\\\]\\\\#', '', $url); //Unescaped \ in the URL
 
 		return $this->_beautifyPath($url);
 	}
