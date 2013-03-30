@@ -8,18 +8,21 @@ namespace core;
  */
 class ModuleTranslation extends ModuleComponent {
 	/**
+	 * The translation's section.
+	 * @var string
+	 */
+	protected $section;
+
+	/**
 	 * The translation data.
 	 * @var array
 	 */
 	protected $translationData;
 
-	/**
-	 * Initialize the configuration file.
-	 * @param Application $app    The application.
-	 * @param string      $module The module.
-	 */
-	public function __construct(Application $app, $module) {
+	public function __construct(Application $app, $module, $section = null) {
 		parent::__construct($app, $module);
+
+		$this->section = $section;
 	}
 
 	protected function _filePath() {
@@ -37,16 +40,12 @@ class ModuleTranslation extends ModuleComponent {
 			$this->translationData = $translationData;
 		}
 
-		return $this->translationData;
+		return $this->_getSection();
 	}
 
-	public function get($path, $section = null) {
+	public function get($path) {
 		$indexes = explode('.', $path);
 		$value = $this->read();
-
-		if (!empty($section) && isset($value[$section])) {
-			$value = $value[$section];
-		}
 
 		foreach($indexes as $key => $index) {
 			$remainingIndexes = array_slice($indexes, $key);
@@ -63,5 +62,19 @@ class ModuleTranslation extends ModuleComponent {
 		}
 
 		return $value;
+	}
+
+	public function _getSection($section = null) {
+		if (empty($section)) {
+			$section = $this->section;
+		}
+
+		$translationData = $this->translationData;
+
+		if (!empty($section) && isset($translationData[$section])) {
+			return $translationData[$section];
+		} else {
+			return $translationData;
+		}
 	}
 }

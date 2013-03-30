@@ -56,9 +56,9 @@ abstract class BackController extends ApplicationComponent {
 		$daos = new Daos;
 		$this->managers = new Managers($daos);
 		$this->config = new ModuleConfig($app, $module);
-		$this->translation = new ModuleTranslation($app, $module);
+		$this->translation = new ModuleTranslation($app, $module, $action);
 		$this->page = new Page($app);
-		$this->page->setTranslation($this->translation, $action);
+		$this->page->setTranslation($this->translation);
 
 		$this->setModule($module);
 		$this->setAction($action);

@@ -26,12 +26,6 @@ class Page extends ResponseContent {
 	protected $translation;
 
 	/**
-	 * The page's translation's section.
-	 * @var string
-	 */
-	protected $translationSection;
-
-	/**
 	 * Add a page variable.
 	 * @param string|int $name  The variable's name.
 	 * @param mixed      $value The variable's value.
@@ -151,9 +145,8 @@ class Page extends ResponseContent {
 		});
 
 		$translation = $this->translation();
-		$translationSection = $this->translationSection();
-		$mustache->addHelper('translate', function($path) use ($translation, $translationSection) {
-			return $translation->get($path, $translationSection);
+		$mustache->addHelper('translate', function($path) use ($translation) {
+			return $translation->get($path);
 		});
 
 		$mustache->addHelper('__', $mustache->getHelper('translate'));
@@ -167,14 +160,6 @@ class Page extends ResponseContent {
 	 */
 	public function translation() {
 		return $this->translation;
-	}
-
-	/**
-	 * Get the page's translation's section.
-	 * @return string
-	 */
-	public function translationSection() {
-		return $this->translationSection;
 	}
 
 	/**
