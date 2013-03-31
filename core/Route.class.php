@@ -171,7 +171,7 @@ class Route {
 		}
 
 		$specialCharRegex = '\\.\\+\\?\\[\\^\\]\\$\\(\\)\\{\\}\\=\\!\\<\\>\\|\\:'; //Backslashes are processed apart
-		$url = preg_replace('#(\\(.+\\)|\\{.+\\}|\\[.+\\])#', '', $url); // (), {}, []
+		$url = preg_replace('#(\\(.+\\)|\\{.+\\}|\\[.+\\])#U', '', $url); // (), {}, []
 		$url = preg_replace('#^['.$specialCharRegex.']#', '', $url); //Special char at the begining
 		$url = preg_replace('#([^\\\\])['.$specialCharRegex.']+#', '$1', $url); //Unescaped special char in the URL
 		//$url = preg_replace('#'.$specialCharRegex.'$#', '', $url); //Special char at the end
