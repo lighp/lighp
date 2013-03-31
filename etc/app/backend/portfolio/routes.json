@@ -1,9 +1,5 @@
 [
 	{
-		"url":"/admin/portfolio-categories\\.html",
-		"action":"listCategories"
-	},
-	{
 		"url":"/admin/portfolio-categories-insert\\.html",
 		"action":"insertCategory"
 	},
@@ -16,10 +12,6 @@
 		"url":"/admin/portfolio-categories-delete-([a-zA-Z0-9-_.]+)\\.html",
 		"action":"deleteCategory",
 		"vars": ["name"]
-	},
-	{
-		"url":"/admin/portfolio-projects\\.html",
-		"action":"listProjects"
 	},
 	{
 		"url":"/admin/portfolio-projects-insert\\.html",
@@ -56,11 +48,6 @@
 		"vars": ["projectName","id"]
 	},
 	{
-		"url":"/admin/portfolio-leading\\.html",
-		"action":"listLeadingItems",
-		"vars": ["kind","name"]
-	},
-	{
 		"url":"/admin/portfolio-leading-insert-([a-zA-Z]+)-([a-zA-Z0-9-_.]+)\\.html",
 		"action":"insertLeadingItem",
 		"vars": ["kind","name"]
@@ -73,10 +60,6 @@
 	{
 		"url":"/admin/portfolio-about\\.html",
 		"action":"updateAboutPage"
-	},
-	{
-		"url":"/admin/portfolio-about-links\\.html",
-		"action":"listAboutLinks"
 	},
 	{
 		"url":"/admin/portfolio-about-links-insert\\.html",

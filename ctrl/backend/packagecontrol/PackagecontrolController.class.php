@@ -4,7 +4,12 @@ namespace ctrl\backend\packagecontrol;
 class PackagecontrolController extends \core\BackController {
 	protected function _addBreadcrumb($page = array()) {
 		$breadcrumb = array(
-			array('url' => 'module-'.$this->module.'.html', 'title' => 'Gestionnaire de paquets')
+			array(
+				'url' => $this->app->router()->getUrl('main', 'showModule', array(
+					'module' => $this->module()
+				)),
+				'title' => 'Gestionnaire de paquets'
+			)
 		);
 
 		$this->page->addVar('breadcrumb', array_merge($breadcrumb, array($page)));

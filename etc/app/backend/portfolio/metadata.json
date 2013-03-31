@@ -2,29 +2,74 @@
 	"title":"Portfolio",
 	"icon":"briefcase",
 	"actions":{
-		"listProjects":{
-			"url":"portfolio-projects.html",
-			"title":"Gérer un projet"
-		},
 		"insertProject":{
-			"url":"portfolio-projects-insert.html",
 			"title":"Créer un projet"
 		},
-		"listCategories":{
-			"url":"portfolio-categories.html",
-			"title":"Gérer une catégorie"
+		"updateProject":{
+			"title":"Modifier un projet",
+			"list":{
+				"items":"projects"
+			}
+		},
+		"listGalleryItems":{
+			"title":"Gérer la galerie d'un projet",
+			"list":{
+				"items":"projects",
+				"vars":{
+					"projectName":"name"
+				}
+			}
+		},
+		"deleteProject":{
+			"title":"Supprimer un projet",
+			"list":{
+				"items":"projects"
+			}
 		},
 		"insertCategory":{
-			"url":"portfolio-categories-insert.html",
 			"title":"Créer une catégorie"
 		},
-		"listLeadingItems":{
-			"url":"portfolio-leading.html",
-			"title":"Gérer un item mis en avant"
+		"updateCategory":{
+			"title":"Modifier une catégorie",
+			"list":{
+				"items":"categories"
+			}
+		},
+		"deleteCategory":{
+			"title":"Supprimer une catégorie",
+			"list":{
+				"items":"categories"
+			}
+		},
+		"insertLeadingItem":{
+			"title":"Mettre en avant un item",
+			"list":{
+				"items":"categoriesAndProjects"
+			}
+		},
+		"deleteLeadingItem":{
+			"title":"Mettre en arrière un item",
+			"list":{
+				"items":"leadingItems"
+			}
 		},
 		"updateAboutPage":{
-			"url":"portfolio-about.html",
 			"title":"Modifier mes informations personnelles"
+		},
+		"insertAboutLink":{
+			"title":"Ajouter une nouvelle coordonnée"
+		},
+		"updateAboutLink":{
+			"title":"Modifier une de mes coordonnées",
+			"list":{
+				"items":"aboutLinks"
+			}
+		},
+		"deleteAboutLink":{
+			"title":"Supprimer une de mes coordonnées",
+			"list":{
+				"items":"aboutLinks"
+			}
 		}
 	}
 }

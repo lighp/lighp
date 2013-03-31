@@ -79,6 +79,22 @@ abstract class BackController extends ApplicationComponent {
 	}
 
 	/**
+	 * Get this back controller's module.
+	 * @return string
+	 */
+	public function module() {
+		return $this->module;
+	}
+
+	/**
+	 * Get this back controller's action.
+	 * @return string
+	 */
+	public function action() {
+		return $this->action;
+	}
+
+	/**
 	 * Get this back controller's page.
 	 * @return Page
 	 */

@@ -34,7 +34,7 @@ class Router {
 	 * @param  string $url The URL.
 	 * @return Route       The route.
 	 */
-	public function getRoute($url) {
+	public function getRouteFromUrl($url) {
 		foreach ($this->routes as $route) {
 			//Si la route correspond à l'URL
 			if (($varsValues = $route->match($url)) !== false) {
@@ -59,16 +59,37 @@ class Router {
 		throw new \RuntimeException('No route matches given URL', self::NO_ROUTE);
 	}
 
-	public function getUrl($module, $action, $vars = array()) {
+	/**
+	 * Get the route corresponding to a module and an action.
+	 * @param  string $module The module name.
+	 * @param  string $action The action name.
+	 * @return Route          The route.
+	 */
+	public function getRoute($module, $action) {
 		foreach ($this->routes as $route) {
 			if ($route->module() == $module && $route->action() == $action) { //This route matches
-				if ($route->hasVars()) {
-					$route->setVars($vars);
-				}
-
-				return $route->buildUrl();
+				return $route;
 			}
 		}
+
+		throw new \RuntimeException('No route matches given module and action');
+	}
+
+	/**
+	 * Get the URL corresponding to a module and an action.
+	 * @param  string $module The module name.
+	 * @param  string $action The action name.
+	 * @param  array  $vars   The route variables.
+	 * @return string         The URL.
+	 */
+	public function getUrl($module, $action, $vars = array()) {
+		$route = $this->getRoute($module, $action);
+
+		if ($route->hasVars()) {
+			$route->setVars($vars);
+		}
+
+		return $route->buildUrl();
 
 		throw new \RuntimeException('No route matches given module and action');
 	}

@@ -1,10 +1,26 @@
 {{> partials/form-search}}
 
-<ul class="nav nav-tabs nav-stacked">
-	{{#backends}}
-		<li><a href="module-{{name}}.html"><i class="icon-{{#icon}}{{icon}}{{/icon}}{{^icon}}cog{{/icon}}"></i>&nbsp;{{title}}</a></li>
+{{#searchQuery}}
+	<ul class="nav nav-tabs nav-stacked">
+		{{#actions}}
+			<li><a href="{{url}}"><i class="icon-{{icon}}{{^icon}}cog{{/icon}}"></i>&nbsp;{{{title}}}</a></li>
+		{{/actions}}
+	</ul>
+	{{^actions}}
+		<div class="alert alert-warning">
+			<h4 class="alert-heading">Aucun r&eacute;sultat</h4>
+			<p>Les termes de votre recherche ne correspondent &agrave; aucune action.</p>
+			<p><a class="btn" href="{{#buildUrl}}main index{{/buildUrl}}">Retour</a></p>
+		</div>
+	{{/actions}}
+{{/searchQuery}}
+{{^searchQuery}}
+	<ul class="nav nav-tabs nav-stacked">
+		{{#backends}}
+			<li><a href="{{#buildUrl}}main showModule {{name}}{{/buildUrl}}"><i class="icon-{{#icon}}{{icon}}{{/icon}}{{^icon}}cog{{/icon}}"></i>&nbsp;{{title}}</a></li>
+		{{/backends}}
+	</ul>
+	{{^backends}}
+		<p class="alert alert-info">Il n'y a actuellement aucun module qui soit administrable via cette page.</p>
 	{{/backends}}
-</ul>
-{{^backends}}
-	<p class="alert alert-info">Il n'y a actuellement aucun module qui soit administrable via cette page.</p>
-{{/backends}}
+{{/searchQuery}}

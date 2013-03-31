@@ -27,7 +27,7 @@
 					</a>
 
 					<div class="nav-collapse collapse">
-						<form action="search.html" method="get" class="navbar-search form-search pull-right">
+						<form action="{{WEBSITE_ROOT}}/admin/" method="get" class="navbar-search form-search pull-right">
 							<div class="input-append">
 								<input type="search" class="search-query" name="q" placeholder="Entrez une action..."/>
 								<button class="btn" type="submit"><i class="icon-search"></i></button>
@@ -37,7 +37,7 @@
 						<ul class="nav">
 							<li{{^breadcrumb}} class="active"{{/breadcrumb}}><a href="{{WEBSITE_ROOT}}/admin/">Espace d'administration</a></li>
 							{{#breadcrumb}}{{#title}}
-								<li{{^url}} class="active"{{/url}}><a href="{{url}}">{{{title}}}</a></li>
+								<li{{^url}} class="active"{{/url}}><a href="{{#url}}{{WEBSITE_ROOT}}/{{url}}{{/url}}">{{{title}}}</a></li>
 							{{/title}}{{/breadcrumb}}
 						</ul>
 					</div><!--/.nav-collapse -->
@@ -63,7 +63,7 @@
 				<span class="muted">Propulsé par <a href="http://github.com/simonser/lighp">Lighp</a></span> &middot; <a href="#">Retour en haut</a>
 			</p>
 			<p>
-				<!--[if lte IE 8]><span style="filter: FlipH; -ms-filter: "FlipH"; display: inline-block;"><![endif]--><span style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); display: inline-block;">&copy;</span><!--[if lte IE 8]></span><![endif]--> 2013 {{WEBSITE_AUTHOR}} &middot; <a href="{{WEBSITE_ROOT}}/index.html">Accueil</a> &middot; <a href="index.html">Espace d'administration</a>
+				<!--[if lte IE 8]><span style="filter: FlipH; -ms-filter: "FlipH"; display: inline-block;"><![endif]--><span style="-moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); display: inline-block;">&copy;</span><!--[if lte IE 8]></span><![endif]--> 2013 {{WEBSITE_AUTHOR}} &middot; <a href="{{WEBSITE_ROOT}}/">Accueil</a> &middot; <a href="{{WEBSITE_ROOT}}/admin/">Espace d'administration</a>
 			</p>
 		</footer>
 

@@ -4,13 +4,13 @@
 		"action":"index"
 	},
 	{
-		"url":"/admin/module-([a-zA-Z0-9-_.]+)\\.html",
+		"url":"/admin/module-([a-zA-Z0-9_.-]+)\\.html",
 		"action":"showModule",
-		"vars": ["name"]
+		"vars": ["module"]
 	},
 	{
-		"url":"/admin/search\\.html\\?q=([^&]*)(&module=([^&]*))?",
-		"action":"search",
-		"vars": ["query","","module"]
+		"url":"/admin/action-([a-zA-Z0-9_.]+)-([a-zA-Z0-9_.-]+)\\.html",
+		"action":"showAction",
+		"vars": ["module","action"]
 	}
 ]

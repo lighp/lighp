@@ -65,8 +65,7 @@ class Route {
 	 * @return bool        True if this route matches, false otherwise.
 	 */
 	public function match($url) {
-		// TODO: remove this path
-		if (preg_match('`^'.$this->url.'$`', $this->_beautifyPath($url), $matches)) {
+		if (preg_match('`^'.$this->url.'(\?.+)?$`', $this->_beautifyPath($url), $matches)) {
 			array_shift($matches);
 			return $matches;
 		} else {
@@ -167,11 +166,12 @@ class Route {
 					$varValue = $vars[$varKey];
 				}
 
-				$url = preg_replace('#\\((.+)\\)#', $varValue, $url, 1);
+				$url = preg_replace('#\\((.+)\\)#U', $varValue, $url, 1);
 			}
 		}
 
 		$specialCharRegex = '\\.\\+\\?\\[\\^\\]\\$\\(\\)\\{\\}\\=\\!\\<\\>\\|\\:'; //Backslashes are processed apart
+		$url = preg_replace('#(\\(.+\\)|\\{.+\\}|\\[.+\\])#', '', $url); // (), {}, []
 		$url = preg_replace('#^['.$specialCharRegex.']#', '', $url); //Special char at the begining
 		$url = preg_replace('#([^\\\\])['.$specialCharRegex.']+#', '$1', $url); //Unescaped special char in the URL
 		//$url = preg_replace('#'.$specialCharRegex.'$#', '', $url); //Special char at the end

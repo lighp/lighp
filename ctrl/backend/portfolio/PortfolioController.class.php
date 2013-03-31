@@ -4,7 +4,12 @@ namespace ctrl\backend\portfolio;
 class PortfolioController extends \core\BackController {
 	protected function _addBreadcrumb($page = array()) {
 		$breadcrumb = array(
-			array('url' => 'module-'.$this->module.'.html', 'title' => 'Portfolio')
+			array(
+				'url' => $this->app->router()->getUrl('main', 'showModule', array(
+					'module' => $this->module()
+				)),
+				'title' => 'Portfolio'
+			)
 		);
 
 		$this->page->addVar('breadcrumb', array_merge($breadcrumb, array($page)));
@@ -47,34 +52,6 @@ class PortfolioController extends \core\BackController {
 		$filePath = __DIR__ . '/../../../public/img/' . $imgPath;
 
 		unlink($filePath);
-	}
-
-	public function executeListProjects(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Gérer un projet');
-		$this->_addBreadcrumb();
-
-		$projectsManager = $this->managers->getManagerOf('PortfolioProjects');
-		$categoriesManager = $this->managers->getManagerOf('PortfolioCategories');
-
-		$projects = $projectsManager->getList();
-		$categories = $categoriesManager->getList();
-
-		$list = array();
-
-		foreach($projects as $project) {
-			$item = $project->toArray();
-
-			foreach($categories as $category) {
-				if ($item['category'] == $category['name']) {
-					$item['category'] = $category;
-					break;
-				}
-			}
-
-			$list[] = $item;
-		}
-
-		$this->page->addVar('projects', $list);
 	}
 
 	public function executeInsertProject(\core\HTTPRequest $request) {
@@ -250,17 +227,6 @@ class PortfolioController extends \core\BackController {
 		}
 	}
 
-	public function executeListCategories(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Gérer une catégorie');
-		$this->_addBreadcrumb();
-
-		$categoriesManager = $this->managers->getManagerOf('PortfolioCategories');
-
-		$categories = $categoriesManager->getList();
-
-		$this->page->addVar('categories', $categories);
-	}
-
 	public function executeInsertCategory(\core\HTTPRequest $request) {
 		$this->page->addVar('title', 'Créer une catégorie');
 		$this->_addBreadcrumb();
@@ -414,6 +380,7 @@ class PortfolioController extends \core\BackController {
 		$galleriesManager = $this->managers->getManagerOf('PortfolioGalleries');
 		$gallery = $galleriesManager->getByProject($projectName);
 		$this->page->addVar('gallery', $gallery);
+		$this->page->addVar('projectName', $projectName);
 	}
 
 	public function executeInsertGalleryItem(\core\HTTPRequest $request) {
@@ -516,17 +483,6 @@ class PortfolioController extends \core\BackController {
 		$this->page->addVar('deleted?', true);
 	}
 
-	public function executeListLeadingItems(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Gérer un item mis en avant');
-		$this->_addBreadcrumb();
-
-		$portfolioManager = $this->managers->getManagerOf('Portfolio');
-
-		$leadingItems = $portfolioManager->getLeadingItemsData();
-
-		$this->page->addVar('leadingItems', $leadingItems);
-	}
-
 	public function executeInsertLeadingItem(\core\HTTPRequest $request) {
 		$this->page->addVar('title', 'Mettre en avant un item');
 		$this->_addBreadcrumb();
@@ -603,5 +559,107 @@ class PortfolioController extends \core\BackController {
 
 			$this->page->addVar('updated?', true);
 		}
+	}
+
+	// LISTERS
+
+	public function listProjects() {
+		$projectsManager = $this->managers->getManagerOf('PortfolioProjects');
+
+		$projects = $projectsManager->getList();
+		$list = array();
+
+		foreach($projects as $project) {
+			$item = array(
+				'title' => $project['title'],
+				'shortDescription' => $project['shortDescription'],
+				'vars' => array('name' => $project['name'])
+			);
+
+			$list[] = $item;
+		}
+
+		return $list;
+	}
+
+	public function listCategories() {
+		$categoriesManager = $this->managers->getManagerOf('PortfolioCategories');
+
+		$categories = $categoriesManager->getList();
+		$list = array();
+
+		foreach($categories as $category) {
+			$item = array(
+				'title' => $category['title'],
+				'shortDescription' => $category['shortDescription'],
+				'vars' => array('name' => $category['name'])
+			);
+
+			$list[] = $item;
+		}
+
+		return $list;
+	}
+
+	public function listCategoriesAndProjects() {
+		$categories = $this->listCategories();
+		$projects = $this->listProjects();
+
+		$list = array();
+
+		foreach($categories as $key => $category) {
+			$item = $category;
+			$item['vars']['kind'] = 'category';
+			$item['title'] = 'Catégorie : ' . $category['title'];
+
+			$list[] = $item;
+		}
+
+		foreach($projects as $key => $project) {
+			$item = $project;
+			$item['vars']['kind'] = 'project';
+			$item['title'] = 'Projet : ' . $project['title'];
+
+			$list[] = $item;
+		}
+
+		return $list;
+	}
+
+	public function listLeadingItems() {
+		$portfolioManager = $this->managers->getManagerOf('Portfolio');
+
+		$leadingItems = $portfolioManager->getLeadingItemsData();
+		$list = array();
+
+		foreach($leadingItems as $leadingItem) {
+			$item = array(
+				'title' => (($leadingItem['item']['kind'] == 'category') ? 'Catégorie' : 'Projet') . ' : ' . $leadingItem['data']['title'],
+				'shortDescription' => 'Mis en avant sur : ' . $leadingItem['item']['place'],
+				'vars' => array('id' => $leadingItem['item']['id'])
+			);
+
+			$list[] = $item;
+		}
+
+		return $list;
+	}
+
+	public function listAboutLinks() {
+		$portfolioManager = $this->managers->getManagerOf('Portfolio');
+
+		$aboutLinks = $portfolioManager->getAboutLinks();
+		$list = array();
+
+		foreach($aboutLinks as $aboutLink) {
+			$item = array(
+				'title' => $aboutLink['title'],
+				'vars' => array('id' => $aboutLink['id'])
+			);
+
+			$list[] = $item;
+		}
+
+		return $list;
 	}
 }

@@ -3,11 +3,11 @@
 
 	<ul class="nav nav-tabs nav-stacked">
 		{{#actions}}
-			<li><a href="{{url}}">{{title}}</a></li>
+			<li><a href="{{WEBSITE_ROOT}}/{{url}}">{{{title}}}</a></li>
 		{{/actions}}
 	</ul>
 	{{^actions}}
-		<p>Aucune action n'est associ&eacute;e &agrave; ce module.</p>
+		<p class="muted">Aucune action n'est associ&eacute;e &agrave; ce module.</p>
 	{{/actions}}
 {{/backend}}
 {{^backend}}

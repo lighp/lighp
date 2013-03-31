@@ -3,11 +3,9 @@
 	"icon":"road",
 	"actions":{
 		"listRoutes":{
-			"url":"routes.html",
 			"title":"Gérer les routes"
 		},
-		"addRoute":{
-			"url":"routes-insert.html",
+		"insertRoute":{
 			"title":"Ajouter une route"
 		}
 	}

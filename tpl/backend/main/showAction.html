@@ -1,0 +1,22 @@
+{{#action}}
+	{{> partials/form-search}}
+
+	<ul class="nav nav-tabs nav-stacked">
+		{{#items}}
+			<li><a href="{{WEBSITE_ROOT}}/{{url}}">
+				{{{title}}}{{#shortDescription}}<br />
+				<small class="muted">{{{shortDescription}}}</small>{{/shortDescription}}
+			</a></li>
+		{{/items}}
+	</ul>
+	{{^items}}
+		<p class="muted">Aucun item.</p>
+	{{/items}}
+{{/action}}
+{{^action}}
+	<div class="alert alert-error">
+		<h4 class="alert-heading">Introuvable</h4>
+		<p>L'action sp&eacute;cifi&eacute;e est introuvable.</p>
+		<p><a class="btn" href="index.html">Retour</a></p>
+	</div>
+{{/action}}

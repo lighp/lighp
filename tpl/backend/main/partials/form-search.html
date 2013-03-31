@@ -1,10 +1,6 @@
-<form action="search.html" method="get" class="form-search">
+<form action="" method="get" class="form-search">
 	<div class="input-append">
-		<input type="search" class="search-query span10" name="q" placeholder="Entrez une action..." value="{{searchQuery}}" autofocus/>
+		<input type="search" class="search-query span10" name="q" placeholder="Filtrer..." value="{{searchQuery}}" autofocus/>
 		<button class="btn" type="submit"><i class="icon-search"></i></button>
 	</div>
-
-	{{#backend}}
-		<input type="hidden" name="module" value="{{backend.name}}"/>
-	{{/backend}}
 </form>

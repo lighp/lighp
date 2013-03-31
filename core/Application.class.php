@@ -60,7 +60,7 @@ abstract class Application {
 		$requestURI = preg_replace('#^'.preg_quote($websiteConfig['root']).'#', '$1', $requestURI);
 
 		try { //Let's get the route matching with the URL
-			$matchedRoute = $router->getRoute($requestURI);
+			$matchedRoute = $router->getRouteFromUrl($requestURI);
 		} catch (\RuntimeException $e) {
 			if ($e->getCode() == Router::NO_ROUTE) { //No route matching, the page doesn't exist
 				$this->httpResponse->redirect404($this);
@@ -71,8 +71,13 @@ abstract class Application {
 		$_GET = array_merge($_GET, $matchedRoute->vars());
 
 		//And then create the controller
-		$controllerClass = 'ctrl\\'.$this->name.'\\'.$matchedRoute->module().'\\'.ucfirst($matchedRoute->module()).'Controller';
-		return new $controllerClass($this, $matchedRoute->module(), $matchedRoute->action());
+		return $this->buildController($matchedRoute->module(), $matchedRoute->action());
+	}
+
+	public function buildController($module, $action) {
+		$controllerClass = 'ctrl\\'.$this->name.'\\'.$module.'\\'.ucfirst($module).'Controller';
+
+		return new $controllerClass($this, $module, $action);
 	}
 
 	/**
