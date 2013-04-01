@@ -21,10 +21,10 @@ abstract class BackController extends ApplicationComponent {
 	protected $module = '';
 
 	/**
-	 * The page.
-	 * @var Page
+	 * The response's content.
+	 * @var ResponseContent
 	 */
-	protected $page;
+	protected $responseContent;
 
 	/**
 	 * The configuration.
@@ -57,8 +57,8 @@ abstract class BackController extends ApplicationComponent {
 		$this->managers = new Managers($daos);
 		$this->config = new ModuleConfig($app, $module);
 		$this->translation = new ModuleTranslation($app, $module, $action);
-		$this->page = new Page($app);
-		$this->page->setTranslation($this->translation);
+		$this->responseContent = new Page($app);
+		$this->responseContent->setTranslation($this->translation);
 
 		$this->setModule($module);
 		$this->setAction($action);
@@ -72,7 +72,7 @@ abstract class BackController extends ApplicationComponent {
 		$method = 'execute'.ucfirst($this->action);
 
 		if (!is_callable(array($this, $method))) {
-			throw new \RuntimeException('Unknown action "'.$this->action.'" in this controller');
+			throw new \RuntimeException('Unknown action "'.$this->action().'" in this controller "'.$this->module().'"');
 		}
 
 		$this->$method($this->app->httpRequest());
@@ -95,11 +95,19 @@ abstract class BackController extends ApplicationComponent {
 	}
 
 	/**
+	 * Get this back controller's response's content.
+	 * @return ResponseContent
+	 */
+	public function responseContent() {
+		return $this->responseContent;
+	}
+
+	/**
 	 * Get this back controller's page.
 	 * @return Page
 	 */
 	public function page() {
-		return $this->page;
+		return $this->responseContent;
 	}
 
 	/**
@@ -153,6 +161,6 @@ abstract class BackController extends ApplicationComponent {
 
 		$this->view = $view;
 
-		$this->page->setTemplate(__DIR__.'/../tpl/'.$this->app->name().'/'.$this->module.'/'.$this->view.'.html');
+		$this->page()->setTemplate(__DIR__.'/../tpl/'.$this->app->name().'/'.$this->module.'/'.$this->view.'.html');
 	}
 }

@@ -14,6 +14,14 @@ class ApiResponse extends ResponseContent {
 	protected $data = array();
 
 	public function generate() {
-		return '...';
+		return json_encode($this->data);
+	}
+
+	public function data() {
+		return $this->data;
+	}
+
+	public function setData(array $data) {
+		$this->data = $data;
 	}
 }

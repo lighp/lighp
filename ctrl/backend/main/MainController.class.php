@@ -141,16 +141,16 @@ class MainController extends \core\BackController {
 	}
 
 	public function executeIndex(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Espace d\'administration');
+		$this->page()->addVar('title', 'Espace d\'administration');
 
 		$searchQuery = ($request->getExists('q')) ? trim($request->getData('q')) : null;
 
-		$this->page->addVar('searchQuery', $searchQuery);
+		$this->page()->addVar('searchQuery', $searchQuery);
 
 		$backends = $this->_listBackends();
 
 		if (empty($searchQuery)) {
-			$this->page->addVar('backends', $backends);
+			$this->page()->addVar('backends', $backends);
 		} else {
 			$actions = array();
 
@@ -170,13 +170,13 @@ class MainController extends \core\BackController {
 
 			$actions = $this->_searchItems($searchQuery, $actions, array('title'));
 
-			$this->page->addVar('actions', $actions);
+			$this->page()->addVar('actions', $actions);
 		}
 	}
 
 	public function executeShowModule(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Afficher un module');
-		$this->page->addVar('breadcrumb', array(
+		$this->page()->addVar('title', 'Afficher un module');
+		$this->page()->addVar('breadcrumb', array(
 			array()
 		));
 
@@ -185,24 +185,24 @@ class MainController extends \core\BackController {
 
 		$backend = $this->_getBackend($moduleName);
 
-		$this->page->addVar('searchQuery', $searchQuery);
+		$this->page()->addVar('searchQuery', $searchQuery);
 
 		if (!empty($searchQuery) && isset($backend['actions'])) {
 			$backend['actions'] = $this->_searchItems($searchQuery, $backend['actions'], array('title'));
 		}
 
 		if (!empty($backend)) {
-			$this->page->addVar('backend', $backend);
-			$this->page->addVar('title', $backend['title']);
-			$this->page->addVar('breadcrumb', array(
+			$this->page()->addVar('backend', $backend);
+			$this->page()->addVar('title', $backend['title']);
+			$this->page()->addVar('breadcrumb', array(
 				array('title' => $backend['title'])
 			));
 		}
 	}
 
 	public function executeShowAction(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Afficher une action');
-		$this->page->addVar('breadcrumb', array(
+		$this->page()->addVar('title', 'Afficher une action');
+		$this->page()->addVar('breadcrumb', array(
 			array()
 		));
 
@@ -213,12 +213,12 @@ class MainController extends \core\BackController {
 		$backend = $this->_getBackendMetadata($moduleName);
 		$action = $this->_getAction($moduleName, $actionName);
 
-		$this->page->addVar('searchQuery', $searchQuery);
+		$this->page()->addVar('searchQuery', $searchQuery);
 
 		if (!empty($backend) && !empty($action)) {
-			$this->page->addVar('action', $action);
-			$this->page->addVar('title', $action['title']);
-			$this->page->addVar('breadcrumb', array(
+			$this->page()->addVar('action', $action);
+			$this->page()->addVar('title', $action['title']);
+			$this->page()->addVar('breadcrumb', array(
 				array(
 					'title' => $backend['title'],
 					'url' => $this->app->router()->getUrl($this->module(), 'showModule', array(
@@ -273,7 +273,7 @@ class MainController extends \core\BackController {
 						$items = $this->_searchItems($searchQuery, $items, array('title', 'shortDescription'));
 					}
 
-					$this->page->addVar('items', $items);
+					$this->page()->addVar('items', $items);
 				}
 			}
 		}

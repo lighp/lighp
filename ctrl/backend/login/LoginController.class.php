@@ -7,7 +7,7 @@ class LoginController extends \core\BackController {
 			array('url' => 'module-'.$this->module.'.html', 'title' => 'Compte administrateur')
 		);
 
-		$this->page->addVar('breadcrumb', array_merge($breadcrumb, array($page)));
+		$this->page()->addVar('breadcrumb', array_merge($breadcrumb, array($page)));
 	}
 
 	protected function _hashPassword($password) {
@@ -15,7 +15,7 @@ class LoginController extends \core\BackController {
 	}
 
 	public function executeIndex(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Connexion');
+		$this->page()->addVar('title', 'Connexion');
 
 		if ($request->postExists('login-username')) {
 			$username = $request->postData('login-username');
@@ -27,25 +27,25 @@ class LoginController extends \core\BackController {
 				$this->app->user()->setAdmin(true);
 				$this->app->httpResponse()->redirect('');
 			} else {
-				$this->page->addVar('error', 'Incorrect username or password');
+				$this->page()->addVar('error', 'Incorrect username or password');
 			}
 		}
 	}
 
 	public function executeLogout(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Déconnexion');
+		$this->page()->addVar('title', 'Déconnexion');
 
 		$this->app->user()->setAdmin(false);
 		$this->app->httpResponse()->redirect('.');
 	}
 
 	public function executeUpdate(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Modifier les identifiants de connexion');
+		$this->page()->addVar('title', 'Modifier les identifiants de connexion');
 		$this->_addBreadcrumb();
 
 		$configData = $this->config->read();
 
-		$this->page->addVar('username', $configData['username']);
+		$this->page()->addVar('username', $configData['username']);
 
 		if ($request->postExists('login-password')) {
 			$password = $request->postData('login-password');
@@ -61,13 +61,13 @@ class LoginController extends \core\BackController {
 				try {
 					$this->config->write($configData);
 				} catch (\Exception $e) {
-					$this->page->addVar('error', $e->getMessage());
+					$this->page()->addVar('error', $e->getMessage());
 					return;
 				}
 
-				$this->page->addVar('updated?', true);
+				$this->page()->addVar('updated?', true);
 			} else {
-				$this->page->addVar('error', 'Incorrect password');
+				$this->page()->addVar('error', 'Incorrect password');
 			}
 		}
 	}

@@ -64,6 +64,7 @@ abstract class Application {
 		} catch (\RuntimeException $e) {
 			if ($e->getCode() == Router::NO_ROUTE) { //No route matching, the page doesn't exist
 				$this->httpResponse->redirect404($this);
+				return;
 			}
 		}
 
@@ -74,6 +75,12 @@ abstract class Application {
 		return $this->buildController($matchedRoute->module(), $matchedRoute->action());
 	}
 
+	/**
+	 * Build a controller.
+	 * @param  string $module The controller's module.
+	 * @param  string $action The controller's action.
+	 * @return BackController The controller.
+	 */
 	public function buildController($module, $action) {
 		$controllerClass = 'ctrl\\'.$this->name.'\\'.$module.'\\'.ucfirst($module).'Controller';
 
@@ -84,6 +91,15 @@ abstract class Application {
 	 * Launch the application.
 	 */
 	abstract public function run();
+
+	/**
+	 * Render the application.
+	 */
+	public function render() {
+		$this->run();
+
+		$this->httpResponse->send();
+	}
 
 	/**
 	 * Get the HTTP request.

@@ -46,13 +46,13 @@ class PortfolioController extends \core\BackController {
 			}
 		}
 
-		$this->page->addVar('categories', $categories);
-		$this->page->addVar('leadingProjects', $leadingProjects);
-		$this->page->addVar('otherProjects', array_values($projects));
+		$this->page()->addVar('categories', $categories);
+		$this->page()->addVar('leadingProjects', $leadingProjects);
+		$this->page()->addVar('otherProjects', array_values($projects));
 	}
 
 	public function executeShowCategory(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Voir une catégorie');
+		$this->page()->addVar('title', 'Voir une catégorie');
 
 		$projectsManager = $this->managers->getManagerOf('PortfolioProjects');
 		$categoriesManager = $this->managers->getManagerOf('PortfolioCategories');
@@ -69,13 +69,13 @@ class PortfolioController extends \core\BackController {
 			$i++;
 		}
 
-		$this->page->addVar('title', $category['title']);
-		$this->page->addVar('category', $category);
-		$this->page->addVar('projects', $projects);
+		$this->page()->addVar('title', $category['title']);
+		$this->page()->addVar('category', $category);
+		$this->page()->addVar('projects', $projects);
 	}
 
 	public function executeShowProject(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Voir un projet');
+		$this->page()->addVar('title', 'Voir un projet');
 
 		$projectsManager = $this->managers->getManagerOf('PortfolioProjects');
 		$galleriesManager = $this->managers->getManagerOf('PortfolioGalleries');
@@ -93,21 +93,21 @@ class PortfolioController extends \core\BackController {
 			$i++;
 		}
 
-		$this->page->addVar('title', $project['title']);
-		$this->page->addVar('project', $project);
-		$this->page->addVar('gallery?', (count($gallery) > 0));
-		$this->page->addVar('gallery', $gallery);
+		$this->page()->addVar('title', $project['title']);
+		$this->page()->addVar('project', $project);
+		$this->page()->addVar('gallery?', (count($gallery) > 0));
+		$this->page()->addVar('gallery', $gallery);
 	}
 
 	public function executeAbout(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'À propos');
+		$this->page()->addVar('title', 'À propos');
 
 		$portfolioManager = $this->managers->getManagerOf('Portfolio');
 
 		$aboutTexts = $portfolioManager->getAboutTexts();
 		$aboutLinks = $portfolioManager->getAboutLinks();
 
-		$this->page->addVar('aboutTexts', $aboutTexts);
-		$this->page->addVar('aboutLinks', $aboutLinks);
+		$this->page()->addVar('aboutTexts', $aboutTexts);
+		$this->page()->addVar('aboutLinks', $aboutLinks);
 	}
 }

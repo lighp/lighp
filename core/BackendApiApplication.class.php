@@ -20,12 +20,12 @@ class BackendApiApplication extends \core\Application {
 		if ($this->user->isAdmin()) {
 			$controller = $this->getController();
 		} else {
-			$controller = new \ctrl\backendApi\login\LoginController($this, 'login', 'index');
+			$this->httpResponse()->redirect403($this);
+			return;
 		}
 
 		$controller->execute();
 
-		$this->httpResponse->setPage($controller->page());
-		$this->httpResponse->send();
+		$this->httpResponse->setContent($controller->responseContent());
 	}
 }

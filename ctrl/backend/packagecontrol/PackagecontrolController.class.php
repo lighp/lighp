@@ -12,11 +12,11 @@ class PackagecontrolController extends \core\BackController {
 			)
 		);
 
-		$this->page->addVar('breadcrumb', array_merge($breadcrumb, array($page)));
+		$this->page()->addVar('breadcrumb', array_merge($breadcrumb, array($page)));
 	}
 
 	public function executeListPackages(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'G&eacute;rer les paquets install&eacute;s');
+		$this->page()->addVar('title', 'G&eacute;rer les paquets install&eacute;s');
 		$this->_addBreadcrumb();
 
 		if (!$request->getExists('repo')) {
@@ -40,11 +40,11 @@ class PackagecontrolController extends \core\BackController {
 			$packages[$i] = $metadata;
 		}
 
-		$this->page->addVar('packages', $packages);
+		$this->page()->addVar('packages', $packages);
 	}
 
 	public function executeSearchPackage(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Rechercher un paquet');
+		$this->page()->addVar('title', 'Rechercher un paquet');
 		$this->_addBreadcrumb();
 
 		$packageManager = $this->managers->getManagerOf('Packagecontrol');
@@ -57,14 +57,14 @@ class PackagecontrolController extends \core\BackController {
 				'selected?' => ($request->getExists('repo') && $request->getData('repo') == $repo->name())
 			);
 		}
-		$this->page->addVar('repositories', $repoList);
+		$this->page()->addVar('repositories', $repoList);
 
 		if ($request->getExists('q')) {
 			$query = $request->getData('q');
 			$repoName = $request->getData('repo');
 
 			if (empty($query)) {
-				$this->page->addVar('emptyQuery?', true);
+				$this->page()->addVar('emptyQuery?', true);
 				return;
 			}
 
@@ -76,15 +76,15 @@ class PackagecontrolController extends \core\BackController {
 
 			$packages = $packageManager->search($query, $repo);
 
-			$this->page->addVar('searched?', true);
-			$this->page->addVar('searchQuery', $query);
-			$this->page->addVar('packages?', (count($packages) > 0));
-			$this->page->addVar('packages', $packages);
+			$this->page()->addVar('searched?', true);
+			$this->page()->addVar('searchQuery', $query);
+			$this->page()->addVar('packages?', (count($packages) > 0));
+			$this->page()->addVar('packages', $packages);
 		}
 	}
 
 	public function executeInstallPackage(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Installer un paquet');
+		$this->page()->addVar('title', 'Installer un paquet');
 		$this->_addBreadcrumb();
 
 		$packageManager = $this->managers->getManagerOf('Packagecontrol');
@@ -110,11 +110,11 @@ class PackagecontrolController extends \core\BackController {
 			$files[] = array('path'=> $path);
 		}
 
-		$this->page->addVar('package', $pkg);
-		$this->page->addVar('filesList', $files);
-		$this->page->addVar('alreadyInstalled?', $alreadyInstalled);
-		$this->page->addVar('update?', $isUpdate);
-		$this->page->addVar('unsafePkg?', (count($pkg->unsafeFiles()) > 0));
+		$this->page()->addVar('package', $pkg);
+		$this->page()->addVar('filesList', $files);
+		$this->page()->addVar('alreadyInstalled?', $alreadyInstalled);
+		$this->page()->addVar('update?', $isUpdate);
+		$this->page()->addVar('unsafePkg?', (count($pkg->unsafeFiles()) > 0));
 		
 		if ($request->postExists('check') && !$alreadyInstalled) {
 			try {
@@ -124,16 +124,16 @@ class PackagecontrolController extends \core\BackController {
 
 				$packageManager->install($pkg, $localRepo);
 			} catch (\Exception $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
-			$this->page->addVar('installed?', true);
+			$this->page()->addVar('installed?', true);
 		}
 	}
 
 	public function executeRemovePackage(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Supprimer un paquet');
+		$this->page()->addVar('title', 'Supprimer un paquet');
 		$this->_addBreadcrumb();
 
 		$localRepo = $this->managers->getManagerOf('LocalRepository');
@@ -143,25 +143,25 @@ class PackagecontrolController extends \core\BackController {
 		$pkg = $localRepo->getPackage($pkgName);
 		$isInstalled = $localRepo->packageExists($pkgName);
 
-		$this->page->addVar('package', $pkg);
-		$this->page->addVar('isInstalled?', $isInstalled);
+		$this->page()->addVar('package', $pkg);
+		$this->page()->addVar('isInstalled?', $isInstalled);
 
 		if ($request->postExists('check') && $isInstalled) {
 			try {
 				$localRepo->remove($pkg);
 			} catch (\Exception $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
-			$this->page->addVar('removed?', true);
+			$this->page()->addVar('removed?', true);
 		}
 	}
 
 	public function executeUpdateCache(\core\HTTPRequest $request) {}
 
 	public function executeUpgradePackages(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Mettre &agrave; jour les paquets');
+		$this->page()->addVar('title', 'Mettre &agrave; jour les paquets');
 		$this->_addBreadcrumb();
 
 		$packageManager = $this->managers->getManagerOf('Packagecontrol');
@@ -170,9 +170,9 @@ class PackagecontrolController extends \core\BackController {
 		$upgrades = $packageManager->calculateUpgrades($localRepo);
 		$upgradesNbr = count($upgrades);
 
-		$this->page->addVar('upgrades', $upgrades);
-		$this->page->addVar('upgradesNbr', $upgradesNbr);
-		$this->page->addVar('upgrades?', ($upgradesNbr > 0));
+		$this->page()->addVar('upgrades', $upgrades);
+		$this->page()->addVar('upgradesNbr', $upgradesNbr);
+		$this->page()->addVar('upgrades?', ($upgradesNbr > 0));
 
 		if ($request->postExists('check')) {
 			try {
@@ -184,11 +184,11 @@ class PackagecontrolController extends \core\BackController {
 
 				$packageManager->install($upgrades, $localRepo);
 			} catch (\Exception $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
-			$this->page->addVar('upgraded?', true);
+			$this->page()->addVar('upgraded?', true);
 		} else {
 			$downloadSize = 0;
 			$extractedSize = 0;
@@ -202,48 +202,48 @@ class PackagecontrolController extends \core\BackController {
 				$netSize += $pkg->metadata()['extractedSize'] - $localPkg['extractedSize'];
 			}
 
-			$this->page->addVar('downloadSize', $downloadSize);
-			$this->page->addVar('extractedSize', $extractedSize);
-			$this->page->addVar('netSize', $netSize);
+			$this->page()->addVar('downloadSize', $downloadSize);
+			$this->page()->addVar('extractedSize', $extractedSize);
+			$this->page()->addVar('netSize', $netSize);
 		}
 	}
 
 	public function executeListRepositories(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'G&eacute;rer les d&eacute;p&ocirc;ts');
+		$this->page()->addVar('title', 'G&eacute;rer les d&eacute;p&ocirc;ts');
 		$this->_addBreadcrumb();
 
 		$packageManager = $this->managers->getManagerOf('Packagecontrol');
 
 		$repos = $packageManager->getRemoteRepositoriesList();
 
-		$this->page->addVar('repositories', $repos);
+		$this->page()->addVar('repositories', $repos);
 	}
 
 	public function executeAddRepository(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Ajouter un d&eacute;p&ocirc;t');
+		$this->page()->addVar('title', 'Ajouter un d&eacute;p&ocirc;t');
 		$this->_addBreadcrumb();
 
 		$packageManager = $this->managers->getManagerOf('Packagecontrol');
 
 		if ($request->postExists('repo-url')) {
 			$repoName = $request->postData('repo-name');
-			$this->page->addVar('repo-name', $repoName);
+			$this->page()->addVar('repo-name', $repoName);
 			$repoUrl = $request->postData('repo-url');
-			$this->page->addVar('repo-url', $repoUrl);
+			$this->page()->addVar('repo-url', $repoUrl);
 
 			try {
 				$packageManager->addRemoteRepository($repoName, $repoUrl);
 			} catch(\Exception $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
-			$this->page->addVar('added?', true);
+			$this->page()->addVar('added?', true);
 		}
 	}
 
 	public function executeRemoveRepository(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Supprimer un d&eacute;p&ocirc;t');
+		$this->page()->addVar('title', 'Supprimer un d&eacute;p&ocirc;t');
 		$this->_addBreadcrumb();
 
 		$packageManager = $this->managers->getManagerOf('Packagecontrol');
@@ -251,17 +251,17 @@ class PackagecontrolController extends \core\BackController {
 		$repoName = $request->getData('name');
 
 		$repo = $packageManager->getRemoteRepository($repoName);
-		$this->page->addVar('repository', $repo);
+		$this->page()->addVar('repository', $repo);
 
 		if ($request->postExists('check')) {
 			try {
 				$packageManager->removeRemoteRepository($repoName);
 			} catch(\Exception $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
-			$this->page->addVar('removed?', true);
+			$this->page()->addVar('removed?', true);
 		}
 	}
 }

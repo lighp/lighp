@@ -82,4 +82,19 @@ class HTTPResponse {
 
 		$this->send();
 	}
+
+	/**
+	 * Send a 403 response (forbidden).
+	 * @param Application $app The application.
+	 */
+	public function redirect403($app) {
+		$page = new Page($app);
+		$page->setTemplate(__DIR__.'/../tpl/error/403.html');
+
+		$this->setContent($page);
+
+		$this->addHeader('HTTP/1.0 403 Forbidden');
+
+		$this->send();
+	}
 }

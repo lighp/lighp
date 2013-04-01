@@ -12,7 +12,7 @@ class RoutesController extends \core\BackController {
 			)
 		);
 
-		$this->page->addVar('breadcrumb', array_merge($breadcrumb, array($page)));
+		$this->page()->addVar('breadcrumb', array_merge($breadcrumb, array($page)));
 	}
 
 	protected function _listRoutes($appName) {
@@ -50,7 +50,7 @@ class RoutesController extends \core\BackController {
 	}
 
 	public function executeListRoutes(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'G&eacute;rer une route');
+		$this->page()->addVar('title', 'G&eacute;rer une route');
 		$this->_addBreadcrumb();
 
 		$app = 'frontend';
@@ -75,11 +75,11 @@ class RoutesController extends \core\BackController {
 			}
 		}
 
-		$this->page->addVar('routes', $tplRoutes);
+		$this->page()->addVar('routes', $tplRoutes);
 	}
 
 	public function executeInsertRoute(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Ajouter une route');
+		$this->page()->addVar('title', 'Ajouter une route');
 		$this->_addBreadcrumb();
 
 		if ($request->postExists('route-url')) {
@@ -97,9 +97,9 @@ class RoutesController extends \core\BackController {
 				'vars' => $routeVars
 			);
 
-			$this->page->addVar('route', $route);
-			$this->page->addVar('routeApp', $routeApp);
-			$this->page->addVar('routeVarsList', $routeVarsList);
+			$this->page()->addVar('route', $route);
+			$this->page()->addVar('routeApp', $routeApp);
+			$this->page()->addVar('routeVarsList', $routeVarsList);
 
 			$configPath = __DIR__ . '/../../../etc/app/' . $routeApp . '/routes.json';
 
@@ -112,16 +112,16 @@ class RoutesController extends \core\BackController {
 
 				$conf->write($routes);
 			} catch(\Exception $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
-			$this->page->addVar('inserted?', true);
+			$this->page()->addVar('inserted?', true);
 		}
 	}
 
 	public function executeDeleteRoute(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Supprimer une route');
+		$this->page()->addVar('title', 'Supprimer une route');
 		$this->_addBreadcrumb();
 
 		$routeApp = $request->getData('app');
@@ -143,10 +143,10 @@ class RoutesController extends \core\BackController {
 
 			$conf->write($routes);
 		} catch(\Exception $e) {
-			$this->page->addVar('error', $e->getMessage());
+			$this->page()->addVar('error', $e->getMessage());
 			return;
 		}
 
-		$this->page->addVar('deleted?', true);
+		$this->page()->addVar('deleted?', true);
 	}
 }

@@ -2,7 +2,7 @@
 namespace ctrl\backend\portfolio;
 
 class PortfolioController extends \core\BackController {
-	protected function _addBreadcrumb($page = array()) {
+	protected function _addBreadcrumb($additionnalBreadcrumb = array(array())) {
 		$breadcrumb = array(
 			array(
 				'url' => $this->app->router()->getUrl('main', 'showModule', array(
@@ -12,7 +12,7 @@ class PortfolioController extends \core\BackController {
 			)
 		);
 
-		$this->page->addVar('breadcrumb', array_merge($breadcrumb, array($page)));
+		$this->page()->addVar('breadcrumb', array_merge($breadcrumb, $additionnalBreadcrumb));
 	}
 
 	protected function _handleImageUpload($uploadFile, $uploadImgDest) {
@@ -55,14 +55,14 @@ class PortfolioController extends \core\BackController {
 	}
 
 	public function executeInsertProject(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Créer un projet');
+		$this->page()->addVar('title', 'Créer un projet');
 		$this->_addBreadcrumb();
 
 		$projectsManager = $this->managers->getManagerOf('PortfolioProjects');
 
 		$categoriesManager = $this->managers->getManagerOf('PortfolioCategories');
 		$categories = $categoriesManager->getList();
-		$this->page->addVar('categories', $categories);
+		$this->page()->addVar('categories', $categories);
 
 		if ($request->postExists('project-name')) {
 			$projectData = array(
@@ -75,12 +75,12 @@ class PortfolioController extends \core\BackController {
 				'description' => $request->postData('project-description')
 			);
 
-			$this->page->addVar('project', $projectData);
+			$this->page()->addVar('project', $projectData);
 
 			try {
 				$project = new \lib\entities\PortfolioProject($projectData);
 			} catch(\InvalidArgumentException $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
@@ -100,7 +100,7 @@ class PortfolioController extends \core\BackController {
 
 					$this->_handleImageUpload($mediumImgUploadData, 'portfolio/project/medium/'.$project['name'].'.png');
 				} catch(\Exception $e) {
-					$this->page->addVar('error', $e->getMessage());
+					$this->page()->addVar('error', $e->getMessage());
 					return;
 				}
 			}
@@ -108,23 +108,23 @@ class PortfolioController extends \core\BackController {
 			try {
 				$projectsManager->add($project);
 			} catch(\Exception $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
-			$this->page->addVar('inserted?', true);
+			$this->page()->addVar('inserted?', true);
 		}
 	}
 
 	public function executeUpdateProject(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Modifier un projet');
+		$this->page()->addVar('title', 'Modifier un projet');
 		$this->_addBreadcrumb();
 
 		$projectName = $request->getData('name');
 
 		$projectsManager = $this->managers->getManagerOf('PortfolioProjects');
 		$project = $projectsManager->get($projectName);
-		$this->page->addVar('project', $project);
+		$this->page()->addVar('project', $project);
 
 		$categoriesManager = $this->managers->getManagerOf('PortfolioCategories');
 		$categories = $categoriesManager->getList();
@@ -138,7 +138,7 @@ class PortfolioController extends \core\BackController {
 
 			$list[] = $item;
 		}
-		$this->page->addVar('categories', $list);
+		$this->page()->addVar('categories', $list);
 
 		if ($request->postExists('project-name')) {
 			$projectData = array(
@@ -151,16 +151,16 @@ class PortfolioController extends \core\BackController {
 				'description' => $request->postData('project-description')
 			);
 
-			$this->page->addVar('project', $projectData);
+			$this->page()->addVar('project', $projectData);
 
 			try {
 				$project->hydrate($projectData);
 			} catch(\InvalidArgumentException $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
-			$this->page->addVar('project', $project);
+			$this->page()->addVar('project', $project);
 
 			//Image upload
 			if (isset($_FILES['project-largeimage']) && $_FILES['project-largeimage']['error'] !== UPLOAD_ERR_NO_FILE) {
@@ -178,7 +178,7 @@ class PortfolioController extends \core\BackController {
 
 					$this->_handleImageUpload($mediumImgUploadData, 'portfolio/project/medium/'.$project['name'].'.png');
 				} catch(\Exception $e) {
-					$this->page->addVar('error', $e->getMessage());
+					$this->page()->addVar('error', $e->getMessage());
 					return;
 				}
 			}
@@ -197,38 +197,38 @@ class PortfolioController extends \core\BackController {
 					$projectsManager->edit($project);
 				}
 			} catch(\Exception $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
-			$this->page->addVar('updated?', true);
+			$this->page()->addVar('updated?', true);
 		}
 	}
 
 	public function executeDeleteProject(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Supprimer un projet');
+		$this->page()->addVar('title', 'Supprimer un projet');
 		$this->_addBreadcrumb();
 
 		$projectName = $request->getData('name');
 
 		$projectsManager = $this->managers->getManagerOf('PortfolioProjects');
 		$project = $projectsManager->get($projectName);
-		$this->page->addVar('project', $project);
+		$this->page()->addVar('project', $project);
 
 		if ($request->postExists('check')) {
 			try {
 				$projectsManager->delete($projectName);
 			} catch(\Exception $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
-			$this->page->addVar('deleted?', true);
+			$this->page()->addVar('deleted?', true);
 		}
 	}
 
 	public function executeInsertCategory(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Créer une catégorie');
+		$this->page()->addVar('title', 'Créer une catégorie');
 		$this->_addBreadcrumb();
 
 		$categoriesManager = $this->managers->getManagerOf('PortfolioCategories');
@@ -240,12 +240,12 @@ class PortfolioController extends \core\BackController {
 				'subtitle' => $request->postData('category-subtitle'),
 				'shortDescription' => $request->postData('category-shortDescription')
 			);
-			$this->page->addVar('category', $categoryData);
+			$this->page()->addVar('category', $categoryData);
 
 			try {
 				$category = new \lib\entities\PortfolioCategory($categoryData);
 			} catch(\InvalidArgumentException $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
@@ -265,7 +265,7 @@ class PortfolioController extends \core\BackController {
 
 					$this->_handleImageUpload($mediumImgUploadData, 'portfolio/category/medium/'.$category['name'].'.png');
 				} catch(\Exception $e) {
-					$this->page->addVar('error', $e->getMessage());
+					$this->page()->addVar('error', $e->getMessage());
 					return;
 				}
 			}
@@ -273,23 +273,23 @@ class PortfolioController extends \core\BackController {
 			try {
 				$categoriesManager->add($category);
 			} catch(\Exception $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
-			$this->page->addVar('inserted?', true);
+			$this->page()->addVar('inserted?', true);
 		}
 	}
 
 	public function executeUpdateCategory(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Modifier une catégorie');
+		$this->page()->addVar('title', 'Modifier une catégorie');
 		$this->_addBreadcrumb();
 
 		$categoryName = $request->getData('name');
 
 		$categoriesManager = $this->managers->getManagerOf('PortfolioCategories');
 		$category = $categoriesManager->get($categoryName);
-		$this->page->addVar('category', $category);
+		$this->page()->addVar('category', $category);
 
 		if ($request->postExists('category-name')) {
 			$categoryData = array(
@@ -298,12 +298,12 @@ class PortfolioController extends \core\BackController {
 				'subtitle' => $request->postData('category-subtitle'),
 				'shortDescription' => $request->postData('category-shortDescription')
 			);
-			$this->page->addVar('category', $categoryData);
+			$this->page()->addVar('category', $categoryData);
 
 			try {
 				$category->hydrate($categoryData);
 			} catch(\InvalidArgumentException $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
@@ -323,7 +323,7 @@ class PortfolioController extends \core\BackController {
 
 					$this->_handleImageUpload($mediumImgUploadData, 'portfolio/category/medium/'.$category['name'].'.png');
 				} catch(\Exception $e) {
-					$this->page->addVar('error', $e->getMessage());
+					$this->page()->addVar('error', $e->getMessage());
 					return;
 				}
 			}
@@ -341,53 +341,62 @@ class PortfolioController extends \core\BackController {
 					$categoriesManager->edit($category);
 				}
 			} catch(\Exception $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
-			$this->page->addVar('updated?', true);
+			$this->page()->addVar('updated?', true);
 		}
 	}
 
 	public function executeDeleteCategory(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Supprimer une catégorie');
+		$this->page()->addVar('title', 'Supprimer une catégorie');
 		$this->_addBreadcrumb();
 
 		$categoryName = $request->getData('name');
 
 		$categoriesManager = $this->managers->getManagerOf('PortfolioCategories');
 		$category = $categoriesManager->get($categoryName);
-		$this->page->addVar('category', $category);
+		$this->page()->addVar('category', $category);
 
 		if ($request->postExists('check')) {
 			try {
 				$categoriesManager->delete($categoryName);
 			} catch(\Exception $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
-			$this->page->addVar('deleted?', true);
+			$this->page()->addVar('deleted?', true);
 		}
 	}
 
 	public function executeListGalleryItems(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Afficher une galerie');
+		$this->page()->addVar('title', 'Afficher une galerie');
 		$this->_addBreadcrumb();
 
 		$projectName = $request->getData('projectName');
 
 		$galleriesManager = $this->managers->getManagerOf('PortfolioGalleries');
 		$gallery = $galleriesManager->getByProject($projectName);
-		$this->page->addVar('gallery', $gallery);
-		$this->page->addVar('projectName', $projectName);
+		$this->page()->addVar('gallery', $gallery);
+		$this->page()->addVar('projectName', $projectName);
 	}
 
 	public function executeInsertGalleryItem(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Ajouter un item à la galerie');
-		$this->_addBreadcrumb();
+		$this->page()->addVar('title', 'Ajouter un item à la galerie');
 
 		$projectName = $request->getData('projectName');
+
+		$this->_addBreadcrumb(array(
+			array(
+				'url' => $this->app->router()->getUrl($this->module(), 'listGalleryItems', array(
+					'projectName' => $projectName
+				)),
+				'title' => 'Galerie'
+			),
+			array()
+		));
 
 		$galleriesManager = $this->managers->getManagerOf('PortfolioGalleries');
 
@@ -399,42 +408,51 @@ class PortfolioController extends \core\BackController {
 				'projectName' => $projectName
 			);
 
-			$this->page->addVar('galleryItem', $galleryItemData);
+			$this->page()->addVar('galleryItem', $galleryItemData);
 
 			try {
 				$galleryItem = \lib\entities\PortfolioGalleryItem::build($galleryItemData);
 			} catch(\InvalidArgumentException $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
 			if (empty($galleryItem)) {
-				$this->page->addVar('error', 'Invalid gallery item source');
+				$this->page()->addVar('error', 'Invalid gallery item source');
 				return;
 			}
 
 			try {
 				$galleriesManager->add($galleryItem);
 			} catch(\Exception $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
-			$this->page->addVar('inserted?', true);
+			$this->page()->addVar('inserted?', true);
 		}
 	}
 
 	public function executeUpdateGalleryItem(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Modifier un item de la galerie');
-		$this->_addBreadcrumb();
+		$this->page()->addVar('title', 'Modifier un item de la galerie');
 
 		$projectName = $request->getData('projectName');
 		$galleryItemId = $request->getData('id');
 
+		$this->_addBreadcrumb(array(
+			array(
+				'url' => $this->app->router()->getUrl($this->module(), 'listGalleryItems', array(
+					'projectName' => $projectName
+				)),
+				'title' => 'Galerie'
+			),
+			array()
+		));
+
 		$galleriesManager = $this->managers->getManagerOf('PortfolioGalleries');
 		$galleryItem = $galleriesManager->get($galleryItemId);
 
-		$this->page->addVar('galleryItem', $galleryItem);
+		$this->page()->addVar('galleryItem', $galleryItem);
 
 		if ($request->postExists('galleryItem-title')) {
 			$galleryItemData = array(
@@ -444,47 +462,56 @@ class PortfolioController extends \core\BackController {
 				'projectName' => $projectName
 			);
 
-			$this->page->addVar('galleryItem', $galleryItemData);
+			$this->page()->addVar('galleryItem', $galleryItemData);
 
 			try {
 				$galleryItem->hydrate($galleryItemData);
 			} catch(\InvalidArgumentException $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
 			try {
 				$galleriesManager->edit($galleryItem);
 			} catch(\Exception $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
-			$this->page->addVar('updated?', true);
+			$this->page()->addVar('updated?', true);
 		}
 	}
 
 	public function executeDeleteGalleryItem(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Supprimer un item de la galerie');
-		$this->_addBreadcrumb();
+		$this->page()->addVar('title', 'Supprimer un item de la galerie');
 
 		$projectName = $request->getData('projectName');
 		$galleryItemId = (int) $request->getData('id');
+
+		$this->_addBreadcrumb(array(
+			array(
+				'url' => $this->app->router()->getUrl($this->module(), 'listGalleryItems', array(
+					'projectName' => $projectName
+				)),
+				'title' => 'Galerie'
+			),
+			array()
+		));
 
 		$galleriesManager = $this->managers->getManagerOf('PortfolioGalleries');
 		
 		try {
 			$galleriesManager->delete($galleryItemId);
 		} catch(\Exception $e) {
-			$this->page->addVar('error', $e->getMessage());
+			$this->page()->addVar('error', $e->getMessage());
 			return;
 		}
 
-		$this->page->addVar('deleted?', true);
+		$this->page()->addVar('deleted?', true);
 	}
 
 	public function executeInsertLeadingItem(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Mettre en avant un item');
+		$this->page()->addVar('title', 'Mettre en avant un item');
 		$this->_addBreadcrumb();
 
 		$portfolioManager = $this->managers->getManagerOf('Portfolio');
@@ -499,28 +526,28 @@ class PortfolioController extends \core\BackController {
 				'place' => $request->postData('leadingItem-place')
 			);
 
-			$this->page->addVar('leadingItem', $leadingItemData);
+			$this->page()->addVar('leadingItem', $leadingItemData);
 
 			try {
 				$leadingItem = new \lib\entities\PortfolioLeadingItem($leadingItemData);
 			} catch(\InvalidArgumentException $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
 			try {
 				$portfolioManager->addLeadingItem($leadingItem);
 			} catch(\Exception $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
-			$this->page->addVar('inserted?', true);
+			$this->page()->addVar('inserted?', true);
 		}
 	}
 
 	public function executeDeleteLeadingItem(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Supprimer un item mis en avant');
+		$this->page()->addVar('title', 'Supprimer un item mis en avant');
 		$this->_addBreadcrumb();
 
 		$leadingItemId = (int) $request->getData('id');
@@ -530,21 +557,21 @@ class PortfolioController extends \core\BackController {
 		try {
 			$portfolioManager->deleteLeadingItem($leadingItemId);
 		} catch(\Exception $e) {
-			$this->page->addVar('error', $e->getMessage());
+			$this->page()->addVar('error', $e->getMessage());
 			return;
 		}
 
-		$this->page->addVar('deleted?', true);
+		$this->page()->addVar('deleted?', true);
 	}
 
 	public function executeUpdateAboutPage(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Modifier mes informations personnelles');
+		$this->page()->addVar('title', 'Modifier mes informations personnelles');
 		$this->_addBreadcrumb();
 
 		$portfolioManager = $this->managers->getManagerOf('Portfolio');
 		$aboutTexts = $portfolioManager->getAboutTexts();
 
-		$this->page->addVar('aboutTexts', $aboutTexts);
+		$this->page()->addVar('aboutTexts', $aboutTexts);
 
 		if ($request->postExists('about-shortDescription')) {
 			try {
@@ -553,16 +580,16 @@ class PortfolioController extends \core\BackController {
 					'content' => $request->postData('about-content')
 				));
 			} catch(\Exception $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
-			$this->page->addVar('updated?', true);
+			$this->page()->addVar('updated?', true);
 		}
 	}
 
 	public function executeInsertAboutLink(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Ajouter une nouvelle coordonnée');
+		$this->page()->addVar('title', 'Ajouter une nouvelle coordonnée');
 		$this->_addBreadcrumb();
 
 		$portfolioManager = $this->managers->getManagerOf('Portfolio');
@@ -573,28 +600,28 @@ class PortfolioController extends \core\BackController {
 				'url' => $request->postData('aboutLink-url')
 			);
 
-			$this->page->addVar('aboutLink', $aboutLinkData);
+			$this->page()->addVar('aboutLink', $aboutLinkData);
 
 			try {
 				$aboutLink = new \lib\entities\PortfolioAboutLink($aboutLinkData);
 			} catch(\InvalidArgumentException $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
 			try {
 				$portfolioManager->insertAboutLink($aboutLink);
 			} catch(\Exception $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
-			$this->page->addVar('inserted?', true);
+			$this->page()->addVar('inserted?', true);
 		}
 	}
 
 	public function executeUpdateAboutLink(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Modifier une de mes coordonnées');
+		$this->page()->addVar('title', 'Modifier une de mes coordonnées');
 		$this->_addBreadcrumb();
 
 		$aboutLinkId = (int) $request->getData('id');
@@ -602,7 +629,7 @@ class PortfolioController extends \core\BackController {
 		$portfolioManager = $this->managers->getManagerOf('Portfolio');
 		$aboutLink = $portfolioManager->getAboutLink($aboutLinkId);
 
-		$this->page->addVar('aboutLink', $aboutLink);
+		$this->page()->addVar('aboutLink', $aboutLink);
 
 		if ($request->postExists('aboutLink-title')) {
 			$aboutLinkData = array(
@@ -610,28 +637,28 @@ class PortfolioController extends \core\BackController {
 				'url' => $request->postData('aboutLink-url')
 			);
 
-			$this->page->addVar('aboutLink', $aboutLinkData);
+			$this->page()->addVar('aboutLink', $aboutLinkData);
 
 			try {
 				$aboutLink->hydrate($aboutLinkData);
 			} catch(\InvalidArgumentException $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
 			try {
 				$portfolioManager->updateAboutLink($aboutLink);
 			} catch(\Exception $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
-			$this->page->addVar('updated?', true);
+			$this->page()->addVar('updated?', true);
 		}
 	}
 
 	public function executeDeleteAboutLink(\core\HTTPRequest $request) {
-		$this->page->addVar('title', 'Supprimer une de mes coordonnées');
+		$this->page()->addVar('title', 'Supprimer une de mes coordonnées');
 		$this->_addBreadcrumb();
 
 		$aboutLinkId = (int) $request->getData('id');
@@ -641,11 +668,11 @@ class PortfolioController extends \core\BackController {
 		try {
 			$portfolioManager->deleteAboutLink($aboutLinkId);
 		} catch(\Exception $e) {
-			$this->page->addVar('error', $e->getMessage());
+			$this->page()->addVar('error', $e->getMessage());
 			return;
 		}
 
-		$this->page->addVar('deleted?', true);
+		$this->page()->addVar('deleted?', true);
 	}
 
 

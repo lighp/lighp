@@ -5,7 +5,7 @@ class ContactController extends \core\BackController {
 	public function executeIndex(\core\HTTPRequest $request) {
 		$captcha = \lib\Captcha::build();
 
-		$this->page->addVar('captcha', $captcha);
+		$this->page()->addVar('captcha', $captcha);
 
 		if ($request->postExists('message-sender-name')) {
 			$messageData = array(
@@ -15,12 +15,12 @@ class ContactController extends \core\BackController {
 				'content' => trim($request->postData('message-content'))
 			);
 
-			$this->page->addVar('message', $messageData);
+			$this->page()->addVar('message', $messageData);
 
 			try {
 				$message = new \lib\entities\ContactMessage($messageData);
 			} catch(\InvalidArgumentException $e) {
-				$this->page->addVar('error', $e->getMessage());
+				$this->page()->addVar('error', $e->getMessage());
 				return;
 			}
 
@@ -29,12 +29,12 @@ class ContactController extends \core\BackController {
 
 			$captcha = \lib\Captcha::get($captchaId);
 			if (empty($captcha)) {
-				$this->page->addVar('error', 'Your session has expired. Please try again');
+				$this->page()->addVar('error', 'Your session has expired. Please try again');
 				return;
 			}
 
 			if (!$captcha->check($captchaValue)) {
-				$this->page->addVar('error', 'Invalid captcha');
+				$this->page()->addVar('error', 'Invalid captcha');
 				return;
 			}
 
@@ -51,12 +51,12 @@ class ContactController extends \core\BackController {
 			'X-Mailer: PHP/' . phpversion();
 
 			if(mail($messageDest, $messageSubject, $messageContent, $messageHeaders) !== false) {
-				$this->page->addVar('messageSent?', true);
+				$this->page()->addVar('messageSent?', true);
 			} else {
-				$this->page->addVar('error', 'Cannot send message : server error');
+				$this->page()->addVar('error', 'Cannot send message : server error');
 			}
 		}
 
-		$this->page->addVar('title', 'Contact');
+		$this->page()->addVar('title', 'Contact');
 	}
 }

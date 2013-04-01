@@ -39,6 +39,14 @@ class Page extends ResponseContent {
 	}
 
 	/**
+	 * Get this page's variables.
+	 * @return array
+	 */
+	public function vars() {
+		return $this->vars;
+	}
+
+	/**
 	 * Get global variables.
 	 * @return array
 	 */
@@ -106,6 +114,15 @@ class Page extends ResponseContent {
 		}
 
 		$this->templatePath = $templatePath;
+	}
+
+	/**
+	 * Set the page's translation.
+	 * @param ModuleTranslation $translation The translation.
+	 */
+	public function setTranslation(ModuleTranslation $translation, $section = null) {
+		$this->translation = $translation;
+		$this->translationSection = $section;
 	}
 
 	/**
@@ -198,14 +215,5 @@ class Page extends ResponseContent {
 	 */
 	public function translation() {
 		return $this->translation;
-	}
-
-	/**
-	 * Set the page's translation.
-	 * @param ModuleTranslation $translation The translation.
-	 */
-	public function setTranslation(ModuleTranslation $translation, $section = null) {
-		$this->translation = $translation;
-		$this->translationSection = $section;
 	}
 }

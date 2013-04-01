@@ -1,0 +1,7 @@
+[
+	{
+		"url":"/api/admin/([a-zA-Z0-9_.-]+)/([a-zA-Z0-9_.-]+)",
+		"action":"emulate",
+		"vars": ["emulateModule","emulateAction"]
+	}
+]
