@@ -1,0 +1,10 @@
+{{#inserted?}}
+	<div class="alert alert-block alert-success">
+		<h4 class="alert-heading">Coordonnée ajoutée</h4>
+		<p>La coordonnée a bien &eacute;t&eacute; ajoutée.</p>
+		<p><a class="btn" href="module-portfolio.html">Retour</a></p>
+	</div>
+{{/inserted?}}
+{{^inserted?}}
+	{{> partials/form-aboutLink}}
+{{/inserted?}}

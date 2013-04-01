@@ -19,7 +19,7 @@ class PortfolioAboutLink extends \core\Entity {
 			throw new \InvalidArgumentException('Invalid about link url');
 		}
 
-		$this->subtitle = $subtitle;
+		$this->url = $url;
 	}
 
 	// GETTERS //

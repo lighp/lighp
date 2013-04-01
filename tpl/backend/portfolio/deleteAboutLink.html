@@ -1,0 +1,13 @@
+{{#deleted?}}
+	<div class="alert alert-block alert-success">
+		<h4 class="alert-heading">Coordonnée supprimée</h4>
+		<p>La coordonnée a bien été supprimée.</p>
+		<p><a class="btn" href="module-portfolio.html">Retour</a></p>
+	</div>
+{{/deleted?}}
+{{#error}}
+	<div class="alert alert-block alert-error">
+		<h4 class="alert-heading">Erreur</h4>
+		<p>Une erreur est survenue lors de la suppression de la coordonnée : {{error}}.</p>
+	</div>
+{{/error}}

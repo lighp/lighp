@@ -118,6 +118,62 @@ class PortfolioManager_json extends PortfolioManager {
 
 		$aboutLinks = $aboutLinksFile->read();
 
-		return $aboutLinks->convertToArray();
+		return $aboutLinks->convertToArray('\lib\entities\PortfolioAboutLink');
+	}
+
+	public function getAboutLink($aboutLinkId) {
+		$file = $this->dao->open('portfolio/about_link');
+		$aboutLinks = $file->read()->filter(array('id' => (int) $aboutLinkId));
+
+		if (count($aboutLinks) == 0) {
+			return;
+		} else {
+			return new \lib\entities\PortfolioAboutLink($aboutLinks[0]);
+		}
+	}
+
+	public function insertAboutLink(\lib\entities\PortfolioAboutLink &$aboutLink) {
+		$file = $this->dao->open('portfolio/about_link');
+		$items = $file->read();
+
+		$aboutLinkId = (count($items) > 0) ? $items->last()['id'] + 1 : 0;
+		$aboutLink->setId($aboutLinkId);
+
+		$item = $this->dao->createItem($aboutLink->toArray());
+		$items[] = $item;
+
+		$file->write($items);
+	}
+
+	public function updateAboutLink(\lib\entities\PortfolioAboutLink $aboutLink) {
+		$file = $this->dao->open('portfolio/about_link');
+		$items = $file->read();
+
+		$editedItem = $this->dao->createItem($aboutLink->toArray());
+
+		foreach($items as $key => $item) {
+			if ($item['id'] == $aboutLink['id']) {
+				$items[$key] = $editedItem;
+				break;
+			}
+		}
+
+		$file->write($items);
+	}
+
+	public function deleteAboutLink($aboutLinkId) {
+		$aboutLinkId = (int) $aboutLinkId;
+
+		$file = $this->dao->open('portfolio/about_link');
+		$items = $file->read();
+
+		foreach($items as $key => $item) {
+			if ($item['id'] == $aboutLinkId) {
+				unset($items[$key]);
+				break;
+			}
+		}
+
+		$file->write($items);
 	}
 }

@@ -561,6 +561,94 @@ class PortfolioController extends \core\BackController {
 		}
 	}
 
+	public function executeInsertAboutLink(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Ajouter une nouvelle coordonnée');
+		$this->_addBreadcrumb();
+
+		$portfolioManager = $this->managers->getManagerOf('Portfolio');
+
+		if ($request->postExists('aboutLink-title')) {
+			$aboutLinkData = array(
+				'title' => $request->postData('aboutLink-title'),
+				'url' => $request->postData('aboutLink-url')
+			);
+
+			$this->page->addVar('aboutLink', $aboutLinkData);
+
+			try {
+				$aboutLink = new \lib\entities\PortfolioAboutLink($aboutLinkData);
+			} catch(\InvalidArgumentException $e) {
+				$this->page->addVar('error', $e->getMessage());
+				return;
+			}
+
+			try {
+				$portfolioManager->insertAboutLink($aboutLink);
+			} catch(\Exception $e) {
+				$this->page->addVar('error', $e->getMessage());
+				return;
+			}
+
+			$this->page->addVar('inserted?', true);
+		}
+	}
+
+	public function executeUpdateAboutLink(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Modifier une de mes coordonnées');
+		$this->_addBreadcrumb();
+
+		$aboutLinkId = (int) $request->getData('id');
+
+		$portfolioManager = $this->managers->getManagerOf('Portfolio');
+		$aboutLink = $portfolioManager->getAboutLink($aboutLinkId);
+
+		$this->page->addVar('aboutLink', $aboutLink);
+
+		if ($request->postExists('aboutLink-title')) {
+			$aboutLinkData = array(
+				'title' => $request->postData('aboutLink-title'),
+				'url' => $request->postData('aboutLink-url')
+			);
+
+			$this->page->addVar('aboutLink', $aboutLinkData);
+
+			try {
+				$aboutLink->hydrate($aboutLinkData);
+			} catch(\InvalidArgumentException $e) {
+				$this->page->addVar('error', $e->getMessage());
+				return;
+			}
+
+			try {
+				$portfolioManager->updateAboutLink($aboutLink);
+			} catch(\Exception $e) {
+				$this->page->addVar('error', $e->getMessage());
+				return;
+			}
+
+			$this->page->addVar('updated?', true);
+		}
+	}
+
+	public function executeDeleteAboutLink(\core\HTTPRequest $request) {
+		$this->page->addVar('title', 'Supprimer une de mes coordonnées');
+		$this->_addBreadcrumb();
+
+		$aboutLinkId = (int) $request->getData('id');
+
+		$portfolioManager = $this->managers->getManagerOf('Portfolio');
+		
+		try {
+			$portfolioManager->deleteAboutLink($aboutLinkId);
+		} catch(\Exception $e) {
+			$this->page->addVar('error', $e->getMessage());
+			return;
+		}
+
+		$this->page->addVar('deleted?', true);
+	}
+
+
 	// LISTERS
 
 	public function listProjects() {
