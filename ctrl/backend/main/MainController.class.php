@@ -63,6 +63,10 @@ class MainController extends \core\BackController {
 	protected function _getBackend($module) {
 		$metadata = $this->_getBackendMetadata($module);
 
+		if (empty($metadata)) {
+			return;
+		}
+
 		$router = $this->app->router();
 		$actions = array();
 
@@ -103,7 +107,30 @@ class MainController extends \core\BackController {
 	}
 
 	protected function _searchItems($query, array $items, array $searchFields = null) {
-		$escapedQuery = str_replace(' ', '|', preg_quote($query));
+		$accentChars = array(
+			'A|À|Á|Â|Ã|Ä|Å',
+			'a|à|á|â|ã|ä|å',
+			'O|Ò|Ó|Ô|Õ|Ö|Ø',
+			'o|ò|ó|ô|õ|ö|ø',
+			'E|È|É|Ê|Ë',
+			'e|é|è|ê|ë',
+			'C|Ç',
+			'c|ç',
+			'I|Ì|Í|Î|Ï',
+			'i|ì|í|î|ï',
+			'U|Ù|Ú|Û|Ü',
+			'u|ù|ú|û|ü',
+			'y|ÿ',
+			'N|Ñ',
+			'n|ñ'
+		);
+
+		$escapedQuery = preg_quote($query);
+		$escapedQuery = str_replace(' ', '|', $escapedQuery);
+		foreach ($accentChars as $chars) {
+			$regex = '('.$chars.')';
+			$escapedQuery = preg_replace('#'.$regex.'#', $regex, $escapedQuery);
+		}
 
 		$matchingItems = array();
 
@@ -147,9 +174,16 @@ class MainController extends \core\BackController {
 
 		$this->page()->addVar('searchQuery', $searchQuery);
 
+		$router = $this->app->router();
 		$backends = $this->_listBackends();
 
 		if (empty($searchQuery)) {
+			foreach ($backends as $key => $metadata) {
+				$backends[$key]['url'] = $router->getUrl($this->module(), 'showModule', array(
+					'module' => $metadata['name']
+				));
+			}
+
 			$this->page()->addVar('backends', $backends);
 		} else {
 			$actions = array();
@@ -216,6 +250,7 @@ class MainController extends \core\BackController {
 		$this->page()->addVar('searchQuery', $searchQuery);
 
 		if (!empty($backend) && !empty($action)) {
+			$this->page()->addVar('backend', $backend);
 			$this->page()->addVar('action', $action);
 			$this->page()->addVar('title', $action['title']);
 			$this->page()->addVar('breadcrumb', array(

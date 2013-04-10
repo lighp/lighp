@@ -8,9 +8,7 @@
 
 	<title>{{#title}}{{{title}}} - {{/title}}{{{WEBSITE_NAME}}}</title>
 
-	<!-- Bootstrap -->
-	<link href="{{WEBSITE_ROOT}}/css/bootstrap.min.css" rel="stylesheet" media="screen">
-	<link href="{{WEBSITE_ROOT}}/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+	{{#getLinkedFiles}}css{{/getLinkedFiles}}
 </head>
 <body>
 	<div class="navbar-wrapper">
@@ -51,7 +49,9 @@
 			<h1>{{{title}}}</h1>
 		</div>{{/title}}
 
-		{{{content}}}
+		<div id="page-container">
+			{{{content}}}
+		</div>
 	</div>
 
 	<div class="container">
@@ -69,7 +69,6 @@
 
 	</div><!-- /.container -->
 
-	<script type="text/javascript" src="{{WEBSITE_ROOT}}/js/core/jquery-1.9.1.min.js"></script>
-	<script type="text/javascript" src="{{WEBSITE_ROOT}}/js/core/bootstrap.min.js"></script>
+	{{#getLinkedFiles}}js{{/getLinkedFiles}}
 </body>
 </html>

@@ -3,16 +3,11 @@ namespace core;
 
 /**
  * A page.
+ * Page's templates are stored in /tpl.
  * @author Simon Ser
  * @since 1.0alpha1
  */
 class Page extends ResponseContent {
-	/**
-	 * The path to the page's template.
-	 * @var string
-	 */
-	protected $templatePath;
-
 	/**
 	 * Page's variables.
 	 * @var array
@@ -50,7 +45,7 @@ class Page extends ResponseContent {
 	 * Get global variables.
 	 * @return array
 	 */
-	public function _getGlobalVars() {
+	public function globalVars() {
 		$json = file_get_contents(__DIR__.'/../etc/core/website.json');
 		$data = json_decode($json, true);
 
@@ -62,18 +57,25 @@ class Page extends ResponseContent {
 		return $vars;
 	}
 
+	protected function _getCoreScripts() {
+		$conf = new Config(__DIR__.'/../etc/core/scripts.json');
+		return $conf->read();
+	}
+
 	/**
 	 * Generate the page.
 	 * @return string The generated page.
 	 */
 	public function generate() {
-		if (!file_exists($this->templatePath)) {
-			throw new \RuntimeException('"'.$this->templatePath.'" : template doesn\'t exist');
+		$templatePath = $this->_templatePath();
+
+		if (!file_exists($templatePath)) {
+			throw new \RuntimeException('"'.$templatePath.'" : template doesn\'t exist');
 		}
 
-		$contentTpl = file_get_contents($this->templatePath);
+		$contentTpl = file_get_contents($templatePath);
 		if ($contentTpl === false) {
-			throw new \RuntimeException('Cannot read template "'.$this->templatePath.'"');
+			throw new \RuntimeException('Cannot read template "'.$templatePath.'"');
 		}
 
 		$layoutPath = __DIR__.'/../tpl/'.$this->app->name().'/layout.html';
@@ -88,12 +90,12 @@ class Page extends ResponseContent {
 			$layoutController->execute($this->app->httpRequest());
 		}
 
-		$globalVars = $this->_getGlobalVars();
+		$globalVars = $this->globalVars();
 
-		$contentLoader = new mustache\loader\FilesystemLoader(dirname($this->templatePath), array('extension' => '.html'));
+		$contentLoader = new mustache\loader\FilesystemLoader(dirname($templatePath), array('extension' => '.html'));
 		$layoutLoader = new mustache\loader\FilesystemLoader(dirname($layoutPath), array('extension' => '.html'));
 
-		$engine = $this->_getTemplatesEngine();
+		$engine = $this->_templatesEngine();
 
 		$contentVars = array_merge($this->vars, $globalVars);
 		$engine->setPartialsLoader($contentLoader);
@@ -105,31 +107,18 @@ class Page extends ResponseContent {
 	}
 
 	/**
-	 * Set this page's template.
-	 * @param string $templatePath The template path.
+	 * Get this page's template path.
+	 * @return string The template path.
 	 */
-	public function setTemplate($templatePath) {
-		if (!is_string($templatePath) || empty($templatePath)) {
-			throw new \InvalidArgumentException('Invalid template path');
-		}
-
-		$this->templatePath = $templatePath;
-	}
-
-	/**
-	 * Set the page's translation.
-	 * @param ModuleTranslation $translation The translation.
-	 */
-	public function setTranslation(ModuleTranslation $translation, $section = null) {
-		$this->translation = $translation;
-		$this->translationSection = $section;
+	protected function _templatePath() {
+		return __DIR__.'/../tpl/'.$this->app->name().'/'.$this->module.'/'.$this->action.'.html';
 	}
 
 	/**
 	 * Get the template's engine.
 	 * @return object
 	 */
-	protected function _getTemplatesEngine() {
+	protected function _templatesEngine() {
 		$mustacheOptions = array();
 
 		//Cache
@@ -145,32 +134,6 @@ class Page extends ResponseContent {
 		}
 
 		$mustache = new mustache\Engine($mustacheOptions);
-
-		//File size
-		$mustache->addHelper('filesize', function($value) {
-			$bytes = (int) $value;
-
-			$suffixes = array('octets', 'Kio', 'Mio', 'Gio', 'Tio');
-			$precision = 2;
-
-			$base = 0;
-			$roundedBytes = 0;
-			if ($bytes != 0) {
-				$base = log(abs($bytes)) / log(1024);
-				$roundedBytes = round(pow(1024, $base - floor($base)), $precision);
-			}
-
-			return (($bytes < 0) ? '-' : '') . $roundedBytes . ' ' . $suffixes[floor($base)];
-		});
-
-		//ucfirst
-		$mustache->addHelper('ucfirst', function($text, $helper = null) {
-			if (!empty($helper)) {
-				$text = $helper->render($text);
-			}
-
-			return ucfirst($text);
-		});
 
 		//Translate
 		$translation = $this->translation();
@@ -206,7 +169,121 @@ class Page extends ResponseContent {
 			return $url;
 		});
 
+		//Linked files
+		$appName = $this->app->name();
+		$module = $this->module();
+		$action = $this->action();
+		$globalVars = $this->globalVars();
+		$pageVars = $this->vars();
+		$coreScripts = $this->_getCoreScripts();
+		$mustache->addHelper('getLinkedFiles', function($type) use ($appName, $module, $action, $globalVars, $pageVars, $coreScripts) {
+			$linkedFiles = array();
+
+			$filesBaseDir = $type;
+			$relativePublicFilesDir = __DIR__.'/../public/';
+
+			if (!is_dir($relativePublicFilesDir.'/'.$filesBaseDir)) {
+				return '';
+			}
+
+			//Core files
+			$coreFilesPath = $filesBaseDir.'/core';
+			if ($type == 'js') {
+				foreach($coreScripts as $scriptData) {
+					$filePath = $coreFilesPath.'/'.$scriptData['filename'];
+
+					$linkedFiles[] = $filePath;
+				}
+			} else {
+				if (is_dir($relativePublicFilesDir.'/'.$coreFilesPath)) {
+					$coreFilesDir = opendir($relativePublicFilesDir.'/'.$coreFilesPath);
+
+					if ($coreFilesDir !== false) {
+						while(false !== ($file = readdir($coreFilesDir))) {
+							$filePath = $coreFilesPath.'/'.$file;
+
+							if (pathinfo($relativePublicFilesDir.'/'.$filePath, PATHINFO_EXTENSION) != $type) {
+								continue;
+							}
+
+							$linkedFiles[] = $filePath;
+						}
+						closedir($coreFilesDir);
+					}
+				}
+			}
+
+			//Module file
+			$moduleFilePath = $filesBaseDir.'/app/'.$appName.'/'.$module.'.'.$type;
+			if (file_exists($relativePublicFilesDir.'/'.$moduleFilePath)) {
+				$linkedFiles[] = $moduleFilePath;
+			}
+
+			//Action file
+			$actionFilePath = $filesBaseDir.'/app/'.$appName.'/'.$module.'/'.$action.'.'.$type;
+			if (file_exists($relativePublicFilesDir.'/'.$actionFilePath)) {
+				$linkedFiles[] = $actionFilePath;
+			}
+
+			$linkedFilesTags = '';
+			foreach($linkedFiles as $filePath) {
+				switch($type) {
+					case 'js':
+						$tag = '<script type="text/javascript" src="{{WEBSITE_ROOT}}/'.$filePath.'"></script>';
+						break;
+					case 'css':
+						$tag = '<link href="{{WEBSITE_ROOT}}/'.$filePath.'" rel="stylesheet" media="screen" />';
+						break;
+					default:
+						$tag = '';
+				}
+
+				$linkedFilesTags .= $tag;
+			}
+
+			if ($type == 'js') {
+				$linkedFilesTags .= '<script type="text/javascript">Lighp.websiteConf = '.json_encode($globalVars).';Lighp.setVars('.json_encode($pageVars).');</script>';
+			}
+
+			return $linkedFilesTags;
+		});
+
+		//ucfirst
+		$mustache->addHelper('ucfirst', function($text, $helper = null) {
+			if (!empty($helper)) {
+				$text = $helper->render($text);
+			}
+
+			return ucfirst($text);
+		});
+
+		//File size
+		$mustache->addHelper('filesize', function($value) {
+			$bytes = (int) $value;
+
+			$suffixes = array('octets', 'Kio', 'Mio', 'Gio', 'Tio');
+			$precision = 2;
+
+			$base = 0;
+			$roundedBytes = 0;
+			if ($bytes != 0) {
+				$base = log(abs($bytes)) / log(1024);
+				$roundedBytes = round(pow(1024, $base - floor($base)), $precision);
+			}
+
+			return (($bytes < 0) ? '-' : '') . $roundedBytes . ' ' . $suffixes[floor($base)];
+		});
+
 		return $mustache;
+	}
+
+	/**
+	 * Set the page's translation.
+	 * @param ModuleTranslation $translation The translation.
+	 */
+	public function setTranslation(ModuleTranslation $translation, $section = null) {
+		$this->translation = $translation;
+		$this->translationSection = $section;
 	}
 
 	/**

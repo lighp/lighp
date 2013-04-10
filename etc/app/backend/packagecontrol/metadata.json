@@ -2,10 +2,6 @@
 	"title":"Gestionnaire de paquets",
 	"icon":"download-alt",
 	"actions":{
-		"listPackages":{
-			"url":"packagecontrol.html",
-			"title":"Gérer les paquets installés"
-		},
 		"searchPackage":{
 			"url":"packagecontrol-search.html",
 			"title":"Installer un paquet"
@@ -14,13 +10,27 @@
 			"url":"packagecontrol-upgrade.html",
 			"title":"Vérifier les mises à jour"
 		},
-		"listRepositories":{
-			"url":"packagecontrol-repos.html",
-			"title":"Gérer les dépôts"
+		"showPackage":{
+			"title":"Afficher les paquets installés",
+			"list":{
+				"items":"installedPackages"
+			}
+		},
+		"removePackage":{
+			"title":"Supprimer un paquet",
+			"list":{
+				"items":"installedPackages"
+			}
 		},
 		"addRepository":{
 			"url":"packagecontrol-repos-add.html",
 			"title":"Ajouter un dépôt"
+		},
+		"removeRepository":{
+			"title":"Supprimer un dépôt",
+			"list":{
+				"items":"repositories"
+			}
 		}
 	}
 }

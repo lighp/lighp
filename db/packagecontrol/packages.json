@@ -1,3 +1,14 @@
 [
-
+    {
+        "name": "test",
+        "title": "Test",
+        "subtitle": "Juste un test",
+        "version": "1.0",
+        "description": "Test...",
+        "url": "",
+        "maintainer": "$imon",
+        "license": "WTF",
+        "size": 1162,
+        "extractedSize": 9084
+    }
 ]

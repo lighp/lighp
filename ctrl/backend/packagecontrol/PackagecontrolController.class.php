@@ -15,34 +15,6 @@ class PackagecontrolController extends \core\BackController {
 		$this->page()->addVar('breadcrumb', array_merge($breadcrumb, array($page)));
 	}
 
-	public function executeListPackages(\core\HTTPRequest $request) {
-		$this->page()->addVar('title', 'G&eacute;rer les paquets install&eacute;s');
-		$this->_addBreadcrumb();
-
-		if (!$request->getExists('repo')) {
-			$repo = $this->managers->getManagerOf('LocalRepository');
-		} else {
-			$repoName = $request->getData('repo');
-
-			$packageManager = $this->managers->getManagerOf('Packagecontrol');
-			$repo = $packageManager->getRemoteRepository($repoName);
-		}
-
-		$packages = $repo->getPackagesList();
-
-		foreach ($packages as $i => $metadata) {
-			$metadata = $metadata->toArray();
-
-			if ($repo instanceof \lib\manager\LocalRepositoryManager) {
-				$metadata['installed'] = true;
-			}
-
-			$packages[$i] = $metadata;
-		}
-
-		$this->page()->addVar('packages', $packages);
-	}
-
 	public function executeSearchPackage(\core\HTTPRequest $request) {
 		$this->page()->addVar('title', 'Rechercher un paquet');
 		$this->_addBreadcrumb();
@@ -132,6 +104,35 @@ class PackagecontrolController extends \core\BackController {
 		}
 	}
 
+	public function executeShowPackage(\core\HTTPRequest $request) {
+		$this->page()->addVar('title', 'Afficher un paquet');
+		$this->_addBreadcrumb();
+
+		$localRepo = $this->managers->getManagerOf('LocalRepository');
+		$packageManager = $this->managers->getManagerOf('Packagecontrol');
+
+		$pkgName = $request->getData('name');
+
+		$localPkg = $localRepo->getPackage($pkgName);
+		$remotePkg = $packageManager->getPackage($pkgName);
+		$isUpdate = false;
+		if (!empty($localPkg)) {
+			if (version_compare($remotePkg->metadata()['version'], $localPkg->metadata()['version'], '>')) {
+				$isUpdate = true;
+			}
+		}
+
+		$files = array();
+		foreach($localPkg->files() as $data) {
+			$files[] = array('path' => $data['path']);
+		}
+
+		$this->page()->addVar('package', $localPkg);
+		$this->page()->addVar('filesList', $files);
+		$this->page()->addVar('update?', $isUpdate);
+		$this->page()->addVar('repository', $localRepo);
+	}
+
 	public function executeRemovePackage(\core\HTTPRequest $request) {
 		$this->page()->addVar('title', 'Supprimer un paquet');
 		$this->_addBreadcrumb();
@@ -208,17 +209,6 @@ class PackagecontrolController extends \core\BackController {
 		}
 	}
 
-	public function executeListRepositories(\core\HTTPRequest $request) {
-		$this->page()->addVar('title', 'G&eacute;rer les d&eacute;p&ocirc;ts');
-		$this->_addBreadcrumb();
-
-		$packageManager = $this->managers->getManagerOf('Packagecontrol');
-
-		$repos = $packageManager->getRemoteRepositoriesList();
-
-		$this->page()->addVar('repositories', $repos);
-	}
-
 	public function executeAddRepository(\core\HTTPRequest $request) {
 		$this->page()->addVar('title', 'Ajouter un d&eacute;p&ocirc;t');
 		$this->_addBreadcrumb();
@@ -263,5 +253,47 @@ class PackagecontrolController extends \core\BackController {
 
 			$this->page()->addVar('removed?', true);
 		}
+	}
+
+	// LISTERS
+
+	public function listInstalledPackages() {
+		$packageManager = $this->managers->getManagerOf('Packagecontrol');
+
+		$repo = $this->managers->getManagerOf('LocalRepository');
+		$packages = $repo->getPackagesList();
+
+		$list = array();
+
+		foreach($packages as $pkg) {
+			$item = array(
+				'title' => $pkg->title().' ('.$pkg->name().' '.$pkg->version().')',
+				'shortDescription' => $pkg->subtitle(),
+				'vars' => array('name' => $pkg->name())
+			);
+
+			$list[] = $item;
+		}
+
+		return $list;
+	}
+
+	public function listRepositories() {
+		$packageManager = $this->managers->getManagerOf('Packagecontrol');
+
+		$repos = $packageManager->getRemoteRepositoriesList();
+		$list = array();
+
+		foreach($repos as $repo) {
+			$item = array(
+				'title' => $repo->name(),
+				'shortDescription' => $repo->url(),
+				'vars' => array('name' => $repo->name())
+			);
+
+			$list[] = $item;
+		}
+
+		return $list;
 	}
 }

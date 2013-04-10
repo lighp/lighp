@@ -1,12 +1,12 @@
 [
 	{
-		"url":"/admin/packagecontrol\\.html",
-		"action":"listPackages"
+		"url":"/admin/packagecontrol-show-([a-zA-Z0-9-_.]+)\\.html",
+		"action":"showPackage",
+		"vars": ["name"]
 	},
 	{
-		"url":"/admin/packagecontrol-search\\.html(\\?q=(.*)&repo=(.*))?",
-		"action":"searchPackage",
-		"vars": ["","q","repo"]
+		"url":"/admin/packagecontrol-search\\.html",
+		"action":"searchPackage"
 	},
 	{
 		"url":"/admin/packagecontrol-install-([a-zA-Z0-9-_.]+)\\.html",

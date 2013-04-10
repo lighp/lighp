@@ -9,16 +9,16 @@ namespace core;
  */
 abstract class BackController extends ApplicationComponent {
 	/**
-	 * The action.
-	 * @var string
-	 */
-	protected $action = '';
-
-	/**
 	 * The module.
 	 * @var string
 	 */
 	protected $module = '';
+
+	/**
+	 * The action.
+	 * @var string
+	 */
+	protected $action = '';
 
 	/**
 	 * The response's content.
@@ -39,12 +39,6 @@ abstract class BackController extends ApplicationComponent {
 	protected $translation;
 
 	/**
-	 * The view (the template).
-	 * @var string
-	 */
-	protected $view = '';
-
-	/**
 	 * Initialize the back controller.
 	 * @param Application $app    The application.
 	 * @param string      $module The module.
@@ -53,16 +47,15 @@ abstract class BackController extends ApplicationComponent {
 	public function __construct(Application $app, $module, $action) {
 		parent::__construct($app);
 
+		$this->setModule($module);
+		$this->setAction($action);
+
 		$daos = new Daos;
 		$this->managers = new Managers($daos);
 		$this->config = new ModuleConfig($app, $module);
 		$this->translation = new ModuleTranslation($app, $module, $action);
-		$this->responseContent = new Page($app);
+		$this->responseContent = new Page($app, $module, $action);
 		$this->responseContent->setTranslation($this->translation);
-
-		$this->setModule($module);
-		$this->setAction($action);
-		$this->setView($action);
 	}
 
 	/**
@@ -148,19 +141,5 @@ abstract class BackController extends ApplicationComponent {
 		}
 
 		$this->action = $action;
-	}
-
-	/**
-	 * Set this back controller's view.
-	 * @param string $module The view.
-	 */
-	public function setView($view) {
-		if (!is_string($view) || empty($view)) {
-			throw new \InvalidArgumentException('Invalid view name');
-		}
-
-		$this->view = $view;
-
-		$this->page()->setTemplate(__DIR__.'/../tpl/'.$this->app->name().'/'.$this->module.'/'.$this->view.'.html');
 	}
 }

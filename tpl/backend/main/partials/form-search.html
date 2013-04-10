@@ -1,6 +1,7 @@
-<form action="" method="get" class="form-search">
+<form action="" method="get" class="form-search" id="main-searchForm">
+	<a href="" id="main-searchForm-back"{{^searchQuery}} style="display:none;"{{/searchQuery}}><i class="icon-chevron-left"></i></a>
 	<div class="input-append">
-		<input type="search" class="search-query span10" name="q" placeholder="Filtrer..." value="{{searchQuery}}" autofocus/>
-		<button class="btn" type="submit"><i class="icon-search"></i></button>
+		<input type="search" class="search-query span10" name="q" id="main-searchForm-q" placeholder="Filtrer..." value="{{searchQuery}}" autofocus autocomplete="off"/>
+		<button class="btn btn-primary" type="submit"><i class="icon-search icon-white"></i></button>
 	</div>
 </form>
