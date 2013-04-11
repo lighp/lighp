@@ -159,7 +159,21 @@ class PackagecontrolController extends \core\BackController {
 		}
 	}
 
-	public function executeUpdateCache(\core\HTTPRequest $request) {}
+	public function executeUpdateCache(\core\HTTPRequest $request) {
+		$this->page()->addVar('title', 'Synchroniser le cache');
+		$this->_addBreadcrumb();
+
+		$packageManager = $this->managers->getManagerOf('Packagecontrol');
+
+		try {
+			$packageManager->updateCache();
+		} catch(\Exception $e) {
+			$this->page()->addVar('error', $e->getMessage());
+			return;
+		}
+
+		$this->page()->addVar('updated?', true);
+	}
 
 	public function executeUpgradePackages(\core\HTTPRequest $request) {
 		$this->page()->addVar('title', 'Mettre &agrave; jour les paquets');
@@ -167,6 +181,8 @@ class PackagecontrolController extends \core\BackController {
 
 		$packageManager = $this->managers->getManagerOf('Packagecontrol');
 		$localRepo = $this->managers->getManagerOf('LocalRepository');
+
+		$packageManager->updateCache();
 
 		$upgrades = $packageManager->calculateUpgrades($localRepo);
 		$upgradesNbr = count($upgrades);

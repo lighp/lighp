@@ -17,17 +17,41 @@ class RemoteRepository implements Repository {
 		return $this->url;
 	}
 
+	public function _cacheFilePath() {
+		$cacheDir = new \core\CacheDirectory('app/packagecontrol');
+		$cacheFile = $cacheDir->path().'/'.$this->name().'.json';
+		return $cacheFile;
+	}
+
 	public function getPackagesList() {
-		if ($this->packages !== null) {
+		if ($this->packages !== null) { //Packages already listed
 			return $this->packages;
 		}
 
-		$indexPath = $this->url . '/index.json';
+		//Cache file
+		$cacheFile = $this->_cacheFilePath();
+		$isCached = file_exists($cacheFile);
+		if ($isCached) {
+			$indexPath = $cacheFile;
+		} else {
+			$indexPath = $this->url . '/index.json';
+		}
+
+		//Open index file
 		$json = file_get_contents($indexPath);
-		if ($json === false) { throw new \RuntimeException('Cannot open index file : "'.$indexPath.'"'); }
+		if ($json === false) {
+			throw new \RuntimeException('Cannot open index file : "'.$indexPath.'"');
+		}
 
 		$list = json_decode($json, true);
-		if ($list === false || json_last_error() != JSON_ERROR_NONE) { throw new \RuntimeException('Cannot load index file (malformed JSON) : "'.$indexPath.'"'); }
+		if ($list === false || json_last_error() != JSON_ERROR_NONE) {
+			throw new \RuntimeException('Cannot load index file (malformed JSON) : "'.$indexPath.'"');
+		}
+
+		if (!$isCached) { //If repo is not cached
+			file_put_contents($cacheFile, $json);
+			chmod($cacheFile, 0777);
+		}
 
 		$this->packages = array();
 
@@ -40,6 +64,13 @@ class RemoteRepository implements Repository {
 		}
 
 		return $this->packages;
+	}
+
+	public function updatePackagesList() {
+		$this->packages = null;
+		unlink($this->_cacheFilePath());
+
+		return $this->getPackagesList();
 	}
 
 	public function getPackageMetadata($pkgName) {

@@ -3,12 +3,13 @@
 	"icon":"download-alt",
 	"actions":{
 		"searchPackage":{
-			"url":"packagecontrol-search.html",
 			"title":"Installer un paquet"
 		},
+		"updateCache":{
+			"title":"Synchroniser le cache"
+		},
 		"upgradePackages":{
-			"url":"packagecontrol-upgrade.html",
-			"title":"Vérifier les mises à jour"
+			"title":"Mettre à jour les paquets"
 		},
 		"showPackage":{
 			"title":"Afficher les paquets installés",
@@ -23,7 +24,6 @@
 			}
 		},
 		"addRepository":{
-			"url":"packagecontrol-repos-add.html",
 			"title":"Ajouter un dépôt"
 		},
 		"removeRepository":{

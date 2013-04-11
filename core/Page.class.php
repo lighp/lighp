@@ -122,17 +122,12 @@ class Page extends ResponseContent {
 		$mustacheOptions = array();
 
 		//Cache
-		$cacheDir = __DIR__.'/../var/cache/core/mustache/';
+		try {
+			$cacheDir = new CacheDirectory('core/mustache');
+			$mustacheOptions['cache'] = $cacheDir->path();
+		} catch(\Exception $e) {}
 
-		if (is_dir($cacheDir)) {
-			$mustacheOptions['cache'] = $cacheDir;
-		} else {
-			if (mkdir($cacheDir, 0777, true)) {
-				chmod($cacheDir, 0777);
-				$mustacheOptions['cache'] = $cacheDir;
-			}
-		}
-
+		//Create the engine
 		$mustache = new mustache\Engine($mustacheOptions);
 
 		//Translate

@@ -539,6 +539,14 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 		$filesFile->write($files);
 	}
 
+	public function updateCache() {
+		$remoteRepos = $this->getRemoteRepositoriesList();
+
+		foreach($remoteRepos as $repo) {
+			$repo->updatePackagesList();
+		}
+	}
+
 	public function calculateUpgrades(LocalRepositoryManager $localRepository) {
 		$installedPkgs = $localRepository->getPackagesList();
 

@@ -1,6 +1,10 @@
 [
     {
+        "name": "lighp",
+        "url": "https:\/\/raw.github.com\/lighp\/lighp.repo\/master\/"
+    },
+    {
         "name": "lighp-devel",
-        "url": "http:\/\/localhost\/projects\/lighp-repo\/"
+        "url": "http:\/\/localhost\/projects\/lighp.repo\/"
     }
 ]

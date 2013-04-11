@@ -22,7 +22,7 @@ abstract class Package extends \core\ApplicationComponent {
 	public function unsafeFiles() {
 		$files = $this->files();
 
-		$modulesDirs = array('ctrl','etc/app','lib','tpl');
+		$modulesDirs = array('ctrl','etc/app','lib','tpl','share','public/css/app','public/img','public/js/app');
 		$unsafeFiles = array();
 
 		foreach($files as $path => $data) {

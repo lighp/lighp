@@ -1,0 +1,14 @@
+{{#updated?}}
+	<div class="alert alert-block alert-success">
+		<h4 class="alert-heading">Cache synchronis&eacute;</h4>
+		<p>Le cache a bien &eacute;t&eacute; mis &agrave; jour.</p>
+		<p><a class="btn" href="module-packagecontrol.html">Retour</a></p>
+	</div>
+{{/updated?}}
+
+{{#error}}
+	<div class="alert alert-block alert-error">
+		<h4 class="alert-heading">Erreur lors de la synchronisation</h4>
+		<p>Le cache n'a pas pu &ecirc;tre mis &agrave; jour : {{error}}</p>
+	</div>
+{{/error}}
