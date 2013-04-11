@@ -17,7 +17,7 @@ Features
 Documentation
 -------------
 
-Here is the wiki : https://github.com/simonser/lighp/wiki.
+Here is the wiki : https://github.com/lighp/lighp/wiki.
 
 Licence
 -------
