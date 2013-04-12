@@ -202,7 +202,8 @@ class MainController extends \core\BackController {
 				}
 			}
 
-			$actions = $this->_searchItems($searchQuery, $actions, array('title'));
+			$searcher = new \lib\ArraySearcher($actions);
+			$actions = $searcher->search($searchQuery, array('title'));
 
 			$this->page()->addVar('actions', $actions);
 		}
@@ -222,7 +223,8 @@ class MainController extends \core\BackController {
 		$this->page()->addVar('searchQuery', $searchQuery);
 
 		if (!empty($searchQuery) && isset($backend['actions'])) {
-			$backend['actions'] = $this->_searchItems($searchQuery, $backend['actions'], array('title'));
+			$searcher = new \lib\ArraySearcher($backend['actions']);
+			$backend['actions'] = $searcher->search($searchQuery, array('title'));
 		}
 
 		if (!empty($backend)) {
@@ -305,7 +307,8 @@ class MainController extends \core\BackController {
 
 					//Search query
 					if (!empty($searchQuery)) {
-						$items = $this->_searchItems($searchQuery, $items, array('title', 'shortDescription'));
+						$searcher = new \lib\ArraySearcher($items);
+						$items = $searcher->search($searchQuery, array('title', 'shortDescription'));
 					}
 
 					$this->page()->addVar('items', $items);

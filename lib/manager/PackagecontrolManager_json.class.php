@@ -95,40 +95,23 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 		return false;
 	}
 
-	public function search($query, \lib\Repository $repository = null) {
-		$escapedQuery = preg_quote($query);
-
-		$searchPlaces = array('name','title','subtitle','description','url','maintainer');
-
+	public function search($searchQuery, \lib\Repository $repository = null) {
 		if (!empty($repository)) {
 			$packages = $repository->getPackagesList();
 		} else {
 			$packages = $this->getPackagesList();
 		}
 
-		$nbrPackages = count($packages);
-		$hitsPower = strlen((string) $nbrPackages);
-		$hitsFactor = pow(10, $hitsPower);
+		$items = array();
+		foreach($packages as $pkg) {
+			$item = $pkg->toArray();
+			$item['searchName'] = $pkg['name'];
 
-		$matchingPackages = array();
-
-		foreach($packages as $i => $pkg) {
-			$hits = 0;
-
-			foreach($searchPlaces as $key) {
-				preg_match_all('#'.$escapedQuery.'#i', $pkg[$key], $matches);
-
-				if (is_array($matches[0]) && count($matches[0]) > 0) {
-					$hits += count($matches[0]);
-				}
-			}
-
-			if ($hits > 0) {
-				$matchingPackages[$hits * $hitsFactor + ($nbrPackages - $i)] = $pkg;
-			}
+			$items[] = $item;
 		}
 
-		return array_values($matchingPackages);
+		$searcher = new \lib\ArraySearcher($items);
+		return $searcher->search($searchQuery, array('searchName','title','subtitle','description','url','maintainer'));
 	}
 
 	protected function _mergeTrees($tree1, $tree2) {
