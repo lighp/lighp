@@ -2,13 +2,18 @@ $(function() {
 	var $pageContainer = $('#page-container'),
 		searchFormSel = '#main-searchForm',
 		searchFormQuerySel = '#main-searchForm-q',
-		searchFormGoBackSel = '#main-searchForm-back';
+		searchFormGoBackSel = '#main-searchForm-back',
+		mainStackSel = '#main-stack';
 
 	var loadingRequest = null;
 	function abortLoadingRequest() {
 		if (loadingRequest !== null && !loadingRequest.completed()) {
 			loadingRequest.abort();
 		}
+	}
+
+	function emptyMainStack() {
+		$(mainStackSel).empty();
 	}
 
 	function executeShowModule() {
@@ -24,7 +29,7 @@ $(function() {
 		loadingRequest = req;
 
 		Lighp.loading(true, {
-			container: $('#main-stack').parent()
+			container: $(mainStackSel).parent()
 		});
 
 		req.execute(function(view) {
@@ -33,20 +38,25 @@ $(function() {
 
 				$(searchFormGoBackSel).toggle(searchQuery.length > 0);
 				attachEvents();
-			}, '#main-stack');
+			}, '#main-stack-container');
 		});
 	}
 
 	function attachEvents() {
-		$(searchFormSel).on('submit', function(e) {
-			var $firstAnchor = $('#main-stack > :first-child > a');
+		$(searchFormSel).off('submit').on('submit', function(e) {
+			var $firstAnchor = $(mainStackSel+' > :first-child > a');
 
 			if ($firstAnchor.length) {
-				window.location.href = $('#main-stack > :first-child > a').attr('href');
+				window.location.href = $firstAnchor.attr('href');
 			}
 
 			e.preventDefault();
 		});
+
+		$(searchFormQuerySel).off('keyup').on('keyup', function() {
+			emptyMainStack();
+		});
+
 
 		Lighp.backend.main.buildSearchEntry(searchFormQuerySel, function(searchQuery) {
 			executeShowModule();
@@ -54,7 +64,7 @@ $(function() {
 			abortLoadingRequest();
 		});
 
-		$('#main-searchForm-back, #main-stack-back').on('click', function(e) {
+		$(searchFormGoBackSel).off('click').on('click', function(e) {
 			$(searchFormQuerySel).val('').focus();
 
 			executeShowModule();
