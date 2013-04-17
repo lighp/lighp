@@ -337,6 +337,10 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 				continue;
 			}
 
+			if (!isset($pkgFiles[$itemName])) { //Is this in files list
+				continue;
+			}
+
 			$itemPkgData = $pkgFiles[$itemName]; //From the package
 
 			//Pre-check
