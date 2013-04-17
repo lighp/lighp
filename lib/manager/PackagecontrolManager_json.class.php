@@ -312,7 +312,7 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 		$pkgFiles = $package->files(); //Get the package's files
 
 		$zip = new \ZipArchive();
-		$result = $zip->open($zipPath, \ZipArchive::CREATE); //Open the package's source
+		$result = $zip->open($zipPath); //Open the package's source
 		
 		if ($result !== true) {
 			throw new \RuntimeException('Cannot open package\'s contents from temporary file "'.$zipPath.'" : ZipArchive error #'.$result);
@@ -326,6 +326,10 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 		for ($i = 0; $i < $zip->numFiles; $i++) { //For each file
 			//Get info about it
 			$itemStat = $zip->statIndex($i); //From the archive
+
+			if (strpos($itemStat['name'], 'src/') !== 0) { //Not in "src/" directory
+				continue;
+			}
 
 			$itemName = preg_replace('#^src/#', '', $itemStat['name']);
 
@@ -342,7 +346,16 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 			$itemDestPath = $root . '/' . $itemName; //Here is the final file's destination
 
 			if (file_exists($itemDestPath)) { //File already exists
-				throw new \RuntimeException('File collision detected : "'.$itemDestPath.'" already exists');
+				if (!empty($itemPkgData['md5sum'])) {
+					$fileMd5 = md5_file($itemDestPath); //Calculate the MD5 sum of the existing file
+					if ($itemPkgData['md5sum'] == $fileMd5) { //If checksums are the same
+						continue; //Do not copy the file
+					} else {
+						throw new \RuntimeException('File collision detected : "'.$itemName.'" already exists and contents are different');
+					}
+				} else {
+					throw new \RuntimeException('File collision detected : "'.$itemName.'" already exists');
+				}
 			}
 
 			//Add this file in the list
@@ -387,7 +400,7 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 
 				if ($item['md5sum'] != $destMd5) { //If checksums are different
 					unlink($item['destPath']); //Delete copied file
-					throw new \RuntimeException('Bad file checksum : "'.$item['destPath'].'". This file is corrupted.');
+					throw new \RuntimeException('Bad file checksum : "'.$item['destPath'].'". This file is corrupted. Please try to install this package again.');
 				}
 			}
 
@@ -414,6 +427,67 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 
 			$files[] = $fileItem;
 		}
+	}
+
+	protected function _runPostInstallScript(\lib\AvailablePackage $package, $zipPath) {
+		//Scripts' names
+		$installScriptName = 'INSTALL.php';
+		$removeScriptName = 'REMOVE.php';
+
+		$zip = new \ZipArchive();
+		$result = $zip->open($zipPath); //Open the package's ZIP file
+
+		if ($result !== true) { //Something went wrong
+			throw new \RuntimeException('Cannot open package\'s contents from temporary file "'.$zipPath.'" : ZipArchive error #'.$result);
+		}
+
+		//Scripts enabled ?
+		if ($package->metadata()['hasScripts'] !== true) {
+			return;
+		}
+
+		//Install script
+		$installScript = $zip->getFromName($installScriptName); //Here is the PHP code
+
+		if ($installScript !== false) { //The file exists, evaluate the PHP code
+			$installScript = preg_replace('#^\<\?(php)?#i', '', $installScript);
+			$installScript = preg_replace('#\?\>$#i', '', $installScript);
+
+			chdir(__DIR__.'/../..'); //Change working directory to the framework's root path
+
+			$installFn = create_function('', $installScript);
+
+			try {
+				call_user_func_array($installFn, array());
+			} catch (\Exception $e) {}
+		}
+
+		//Remove script
+		$removeScript = $zip->getFromName($removeScriptName);
+
+		if ($removeScript !== false) { //The file exists, save the PHP code in a file
+			$removeScriptsDirPath = __DIR__.'/../../var/lib/packagemanager/remove-scripts';
+			$removeScriptPath = $removeScriptsDirPath . '/' . $package->metadata()['name'] . '.php.txt';
+
+			if (!is_dir($removeScriptsDirPath)) {
+				$result = mkdir($removeScriptsDirPath, 0777, true);
+
+				if ($result === false) { //Cannot create dir, let it be...
+					return;
+				}
+
+				chmod($removeScriptsDirPath, 0777);
+			}
+
+			file_put_contents($removeScriptPath, $removeScript);
+			chmod($removeScriptPath, 0777);
+		}
+
+		$zip->close(); //Close the package's ZIP file
+	}
+
+	public function _getPkgZipPath(\core\TemporaryDirectory $tmpDir, \lib\AvailablePackage $pkg) {
+		return $tmpDir->root().'/'.$pkg->metadata()['name'].'.zip';
 	}
 
 	public function install($packages, LocalRepositoryManager $localRepository) {
@@ -495,16 +569,23 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 		$tmpDir = new \core\TemporaryDirectory(); //Create a temporary folder
 
 		foreach($packagesToInstall as $pkg) { //Download each package
-			$zipPath = $tmpDir->root().'/'.$pkg->metadata()['name'].'.zip';
+			$zipPath = $this->_getPkgZipPath($tmpDir, $pkg);
 
 			$this->_download($pkg, $zipPath);
 		}
 
 		//Then, check and extract zipped files
 		foreach($packagesToInstall as $pkg) {
-			$zipPath = $tmpDir->root().'/'.$pkg->metadata()['name'].'.zip';
+			$zipPath = $this->_getPkgZipPath($tmpDir, $pkg);
 
 			$this->_extract($pkg, $zipPath);
+		}
+
+		//And run post-installation scripts
+		foreach($packagesToInstall as $pkg) {
+			$zipPath = $this->_getPkgZipPath($tmpDir, $pkg);
+
+			$this->_runPostInstallScript($pkg, $zipPath);
 		}
 
 		//Finally, register new packages in the local DB

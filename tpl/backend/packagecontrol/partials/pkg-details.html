@@ -3,7 +3,7 @@
 
 <ul class="nav nav-tabs">
 	<li class="active"><a href="#package-info" data-toggle="tab">Informations</a></li>
-	<li><a href="#package-files" data-toggle="tab">Fichiers</a></li>
+	<li><a href="#package-files" data-toggle="tab">Fichiers{{#filesNbr}} ({{filesNbr}}){{/filesNbr}}</a></li>
 </ul>
 <div class="tab-content">
 	<div class="tab-pane active" id="package-info">
@@ -47,8 +47,11 @@
 				<dt>Taille</dt>
 				<dd>{{size | filesize}} &agrave; t&eacute;l&eacute;charger, {{extractedSize | filesize}} une fois install&eacute;</dd>
 
+				<dt>Date de publication</dt>
+				<dd>{{#updateDate}}{{updateDate | strtotime | date}}{{/updateDate}}{{^updateDate}}<span class="muted">Non sp&eacute;cifi&eacute;e</span>{{/updateDate}}</dd>
+
 				<dt>D&eacute;p&ocirc;t</dt>
-				<dd>{{repository.name}}{{^repository.name}}<span class="muted">Inconnu</span>{{/repository.name}}</dd>
+				<dd>{{repository.name}}{{^repository.name}}<span class="muted">{{#installed?}}Local{{/installed?}}{{^installed?}}Inconnu{{/installed?}}</span>{{/repository.name}}</dd>
 			</dl>
 		{{/metadata}}
 	</div>
@@ -61,5 +64,9 @@
 		{{^filesList}}
 			<p class="alert alert-info">Ce paquet ne contient aucun fichier.</p>
 		{{/filesList}}
+
+		{{#metadata.hasScripts}}
+			<p><small>Ce paquet contient des scripts d'installation et de suppression.</small></p>
+		{{/metadata.hasScripts}}
 	</div>
 </div>

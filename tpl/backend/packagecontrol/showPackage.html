@@ -1,20 +1,75 @@
 {{#package}}
 	{{> partials/pkg-details}}
 
-	{{#update?}}
-		<div class="alert alert-block alert-info">
-			<h4 class="alert-heading">Mise &agrave; jour</h4>
-			<p>Ce paquet est install&eacute;, mais une version plus r&eacute;cente est disponible dans les d&eacute;p&ocirc;ts.</p>
-			<p>
-				<a class="btn btn-primary" href="{{#buildUrl}}packagecontrol installPackage {{metadata.name}}{{/buildUrl}}"><i class="icon-arrow-down icon-white"></i>&nbsp;Mettre &agrave; jour</a>
-				<a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Retour</a>
-			</p>
-		</div>
-	{{/update?}}
-	{{^update?}}
-		<p>
-			<a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Retour</a>
-		</p>
-	{{/update?}}
+	<form action="{{#buildUrl}}packagecontrol installPackage {{metadata.name}}{{/buildUrl}}" method="post">
+		<input type="hidden" name="check" value="1">
 
+		{{^alreadyInstalled?}}
+			{{#unsafePkg?}}
+				<div class="alert alert-warning">
+					<h4 class="alert-heading">Paquet potentiellement dangereux</h4>
+					<p>Ce paquet peut causer des probl&egrave;mes de s&eacute;curit&eacute; importants. Les fichiers suivants sont dangereux :</p>
+					<ul>
+						{{#unsafeFiles}}
+							<li>{{.}}</li>
+						{{/unsafeFiles}}
+						{{#metadata.hasScripts}}
+							<li>Scripts d'installation et de suppression</li>
+						{{/metadata.hasScripts}}
+					</ul>
+					{{^unsafeFiles}}
+						{{^metadata.hasScripts}}
+							<p><em>Liste non disponible.</em></p>
+						{{/metadata.hasScripts}}
+					{{/unsafeFiles}}
+					<p><strong>N'installez ce paquet que si vous avez confiance en son origine.</strong> Un paquet contenant du code malicieux pourrait effectuer un certain nombre d'actions ind&eacute;sirables (acc&egrave;s entier &agrave; vos donn&eacute;es et aux fichiers stock&eacute;s  sur le serveur).</p>
+					{{^installed?}}
+						<p>
+							{{#update?}}
+								<button type="submit" class="btn btn-warning"><i class="icon-arrow-down icon-white"></i>&nbsp;Mettre &agrave; jour tout de m&ecirc;me</button>
+							{{/update?}}
+							{{^update?}}
+								<button type="submit" class="btn btn-warning"><i class="icon-arrow-down icon-white"></i>&nbsp;Installer tout de m&ecirc;me</button>
+							{{/update?}}
+							<a class="btn" href="{{source}}">T&eacute;l&eacute;charger le contenu du paquet</a>
+							<a class="btn" href="module-packagecontrol.html">Annuler</a>
+						</p>
+					{{/installed?}}
+				</div>
+			{{/unsafePkg?}}
+			{{^unsafePkg?}}
+				{{^installed?}}
+					{{#update?}}
+						<div class="alert alert-block alert-info">
+							<h4 class="alert-heading">Mise &agrave; jour</h4>
+							<p>Ce paquet est d&eacute;j&agrave; install&eacute;, mais une version plus r&eacute;cente est disponible dans les d&eacute;p&ocirc;ts.</p>
+							<p>
+								<button type="submit" class="btn btn-info"><i class="icon-arrow-down icon-white"></i>&nbsp;Mettre &agrave; jour</button>
+								<a class="btn" href="module-packagecontrol.html">Annuler</a>
+							</p>
+						</div>
+					{{/update?}}
+					{{^update?}}
+						<div class="form-actions">
+							<button type="submit" class="btn btn-primary"><i class="icon-arrow-down icon-white"></i>&nbsp;Installer</button>
+							<a class="btn" href="module-packagecontrol.html">Annuler</a>
+						</div>
+					{{/update?}}
+				{{/installed?}}
+			{{/unsafePkg?}}
+		{{/alreadyInstalled?}}
+		{{#alreadyInstalled?}}
+			<div class="alert alert-block alert-info">
+				<h4 class="alert-heading">Paquet d&eacute;j&agrave; install&eacute;</h4>
+				<p>Ce paquet est d&eacute;j&agrave; install&eacute;.</p>
+				<p>
+					<a class="btn btn-info" href="packagecontrol-remove-{{metadata.name}}.html"><i class="icon-trash icon-white"></i>&nbsp;Supprimer</a>
+					<a class="btn" href="module-packagecontrol.html">Retour</a>
+				</p>
+			</div>
+		{{/alreadyInstalled?}}
+	</form>
+{{/package}}
+{{^package}}
+	<p class="alert alert-warning">Le paquet sp&eacute;cifi&eacute; est inexistant.</p>
 {{/package}}

@@ -67,6 +67,28 @@ class LocalRepositoryManager_json extends LocalRepositoryManager {
 		return false;
 	}
 
+	public function _runPreRemoveScript(\lib\InstalledPackage $pkg) {
+		$removeScriptsDirPath = __DIR__.'/../../var/lib/packagemanager/remove-scripts';
+		$removeScriptPath = $removeScriptsDirPath . '/' . $pkg->metadata()['name'] . '.php.txt';
+
+		if (file_exists($removeScriptPath)) {
+			$removeScript = file_get_contents($removeScriptPath);
+
+			$removeScript = preg_replace('#^\<\?(php)?#i', '', $removeScript);
+			$removeScript = preg_replace('#\?\>$#i', '', $removeScript);
+
+			chdir(__DIR__.'/../..'); //Change working directory to the framework's root path
+
+			$removeFn = create_function('', $removeScript);
+
+			try {
+				call_user_func_array($removeFn, array());
+			} catch (\Exception $e) {}
+
+			unlink($removeScriptPath);
+		}
+	}
+
 	protected function _deleteFiles(\lib\InstalledPackage $pkg) {
 		$pkgFiles = $pkg->files();
 
@@ -156,6 +178,7 @@ class LocalRepositoryManager_json extends LocalRepositoryManager {
 		$files = $filesFile->read();
 
 		foreach($pkgList as $pkg) { //Uninstall packages
+			$this->_runPreRemoveScript($pkg);
 			$this->_deleteFiles($pkg); //Deelete this package's files
 			$this->_unregister($pkg, $metadatas, $files); //Unregister this package from the local DB
 		}

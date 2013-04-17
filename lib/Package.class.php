@@ -53,6 +53,19 @@ abstract class Package extends \core\ApplicationComponent {
 		return $unsafeFiles;
 	}
 
+	public function unsafe() {
+		if (isset($this->metadata()['hasScripts']) && $this->metadata()['hasScripts'] == true) {
+			return true;
+		}
+
+		$unsafeFiles = $this->unsafeFiles();
+		if (count($unsafeFiles) > 0) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public function depends() {
 		$dependencies = array();
 

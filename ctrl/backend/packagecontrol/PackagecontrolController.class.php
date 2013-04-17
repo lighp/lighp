@@ -86,7 +86,7 @@ class PackagecontrolController extends \core\BackController {
 		$this->page()->addVar('filesList', $files);
 		$this->page()->addVar('alreadyInstalled?', $alreadyInstalled);
 		$this->page()->addVar('update?', $isUpdate);
-		$this->page()->addVar('unsafePkg?', (count($pkg->unsafeFiles()) > 0));
+		$this->page()->addVar('unsafePkg?', $pkg->unsafe());
 		
 		if ($request->postExists('check') && !$alreadyInstalled) {
 			try {
@@ -115,22 +115,42 @@ class PackagecontrolController extends \core\BackController {
 
 		$localPkg = $localRepo->getPackage($pkgName);
 		$remotePkg = $packageManager->getPackage($pkgName);
+
+		$alreadyInstalled = false;
 		$isUpdate = false;
+
+		$pkg = (!empty($remotePkg)) ? $remotePkg : $localPkg;
+
+		if (empty($pkg)) {
+			return;
+		}
+
+		$this->page()->addVar('title', $pkg->metadata()['title']);
+
 		if (!empty($localPkg)) {
 			if (version_compare($remotePkg->metadata()['version'], $localPkg->metadata()['version'], '>')) {
 				$isUpdate = true;
+			} else {
+				$alreadyInstalled = true;
 			}
 		}
 
 		$files = array();
-		foreach($localPkg->files() as $data) {
-			$files[] = array('path' => $data['path']);
+		foreach($pkg->files() as $key => $data) {
+			if ($pkg instanceof \lib\InstalledPackage) {
+				$files[] = array('path' => $data['path']);
+			} else {
+				$files[] = array('path' => $key);
+			}
 		}
 
-		$this->page()->addVar('package', $localPkg);
+		$this->page()->addVar('package', $pkg);
+		$this->page()->addVar('filesNbr', count($files));
 		$this->page()->addVar('filesList', $files);
+		$this->page()->addVar('alreadyInstalled?', $alreadyInstalled);
 		$this->page()->addVar('update?', $isUpdate);
 		$this->page()->addVar('repository', $localRepo);
+		$this->page()->addVar('unsafePkg?', $pkg->unsafe());
 	}
 
 	public function executeRemovePackage(\core\HTTPRequest $request) {

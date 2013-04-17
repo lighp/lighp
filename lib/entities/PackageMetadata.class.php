@@ -2,7 +2,7 @@
 namespace lib\entities;
 
 class PackageMetadata extends \core\Entity {
-	protected $name, $title, $subtitle, $version, $description, $url, $maintainer, $license, $depends, $size, $extractedSize;
+	protected $name, $title, $subtitle, $version, $description, $url, $maintainer, $license, $depends, $size, $extractedSize, $updateDate, $hasScripts;
 
 	// SETTERS //
 	
@@ -94,6 +94,22 @@ class PackageMetadata extends \core\Entity {
 		$this->extractedSize = $extractedSize;
 	}
 
+	public function setUpdateDate($updateDate) {
+		if (!is_string($updateDate)) {
+			throw new \InvalidArgumentException('Invalid package update date');
+		}
+
+		$this->updateDate = $updateDate;
+	}
+
+	public function setHasScripts($hasScripts) {
+		if (!is_bool($hasScripts)) {
+			throw new \InvalidArgumentException('Invalid package scripts indicator');
+		}
+
+		$this->hasScripts = $hasScripts;
+	}
+
 	// GETTERS //
 
 	public function name() {
@@ -138,5 +154,13 @@ class PackageMetadata extends \core\Entity {
 
 	public function extractedSize() {
 		return $this->extractedSize;
+	}
+
+	public function updateDate() {
+		return $this->updateDate;
+	}
+	
+	public function hasScripts() {
+		return $this->hasScripts;
 	}
 }
