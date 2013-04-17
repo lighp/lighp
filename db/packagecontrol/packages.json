@@ -1,3 +1,41 @@
 [
-
+    {
+        "name": "lib-jquery",
+        "title": "lib-jquery",
+        "subtitle": "",
+        "version": "1.9.1",
+        "description": "jQuery is a fast, small, and feature-rich JavaScript library. It makes things like HTML document traversal and manipulation, event handling, animation, and Ajax much simpler with an easy-to-use API that works across a multitude of browsers. With a combination of versatility and extensibility, jQuery has changed the way that millions of people write JavaScript.",
+        "url": "http:\/\/jquery.com",
+        "maintainer": "Simon Ser",
+        "license": "MIT License",
+        "size": 33510,
+        "extractedSize": 109013
+    },
+    {
+        "name": "lib-twitter-bootstrap",
+        "title": "lib-twitter-bootstrap",
+        "subtitle": "",
+        "version": "2.3.1",
+        "description": "Sleek, intuitive, and powerful front-end framework for faster and easier web development.",
+        "url": "http:\/\/twitter.github.io\/bootstrap\/",
+        "maintainer": "Simon Ser",
+        "license": "Apache License v2.0",
+        "depends": "lib-jquery",
+        "size": 51748,
+        "extractedSize": 201460
+    },
+    {
+        "name": "dao-jsondb",
+        "title": "dao-jsondb",
+        "subtitle": "",
+        "version": "0.1",
+        "description": "A light-weight database management system based on JSON.",
+        "url": "",
+        "maintainer": "Simon Ser",
+        "license": "GPLv3",
+        "size": 3814,
+        "extractedSize": 22162,
+        "updateDate": "2013-04-17 07:49:57",
+        "hasScripts": true
+    }
 ]

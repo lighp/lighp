@@ -1,3 +1,57 @@
 [
-
+    {
+        "path": "public\/js\/core\/jquery-1.9.1.min.js",
+        "pkg": "lib-jquery",
+        "md5sum": "397754ba49e9e0cf4e7c190da78dda05"
+    },
+    {
+        "path": "public\/css\/core\/bootstrap.min.css",
+        "pkg": "lib-twitter-bootstrap",
+        "md5sum": "1fbd075d05281acc9b5d74fb1375d35d"
+    },
+    {
+        "path": "public\/css\/core\/bootstrap-responsive.min.css",
+        "pkg": "lib-twitter-bootstrap",
+        "md5sum": "02ca8cb329bcd095531f3a8c4481d9f4"
+    },
+    {
+        "path": "public\/img\/glyphicons-halflings.png",
+        "pkg": "lib-twitter-bootstrap",
+        "md5sum": "2516339970d710819585f90773aebe0a"
+    },
+    {
+        "path": "public\/img\/glyphicons-halflings-white.png",
+        "pkg": "lib-twitter-bootstrap",
+        "md5sum": "9bbc6e9602998a385c2ea13df56470fd"
+    },
+    {
+        "path": "public\/js\/core\/bootstrap.min.js",
+        "pkg": "lib-twitter-bootstrap",
+        "md5sum": "81784f7d44983786354097d7bd6c1b0f"
+    },
+    {
+        "path": "core\/dao\/json\/Collection.class.php",
+        "pkg": "dao-jsondb",
+        "md5sum": "d366bd53e362faf85773dbe857e7ee6e"
+    },
+    {
+        "path": "core\/dao\/json\/Database.class.php",
+        "pkg": "dao-jsondb",
+        "md5sum": "8d6dd16ec8264db3d70b394ebd66dc7c"
+    },
+    {
+        "path": "core\/dao\/json\/File.class.php",
+        "pkg": "dao-jsondb",
+        "md5sum": "c8abdaae191f5c3a9a64304dc82b9e37"
+    },
+    {
+        "path": "core\/dao\/json\/Item.class.php",
+        "pkg": "dao-jsondb",
+        "md5sum": "5ce4481ea427793a657f97490d1ff166"
+    },
+    {
+        "path": "core\/dao\/JSONDBFactory.class.php",
+        "pkg": "dao-jsondb",
+        "md5sum": "5d8cc7b4e39c0a96381ca934707545bc"
+    }
 ]
