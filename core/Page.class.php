@@ -252,6 +252,23 @@ class Page extends ResponseContent {
 			return ucfirst($text);
 		});
 
+		//Date & time
+		$mustache->addHelper('strtotime', function($text, $helper = null) {
+			if (!empty($helper)) {
+				$text = $helper->render($text);
+			}
+
+			return $text;
+		});
+		$mustache->addHelper('date', function($text, $helper = null) {
+			if (!empty($helper)) {
+				$text = $helper->render($text);
+			}
+
+			return $text;
+		});
+		
+
 		//File size
 		$mustache->addHelper('filesize', function($value) {
 			$bytes = (int) $value;

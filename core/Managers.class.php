@@ -73,6 +73,10 @@ class Managers {
 			$api = $this->_getApiOf($module);
 			if (empty($api)) {
 				$api = $this->daos->getDefaultApi();
+
+				if (empty($api)) {
+					throw new \RuntimeException('No DAO available');
+				}
 			}
 
 			$dao = $this->daos->getDao($api);

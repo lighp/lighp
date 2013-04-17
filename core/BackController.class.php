@@ -21,6 +21,12 @@ abstract class BackController extends ApplicationComponent {
 	protected $action = '';
 
 	/**
+	 * The managers.
+	 * @var Managers
+	 */
+	protected $managers;
+
+	/**
 	 * The response's content.
 	 * @var ResponseContent
 	 */
