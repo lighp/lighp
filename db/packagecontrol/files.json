@@ -53,5 +53,870 @@
         "path": "core\/dao\/JSONDBFactory.class.php",
         "pkg": "dao-jsondb",
         "md5sum": "5d8cc7b4e39c0a96381ca934707545bc"
+    },
+    {
+        "path": "lib\/ArraySearcher.class.php",
+        "pkg": "lib-arraysearcher",
+        "md5sum": "813c4e3c9dac1c5bc8df58778a5cfd06"
+    },
+    {
+        "path": "lib\/Captcha.class.php",
+        "pkg": "lib-captcha",
+        "md5sum": "7170bc5ffe15533e171cd8f4100a05a5"
+    },
+    {
+        "path": "core\/mustache\/Autoloader.class.php",
+        "pkg": "lib-mustache",
+        "md5sum": "a8448986c2ced5b9f8a5afc915964b71"
+    },
+    {
+        "path": "core\/mustache\/Compiler.class.php",
+        "pkg": "lib-mustache",
+        "md5sum": "81d6d4c838741b3fc9de795cbbff45f1"
+    },
+    {
+        "path": "core\/mustache\/Context.class.php",
+        "pkg": "lib-mustache",
+        "md5sum": "79a2ad53ee4c8d71f52bca6fdc0bd5d9"
+    },
+    {
+        "path": "core\/mustache\/Engine.class.php",
+        "pkg": "lib-mustache",
+        "md5sum": "4e1543e756c0c9c44a0d2442f13bcceb"
+    },
+    {
+        "path": "core\/mustache\/HelperCollection.class.php",
+        "pkg": "lib-mustache",
+        "md5sum": "733fb104fe788f24439e4f1d1b60b0e2"
+    },
+    {
+        "path": "core\/mustache\/LambdaHelper.class.php",
+        "pkg": "lib-mustache",
+        "md5sum": "bbbd99ffcf12e0de1d6b24369e26730a"
+    },
+    {
+        "path": "core\/mustache\/loader\/ArrayLoader.class.php",
+        "pkg": "lib-mustache",
+        "md5sum": "34f0d3ea447a7e4179513567c83fd786"
+    },
+    {
+        "path": "core\/mustache\/loader\/FilesystemLoader.class.php",
+        "pkg": "lib-mustache",
+        "md5sum": "c301b0a2b152c8c69a50c2cf09e8467c"
+    },
+    {
+        "path": "core\/mustache\/loader\/MutableLoader.class.php",
+        "pkg": "lib-mustache",
+        "md5sum": "0af622df689a28a8f12da015ee8ef746"
+    },
+    {
+        "path": "core\/mustache\/loader\/StringLoader.class.php",
+        "pkg": "lib-mustache",
+        "md5sum": "38082ae61da305e3413472e3d6ab796a"
+    },
+    {
+        "path": "core\/mustache\/Loader.class.php",
+        "pkg": "lib-mustache",
+        "md5sum": "c5681f0cc1c15407fbfaf261e3f96690"
+    },
+    {
+        "path": "core\/mustache\/logger\/AbstractLogger.class.php",
+        "pkg": "lib-mustache",
+        "md5sum": "68896617104cdc6484df8e522cd4d2f8"
+    },
+    {
+        "path": "core\/mustache\/logger\/StreamLogger.class.php",
+        "pkg": "lib-mustache",
+        "md5sum": "0331f4c4a0c7ee1a2e94f70fd0b75d48"
+    },
+    {
+        "path": "core\/mustache\/Logger.class.php",
+        "pkg": "lib-mustache",
+        "md5sum": "5811166ddf8a387cd8e54698dce02894"
+    },
+    {
+        "path": "core\/mustache\/Parser.class.php",
+        "pkg": "lib-mustache",
+        "md5sum": "d814c30e870d0f16d59491d0458257b6"
+    },
+    {
+        "path": "core\/mustache\/Template.class.php",
+        "pkg": "lib-mustache",
+        "md5sum": "ae7d257495d71add9b8cfad352d0cbab"
+    },
+    {
+        "path": "core\/mustache\/Tokenizer.class.php",
+        "pkg": "lib-mustache",
+        "md5sum": "8c598925bca0ea123bacf4faa4cc98e3"
+    },
+    {
+        "path": "public\/js\/core\/mustache.js",
+        "pkg": "lib-mustache",
+        "md5sum": "bb84573772f3080662623a317ca3cd3f"
+    },
+    {
+        "path": "core\/spyc\/Spyc.class.php",
+        "pkg": "lib-spyc",
+        "md5sum": "c7bf0f26dcbdb45bcc68d8bafe0ee412"
+    },
+    {
+        "path": "CHANGELOG.md",
+        "pkg": "lighp-core",
+        "md5sum": "fe295cebe9c15603045ed64cc78a4df8"
+    },
+    {
+        "path": "COPYING",
+        "pkg": "lighp-core",
+        "md5sum": "d32239bcb673463ab874e80d47fae504"
+    },
+    {
+        "path": "core\/ApiBackController.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "4c22f3f06bc07de1c47e12d9948f0e84"
+    },
+    {
+        "path": "core\/ApiResponse.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "542732e0c5044dfa33b5139a904798fa"
+    },
+    {
+        "path": "core\/Application.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "c718648e68b58b2c59f982ffbe94656e"
+    },
+    {
+        "path": "core\/ApplicationComponent.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "b4afc1d4fdcd6f2bba43eb78a3ae8678"
+    },
+    {
+        "path": "core\/autoload.php",
+        "pkg": "lighp-core",
+        "md5sum": "da608fde27a23b75fe4ed785a3f72414"
+    },
+    {
+        "path": "core\/BackController.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "f30b2eb7e2b5c8a8df25f187c3b651b5"
+    },
+    {
+        "path": "core\/BackendApiApplication.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "85e3a38eaf409fa554958c18c2df343a"
+    },
+    {
+        "path": "core\/BackendApplication.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "280bafcf18c053b2c86f72a5eaacd0f0"
+    },
+    {
+        "path": "core\/Config.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "f7d528ea05ccf65b7617a19d60126972"
+    },
+    {
+        "path": "core\/Daos.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "901cfc1efdf0bd1001d3a8b7f34f7f59"
+    },
+    {
+        "path": "core\/Entity.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "688ee8d932b248a02a351beca881c217"
+    },
+    {
+        "path": "core\/FrontendApplication.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "240e3030d22a3181e6f5c312deb624e3"
+    },
+    {
+        "path": "core\/HTTPRequest.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "65bdbf3a9bb79ed866b6ec785c8ef329"
+    },
+    {
+        "path": "core\/HTTPResponse.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "1fb7103fe3d4a99cf31877650a181b02"
+    },
+    {
+        "path": "core\/Manager.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "46a849028ab5ec1fc6df408aec9c67b1"
+    },
+    {
+        "path": "core\/Managers.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "e5730d6f79488b57811123e0cc248856"
+    },
+    {
+        "path": "core\/ModuleComponent.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "c174e972e01b07e1ad1fedca29ebaa29"
+    },
+    {
+        "path": "core\/ModuleConfig.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "ec62518a50f481a0514ff3b863a16c47"
+    },
+    {
+        "path": "core\/ModuleTranslation.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "7a4b8b53c3be58de7a5427001c230fb7"
+    },
+    {
+        "path": "core\/Page.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "9f0966c4008fa3e6f3961fdbe99c3ac5"
+    },
+    {
+        "path": "core\/ResponseContent.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "92010732436fd80f5f0f70d254c16103"
+    },
+    {
+        "path": "core\/Route.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "c5f1ddef6da02774fafeac03c8e4699d"
+    },
+    {
+        "path": "core\/Router.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "af05c6a4ebe53bb5cac7b27c7531799d"
+    },
+    {
+        "path": "core\/TemporaryDirectory.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "98df0adfad4a885ee5120cd07b0bf391"
+    },
+    {
+        "path": "core\/User.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "7b8786b47363f8c0e1cc8db2e51728c8"
+    },
+    {
+        "path": "ctrl\/backend\/login\/LoginController.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "9e328356fb57602bde456149f08731be"
+    },
+    {
+        "path": "etc\/app\/backend\/login\/config.json",
+        "pkg": "lighp-core",
+        "md5sum": "65a8d2726629c373936a18dad6786bb2"
+    },
+    {
+        "path": "etc\/app\/backend\/login\/metadata.json",
+        "pkg": "lighp-core",
+        "md5sum": "0e38c764ca863c5c2c26ad071616b287"
+    },
+    {
+        "path": "etc\/app\/backend\/login\/routes.json",
+        "pkg": "lighp-core",
+        "md5sum": "c497deb3aed30fa3a58254d50840ce00"
+    },
+    {
+        "path": "etc\/core\/daos.json",
+        "pkg": "lighp-core",
+        "md5sum": "e694b5562da2ac320a1210fdbee4ae1b"
+    },
+    {
+        "path": "etc\/core\/managers.json",
+        "pkg": "lighp-core",
+        "md5sum": "99914b932bd37a50b983c5e7c90ae93b"
+    },
+    {
+        "path": "etc\/core\/scripts.json",
+        "pkg": "lighp-core",
+        "md5sum": "81115bd66c6b3984fa798f6f8e4a8302"
+    },
+    {
+        "path": "etc\/core\/website.json",
+        "pkg": "lighp-core",
+        "md5sum": "1b9b55345f79446b67673b60ade98a96"
+    },
+    {
+        "path": ".htaccess",
+        "pkg": "lighp-core",
+        "md5sum": "ad1a685a798e2e27059c2ba4faa7e01a"
+    },
+    {
+        "path": "public\/backendApi.php",
+        "pkg": "lighp-core",
+        "md5sum": "a602c90907fbf0b0eac128bb3bda6fe7"
+    },
+    {
+        "path": "public\/backend.php",
+        "pkg": "lighp-core",
+        "md5sum": "29c86541c8deff2d136ffab7a47a803b"
+    },
+    {
+        "path": "public\/frontendApi.php",
+        "pkg": "lighp-core",
+        "md5sum": "dc82628f69fbad8f7365a2ae994cc921"
+    },
+    {
+        "path": "public\/frontend.php",
+        "pkg": "lighp-core",
+        "md5sum": "28c4feacbb1330030979ea369bbfcab8"
+    },
+    {
+        "path": "public\/.htaccess",
+        "pkg": "lighp-core",
+        "md5sum": "8f3f2fa7c5eaf5484e8269e2cffd8b98"
+    },
+    {
+        "path": "public\/img\/error\/404\/dead-link.png",
+        "pkg": "lighp-core",
+        "md5sum": "38d062f63681b3b431328bacb6695006"
+    },
+    {
+        "path": "public\/img\/loader.gif",
+        "pkg": "lighp-core",
+        "md5sum": "faa74e8c61fc64d5edb11613c7eead2c"
+    },
+    {
+        "path": "public\/js\/core\/lighp.js",
+        "pkg": "lighp-core",
+        "md5sum": "67c3f214a62a27b4aee09ab7cfd7bb21"
+    },
+    {
+        "path": "README.md",
+        "pkg": "lighp-core",
+        "md5sum": "d871df4eddd769dcce7f9b729e2bb8a7"
+    },
+    {
+        "path": "tpl\/backend\/layout.html",
+        "pkg": "lighp-core",
+        "md5sum": "a29a3c5b53358f6b8fc8e481768323f8"
+    },
+    {
+        "path": "tpl\/backend\/login\/index.html",
+        "pkg": "lighp-core",
+        "md5sum": "fceb847d146768e3386c4df2587370ba"
+    },
+    {
+        "path": "tpl\/backend\/login\/logout.html",
+        "pkg": "lighp-core",
+        "md5sum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    {
+        "path": "tpl\/backend\/login\/update.html",
+        "pkg": "lighp-core",
+        "md5sum": "a38dd15763290c192c801912387c6934"
+    },
+    {
+        "path": "tpl\/error\/403.html",
+        "pkg": "lighp-core",
+        "md5sum": "c1ad1e3e4debdc46c87eed11102d5c7c"
+    },
+    {
+        "path": "tpl\/error\/404.html",
+        "pkg": "lighp-core",
+        "md5sum": "7dc631843bb5e9e9b421d64d20747b85"
+    },
+    {
+        "path": "tpl\/frontend\/layout.html",
+        "pkg": "lighp-core",
+        "md5sum": "127bdb81907264776d67cd81aaf1797e"
+    },
+    {
+        "path": "ctrl\/backend\/main\/MainController.class.php",
+        "pkg": "module-backend-main",
+        "md5sum": "ae6b35c9ffc2e7b95a3134cbd05bfc06"
+    },
+    {
+        "path": "etc\/app\/backend\/main\/routes.json",
+        "pkg": "module-backend-main",
+        "md5sum": "c0961794a0496d18d67d4868e2cc08bd"
+    },
+    {
+        "path": "public\/js\/app\/backend\/main\/index.js",
+        "pkg": "module-backend-main",
+        "md5sum": "3c73e424b62e7c87da631a82994ab782"
+    },
+    {
+        "path": "public\/js\/app\/backend\/main\/showAction.js",
+        "pkg": "module-backend-main",
+        "md5sum": "4fcad43ae2fc683b56354358d2684233"
+    },
+    {
+        "path": "public\/js\/app\/backend\/main\/showModule.js",
+        "pkg": "module-backend-main",
+        "md5sum": "c3c24cbf120c93d44789f0a7404a942d"
+    },
+    {
+        "path": "public\/js\/app\/backend\/main.js",
+        "pkg": "module-backend-main",
+        "md5sum": "e7275c9f06c3f3a9ca6d18f2b66f27e1"
+    },
+    {
+        "path": "tpl\/backend\/main\/index.html",
+        "pkg": "module-backend-main",
+        "md5sum": "d5dcc1826d90c95e1963d369895eac60"
+    },
+    {
+        "path": "tpl\/backend\/main\/partials\/form-search.html",
+        "pkg": "module-backend-main",
+        "md5sum": "4c459b6f9b670f6dc439bd4773a45916"
+    },
+    {
+        "path": "tpl\/backend\/main\/showAction.html",
+        "pkg": "module-backend-main",
+        "md5sum": "0f61f3b86b4ab721ab767e5316c20c64"
+    },
+    {
+        "path": "tpl\/backend\/main\/showModule.html",
+        "pkg": "module-backend-main",
+        "md5sum": "ce30b01d2dac3edc5d0a384b2422e7ca"
+    },
+    {
+        "path": "ctrl\/backend\/routes\/RoutesController.class.php",
+        "pkg": "module-backend-routes",
+        "md5sum": "2adc3f6032f1f1b453da2a85951078cd"
+    },
+    {
+        "path": "etc\/app\/backend\/routes\/metadata.json",
+        "pkg": "module-backend-routes",
+        "md5sum": "d3043e34a34fcc28035927d182c1e86c"
+    },
+    {
+        "path": "etc\/app\/backend\/routes\/routes.json",
+        "pkg": "module-backend-routes",
+        "md5sum": "8070c6bfc8253110f6228423a35780ec"
+    },
+    {
+        "path": "tpl\/backend\/routes\/deleteRoute.html",
+        "pkg": "module-backend-routes",
+        "md5sum": "3547fe99d874259f0b27bded172794dd"
+    },
+    {
+        "path": "tpl\/backend\/routes\/insertRoute.html",
+        "pkg": "module-backend-routes",
+        "md5sum": "51b53bd8273c259ebeb4f531b1410d46"
+    },
+    {
+        "path": "tpl\/backend\/routes\/listRoutes.html",
+        "pkg": "module-backend-routes",
+        "md5sum": "be01beb47462c968ed9117cdae5ea137"
+    },
+    {
+        "path": "tpl\/backend\/routes\/partials\/form-route.html",
+        "pkg": "module-backend-routes",
+        "md5sum": "ba55ec9d66eb87d9f2b0e2c98a0c9061"
+    },
+    {
+        "path": "ctrl\/frontend\/contact\/ContactController.class.php",
+        "pkg": "module-contact",
+        "md5sum": "d88f099a241aa87408b75355edd1519a"
+    },
+    {
+        "path": "etc\/app\/frontend\/contact\/config.json",
+        "pkg": "module-contact",
+        "md5sum": "1806625d19c153e5f3afdf93201ba806"
+    },
+    {
+        "path": "etc\/app\/frontend\/contact\/routes.json",
+        "pkg": "module-contact",
+        "md5sum": "3570e9de82070de204e779559368cf48"
+    },
+    {
+        "path": "lib\/entities\/ContactMessage.class.php",
+        "pkg": "module-contact",
+        "md5sum": "228ed443ff3f5092bacc672a5fd6a36d"
+    },
+    {
+        "path": "public\/img\/contact\/icon-medium.png",
+        "pkg": "module-contact",
+        "md5sum": "f04709e12b998ed104d56649a29923a7"
+    },
+    {
+        "path": "share\/locale\/fr_FR\/contact.yaml",
+        "pkg": "module-contact",
+        "md5sum": "0f3b10de4061d99d7841f89d5aab672e"
+    },
+    {
+        "path": "tpl\/frontend\/contact\/index.html",
+        "pkg": "module-contact",
+        "md5sum": "322789e186895802519492f8ce64b9f9"
+    },
+    {
+        "path": "ctrl\/backend\/packagecontrol\/PackagecontrolController.class.php",
+        "pkg": "module-packagecontrol",
+        "md5sum": "bdf96721b34c7116e00f85bdfe94a345"
+    },
+    {
+        "path": "etc\/app\/backend\/packagecontrol\/metadata.json",
+        "pkg": "module-packagecontrol",
+        "md5sum": "e77299c3b7028cdac73974c4fb549cbe"
+    },
+    {
+        "path": "etc\/app\/backend\/packagecontrol\/routes.json",
+        "pkg": "module-packagecontrol",
+        "md5sum": "12a8155f701cf9cfa66d3af8b7640cd4"
+    },
+    {
+        "path": "lib\/AvailablePackage.class.php",
+        "pkg": "module-packagecontrol",
+        "md5sum": "9ec0ffefc9f669a81f92013631bde956"
+    },
+    {
+        "path": "lib\/entities\/PackageMetadata.class.php",
+        "pkg": "module-packagecontrol",
+        "md5sum": "b7d067673f2a72a6e2439c868888ca38"
+    },
+    {
+        "path": "lib\/InstalledPackage.class.php",
+        "pkg": "module-packagecontrol",
+        "md5sum": "5249ee6525cfe913983280cb6125d15e"
+    },
+    {
+        "path": "lib\/manager\/LocalRepositoryManager.class.php",
+        "pkg": "module-packagecontrol",
+        "md5sum": "4f58afc2d7eca37ed0c52753d8137ae6"
+    },
+    {
+        "path": "lib\/manager\/LocalRepositoryManager_json.class.php",
+        "pkg": "module-packagecontrol",
+        "md5sum": "cb5beab523911ffa71c802a80227c796"
+    },
+    {
+        "path": "lib\/manager\/PackagecontrolManager.class.php",
+        "pkg": "module-packagecontrol",
+        "md5sum": "b31872d334d8ac540d0a44f95849c479"
+    },
+    {
+        "path": "lib\/manager\/PackagecontrolManager_json.class.php",
+        "pkg": "module-packagecontrol",
+        "md5sum": "9450948e19b935cbfe495e46583f9fbd"
+    },
+    {
+        "path": "lib\/Package.class.php",
+        "pkg": "module-packagecontrol",
+        "md5sum": "72d56cbf60447c600609d61f2faa2633"
+    },
+    {
+        "path": "lib\/RemotePackage.class.php",
+        "pkg": "module-packagecontrol",
+        "md5sum": "a016b5e5aa0dc6c68855f665e291d723"
+    },
+    {
+        "path": "lib\/RemoteRepository.class.php",
+        "pkg": "module-packagecontrol",
+        "md5sum": "0deda01c29ae774f4ef538df7899f76e"
+    },
+    {
+        "path": "lib\/Repository.class.php",
+        "pkg": "module-packagecontrol",
+        "md5sum": "2290f256cda48635b250b8d997ac8ba0"
+    },
+    {
+        "path": "tpl\/backend\/packagecontrol\/addRepository.html",
+        "pkg": "module-packagecontrol",
+        "md5sum": "c3f545078058267de7973c5c3971591f"
+    },
+    {
+        "path": "tpl\/backend\/packagecontrol\/installPackage.html",
+        "pkg": "module-packagecontrol",
+        "md5sum": "800184db6b6223a5c929cdefccdefff9"
+    },
+    {
+        "path": "tpl\/backend\/packagecontrol\/partials\/pkg-details.html",
+        "pkg": "module-packagecontrol",
+        "md5sum": "9235a9abac49d688dbba23cef002f9ef"
+    },
+    {
+        "path": "tpl\/backend\/packagecontrol\/partials\/table-package.html",
+        "pkg": "module-packagecontrol",
+        "md5sum": "38c7238ca8df48bdb17a5a675e3f618a"
+    },
+    {
+        "path": "tpl\/backend\/packagecontrol\/partials\/table-repository.html",
+        "pkg": "module-packagecontrol",
+        "md5sum": "ba89d10dcaed2700ed91b9e6f5434c39"
+    },
+    {
+        "path": "tpl\/backend\/packagecontrol\/partials\/table-upgrade.html",
+        "pkg": "module-packagecontrol",
+        "md5sum": "478f8bfa9caa40bb5427708746b5f046"
+    },
+    {
+        "path": "tpl\/backend\/packagecontrol\/removePackage.html",
+        "pkg": "module-packagecontrol",
+        "md5sum": "7393bc59791be9b2ff3f79ab0834f4fa"
+    },
+    {
+        "path": "tpl\/backend\/packagecontrol\/removeRepository.html",
+        "pkg": "module-packagecontrol",
+        "md5sum": "a67063780770934e238ef5d21015c523"
+    },
+    {
+        "path": "tpl\/backend\/packagecontrol\/searchPackage.html",
+        "pkg": "module-packagecontrol",
+        "md5sum": "53f64d5ed6a27cb854bfa2073bd4b296"
+    },
+    {
+        "path": "tpl\/backend\/packagecontrol\/showPackage.html",
+        "pkg": "module-packagecontrol",
+        "md5sum": "7eeccfa9a565b1e7550379c07711bde0"
+    },
+    {
+        "path": "tpl\/backend\/packagecontrol\/updateCache.html",
+        "pkg": "module-packagecontrol",
+        "md5sum": "805f0e9ac972b4a9e162b0838dec3453"
+    },
+    {
+        "path": "tpl\/backend\/packagecontrol\/upgradePackages.html",
+        "pkg": "module-packagecontrol",
+        "md5sum": "1d3641ba5a862c84c3f13aee2744f6ed"
+    },
+    {
+        "path": "ctrl\/backend\/portfolio\/PortfolioController.class.php",
+        "pkg": "module-portfolio",
+        "md5sum": "234637b5f3f3dc14634a2b93f31dcbe4"
+    },
+    {
+        "path": "ctrl\/frontend\/portfolio\/PortfolioController.class.php",
+        "pkg": "module-portfolio",
+        "md5sum": "67a1cc47ed4941f7f5d33b35a5902203"
+    },
+    {
+        "path": "etc\/app\/backend\/portfolio\/metadata.json",
+        "pkg": "module-portfolio",
+        "md5sum": "37b399ee9a947b50136f67ec0aca417c"
+    },
+    {
+        "path": "etc\/app\/backend\/portfolio\/routes.json",
+        "pkg": "module-portfolio",
+        "md5sum": "677e46ae6aa4aa34b7b6aba7ab9cea66"
+    },
+    {
+        "path": "etc\/app\/frontend\/portfolio\/routes.json",
+        "pkg": "module-portfolio",
+        "md5sum": "9c6ea0649877275f7f94c5edfa7e6346"
+    },
+    {
+        "path": "lib\/entities\/PortfolioAboutLink.class.php",
+        "pkg": "module-portfolio",
+        "md5sum": "5bc143d9fc1f482c851f4a5875f8a350"
+    },
+    {
+        "path": "lib\/entities\/PortfolioCategory.class.php",
+        "pkg": "module-portfolio",
+        "md5sum": "9a2ec0a7c1008f3d5b6bca31cd04397c"
+    },
+    {
+        "path": "lib\/entities\/PortfolioGalleryImage.class.php",
+        "pkg": "module-portfolio",
+        "md5sum": "e1ab7f8ba1d9c9b57969a45dd5dc74cb"
+    },
+    {
+        "path": "lib\/entities\/PortfolioGalleryItem.class.php",
+        "pkg": "module-portfolio",
+        "md5sum": "0f4d75ef057cc8769d68eea142d0bb0f"
+    },
+    {
+        "path": "lib\/entities\/PortfolioGalleryThumbnail.class.php",
+        "pkg": "module-portfolio",
+        "md5sum": "04ce9e65600b7bc055b2a723b05a1b0e"
+    },
+    {
+        "path": "lib\/entities\/PortfolioGalleryYoutubeVideo.class.php",
+        "pkg": "module-portfolio",
+        "md5sum": "3e75d37402f5b3edbc52d1cf724eb0e0"
+    },
+    {
+        "path": "lib\/entities\/PortfolioLeadingItem.class.php",
+        "pkg": "module-portfolio",
+        "md5sum": "fcc814074b3a8562df3c4db48696ab7b"
+    },
+    {
+        "path": "lib\/entities\/PortfolioProject.class.php",
+        "pkg": "module-portfolio",
+        "md5sum": "ee3cb903eb31333390b73a00c4a0f5cb"
+    },
+    {
+        "path": "lib\/manager\/PortfolioCategoriesManager.class.php",
+        "pkg": "module-portfolio",
+        "md5sum": "b6bd204b358fcd7b97571d6a367c2fb4"
+    },
+    {
+        "path": "lib\/manager\/PortfolioCategoriesManager_json.class.php",
+        "pkg": "module-portfolio",
+        "md5sum": "696fa11dab6df68583947aa051667ab6"
+    },
+    {
+        "path": "lib\/manager\/PortfolioGalleriesManager.class.php",
+        "pkg": "module-portfolio",
+        "md5sum": "dafe567eacc01cd708c543397c4288ab"
+    },
+    {
+        "path": "lib\/manager\/PortfolioGalleriesManager_json.class.php",
+        "pkg": "module-portfolio",
+        "md5sum": "ec635dd9750edba08f10522ff288acc9"
+    },
+    {
+        "path": "lib\/manager\/PortfolioManager.class.php",
+        "pkg": "module-portfolio",
+        "md5sum": "9d01136c10bb705c302342a136e1101a"
+    },
+    {
+        "path": "lib\/manager\/PortfolioManager_json.class.php",
+        "pkg": "module-portfolio",
+        "md5sum": "8568d6c0472349f1086af102e5971391"
+    },
+    {
+        "path": "lib\/manager\/PortfolioProjectsManager.class.php",
+        "pkg": "module-portfolio",
+        "md5sum": "1e7aab08d5c030d53459fe5b4695e992"
+    },
+    {
+        "path": "lib\/manager\/PortfolioProjectsManager_json.class.php",
+        "pkg": "module-portfolio",
+        "md5sum": "9f39d739f086d7bd862052adefdd8980"
+    },
+    {
+        "path": "lib\/portfolio\/Thumbnail.class.php",
+        "pkg": "module-portfolio",
+        "md5sum": "71c1a2459f9684ce0b0b75dcd1dc9536"
+    },
+    {
+        "path": "public\/img\/portfolio\/about\/avatar.jpg",
+        "pkg": "module-portfolio",
+        "md5sum": "ccbf8a76502e692a91c29fb571b63478"
+    },
+    {
+        "path": "public\/img\/portfolio\/generic\/category.png",
+        "pkg": "module-portfolio",
+        "md5sum": "8c83a83b6fba71f05db5782d57e74053"
+    },
+    {
+        "path": "public\/img\/portfolio\/generic\/project.png",
+        "pkg": "module-portfolio",
+        "md5sum": "adae366907c294cab1736c51826b3b83"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/deleteAboutLink.html",
+        "pkg": "module-portfolio",
+        "md5sum": "6a7a1771e86ecb2d9b5984906d91e5cb"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/deleteCategory.html",
+        "pkg": "module-portfolio",
+        "md5sum": "50f726caad17703a9edf184662efce75"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/deleteGalleryItem.html",
+        "pkg": "module-portfolio",
+        "md5sum": "e480a64071ff8846dccb98adc59a1dca"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/deleteLeadingItem.html",
+        "pkg": "module-portfolio",
+        "md5sum": "96cec79920cb3056fa6385928769402e"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/deleteProject.html",
+        "pkg": "module-portfolio",
+        "md5sum": "417e906c6c1a94c737c7cc66abde55be"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/insertAboutLink.html",
+        "pkg": "module-portfolio",
+        "md5sum": "eb567b42bbaa021165ff1bc6820cc520"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/insertCategory.html",
+        "pkg": "module-portfolio",
+        "md5sum": "2bd5ddd44e1e2154768c66c1a9e0d5d0"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/insertGalleryItem.html",
+        "pkg": "module-portfolio",
+        "md5sum": "2dd08366a24f4360e397855f75e9ac3e"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/insertLeadingItem.html",
+        "pkg": "module-portfolio",
+        "md5sum": "dd49bfc7048565f29a3c0aaf328de934"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/insertProject.html",
+        "pkg": "module-portfolio",
+        "md5sum": "b7d688218d0173cdd266895a1cde6412"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/listGalleryItems.html",
+        "pkg": "module-portfolio",
+        "md5sum": "8ff82184674112f82e64520ecda99689"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/partials\/form-aboutLink.html",
+        "pkg": "module-portfolio",
+        "md5sum": "d262b9e2aa789b1292df69bcd747316b"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/partials\/form-category.html",
+        "pkg": "module-portfolio",
+        "md5sum": "8d59084bb507c04a74293b35b20da0f6"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/partials\/form-galleryItem.html",
+        "pkg": "module-portfolio",
+        "md5sum": "b0286f599721aea618ba6edd74986045"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/partials\/form-leadingItem.html",
+        "pkg": "module-portfolio",
+        "md5sum": "6836d3c8f3993bd0c20676184da54955"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/partials\/form-project.html",
+        "pkg": "module-portfolio",
+        "md5sum": "5279f74cdc8f8a0bb78bf1b1c4aede80"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/updateAboutLink.html",
+        "pkg": "module-portfolio",
+        "md5sum": "e9f4b2c1cb8d809605cb75d6a8fd6cfc"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/updateAboutPage.html",
+        "pkg": "module-portfolio",
+        "md5sum": "003adc272d617e56d954355b82ec3f3c"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/updateCategory.html",
+        "pkg": "module-portfolio",
+        "md5sum": "3eafc16b2e398691172ae2e302dbc6ab"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/updateGalleryItem.html",
+        "pkg": "module-portfolio",
+        "md5sum": "052d03b473faeb5dcf22781660a7cb7b"
+    },
+    {
+        "path": "tpl\/backend\/portfolio\/updateProject.html",
+        "pkg": "module-portfolio",
+        "md5sum": "6e08ad5934de44a57212ebe74278477e"
+    },
+    {
+        "path": "tpl\/frontend\/portfolio\/about.html",
+        "pkg": "module-portfolio",
+        "md5sum": "9b051edb1d934906794e32a6cbdfef70"
+    },
+    {
+        "path": "tpl\/frontend\/portfolio\/index.html",
+        "pkg": "module-portfolio",
+        "md5sum": "87bd257cce7407ff1ebe569e177aee80"
+    },
+    {
+        "path": "tpl\/frontend\/portfolio\/showCategory.html",
+        "pkg": "module-portfolio",
+        "md5sum": "0c815760f6234e25f692e905b0dc61ed"
+    },
+    {
+        "path": "tpl\/frontend\/portfolio\/showProject.html",
+        "pkg": "module-portfolio",
+        "md5sum": "a16d2de8bc1e0161a37287f6532f8847"
     }
 ]
