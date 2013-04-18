@@ -780,6 +780,11 @@
         "md5sum": "71c1a2459f9684ce0b0b75dcd1dc9536"
     },
     {
+        "path": "public\/css\/app\/frontend\/portfolio.css",
+        "pkg": "module-portfolio",
+        "md5sum": "2870633a012283e6dd74f81058f22b65"
+    },
+    {
         "path": "public\/img\/portfolio\/about\/avatar.jpg",
         "pkg": "module-portfolio",
         "md5sum": "ccbf8a76502e692a91c29fb571b63478"

@@ -308,7 +308,7 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 		}
 	}
 
-	protected function _extract(\lib\AvailablePackage $package, $zipPath) {
+	protected function _extract(\lib\AvailablePackage $package, $zipPath, LocalRepositoryManager $localRepo) {
 		$pkgFiles = $package->files(); //Get the package's files
 
 		$zip = new \ZipArchive();
@@ -576,7 +576,7 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 		foreach($packagesToInstall as $pkg) {
 			$zipPath = $this->_getPkgZipPath($tmpDir, $pkg);
 
-			$this->_extract($pkg, $zipPath);
+			$this->_extract($pkg, $zipPath, $localRepository);
 		}
 
 		//And run post-installation scripts
