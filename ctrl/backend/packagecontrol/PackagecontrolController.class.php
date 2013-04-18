@@ -127,12 +127,14 @@ class PackagecontrolController extends \core\BackController {
 
 		$this->page()->addVar('title', $pkg->metadata()['title']);
 
-		if (!empty($localPkg)) {
+		if (!empty($localPkg) && !empty($remotePkg)) {
 			if (version_compare($remotePkg->metadata()['version'], $localPkg->metadata()['version'], '>')) {
 				$isUpdate = true;
 			} else {
 				$alreadyInstalled = true;
 			}
+		} else if(!empty($localPkg)) {
+			$alreadyInstalled = true;
 		}
 
 		$files = array();
