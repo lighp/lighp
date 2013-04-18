@@ -337,7 +337,7 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 				continue;
 			}
 
-			if (!isset($pkgFiles[$itemName])) { //Is this in files list
+			if (!isset($pkgFiles[$itemName])) { //Is this in files list ?
 				continue;
 			}
 
@@ -348,19 +348,6 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 			if ($itemPkgData['noextract']) { continue; } //Skip this item
 
 			$itemDestPath = $root . '/' . $itemName; //Here is the final file's destination
-
-			if (file_exists($itemDestPath)) { //File already exists
-				if (!empty($itemPkgData['md5sum'])) {
-					$fileMd5 = md5_file($itemDestPath); //Calculate the MD5 sum of the existing file
-					if ($itemPkgData['md5sum'] == $fileMd5) { //If checksums are the same
-						continue; //Do not copy the file
-					} else {
-						throw new \RuntimeException('File collision detected : "'.$itemName.'" already exists and contents are different');
-					}
-				} else {
-					throw new \RuntimeException('File collision detected : "'.$itemName.'" already exists');
-				}
-			}
 
 			//Add this file in the list
 			$filesToCopy[] = array(
@@ -384,7 +371,14 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 
 			//If the file already exists, do not overwrite it
 			if (file_exists($item['destPath'])) {
-				continue;
+				//Is the file owned by another package ?
+				$fileData = $localRepo->getPackageFile($item['name']);
+
+				if (!empty($fileData)) {
+					throw new \RuntimeException('File collision detected : "'.$item['name'].'" is already provided by "'.$fileData['pkg'].'"');
+				} else { //File not provided by another pkg
+					continue; //Skip this file
+				}
 			}
 
 			$itemSource = $zip->getStream($item['sourcePath']); //Get the file's stream

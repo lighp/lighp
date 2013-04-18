@@ -67,6 +67,22 @@ class LocalRepositoryManager_json extends LocalRepositoryManager {
 		return false;
 	}
 
+	public function getPackageFile($path) {
+		$filesFile = $this->dao->open('packagecontrol/files');
+		$files = $filesFile->read();
+
+		$path = (substr($path, 0, 1) == '/') ? substr($path, 1) : $path;
+
+		foreach($files as $file) {
+			$filePath = $file['path'];
+			$filePath = (substr($filePath, 0, 1) == '/') ? substr($filePath, 1) : $filePath;
+
+			if ($filePath == $path) {
+				return $file;
+			}
+		}
+	}
+
 	public function _runPreRemoveScript(\lib\InstalledPackage $pkg) {
 		$removeScriptsDirPath = __DIR__.'/../../var/lib/packagemanager/remove-scripts';
 		$removeScriptPath = $removeScriptsDirPath . '/' . $pkg->metadata()['name'] . '.php.txt';
@@ -113,18 +129,25 @@ class LocalRepositoryManager_json extends LocalRepositoryManager {
 
 				//Delete parent folders while they are empty
 				do {
-					$parentDirPath = dirname($filePath);
-					$parentDir = dir($parentDirPath);
+					$parentDirPath = dirname((isset($parentDirPath)) ? $parentDirPath : $filePath);
+					$parentDir = opendir($parentDirPath);
+
 					$isEmpty = true;
-					while (false !== ($entry = $parentDir->read())) {
+
+					if ($parentDir === false) {
+						continue;
+					}
+
+					while (false !== ($entry = readdir($parentDir))) {
 						if ($entry == '.' || $entry == '..') { continue; }
 
 						$isEmpty = false;
 						break;
 					}
+					closedir($parentDir);
 
 					if ($isEmpty) {
-						rmdir($parentDir);
+						rmdir($parentDirPath);
 					}
 				} while($isEmpty);
 			}
