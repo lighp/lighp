@@ -160,10 +160,12 @@ class Route {
 			foreach($this->varsNames as $varKey => $varName) {
 				$varValue = '$1';
 
+				//Use $specialCharRegex to replace preg_quote ?
+				//Be careful with - and . in URLs
 				if (isset($vars[$varName])) {
-					$varValue = $vars[$varName];
+					$varValue = preg_quote($vars[$varName]);
 				} elseif (isset($vars[$varKey])) {
-					$varValue = $vars[$varKey];
+					$varValue = preg_quote($vars[$varKey]);
 				}
 
 				$url = preg_replace('#\\((.+)\\)#U', $varValue, $url, 1);
@@ -176,7 +178,7 @@ class Route {
 		$url = preg_replace('#([^\\\\])['.$specialCharRegex.']+#', '$1', $url); //Unescaped special char in the URL
 		//$url = preg_replace('#'.$specialCharRegex.'$#', '', $url); //Special char at the end
 		$url = preg_replace('#\\\\(['.$specialCharRegex.'\\\\])#', '$1', $url); //Escaped char or \
-		$url = preg_replace('#[^\\\\]\\\\#', '', $url); //Unescaped \ in the URL
+		$url = preg_replace('#([^\\\\])\\\\#', '$1', $url); //Unescaped \ in the URL
 
 		return $this->_beautifyPath($url);
 	}
