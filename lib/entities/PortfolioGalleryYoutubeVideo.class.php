@@ -7,7 +7,7 @@ class PortfolioGalleryYoutubeVideo extends PortfolioGalleryItem {
 
 		if (preg_match('#^https?://(www\.)?youtube\.com/watch\?v=([a-zA-Z0-9-]+)$#', $src, $matches)) {
 			$videoId = end($matches);
-		} else if (preg_match('#^https?://youtu.be/([a-zA-Z0-9-]+)$#', $src, $matches)) {
+		} else if (preg_match('#^https?://youtu\.be/([a-zA-Z0-9-]+)$#', $src, $matches)) {
 			$videoId = end($matches);
 		} else {
 			$videoId = null;

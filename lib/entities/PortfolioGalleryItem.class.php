@@ -5,9 +5,9 @@ abstract class PortfolioGalleryItem extends \core\Entity {
 	protected $source, $title, $projectName, $kind;
 
 	protected static $enabledItems = array(
+		'\lib\entities\PortfolioGalleryYoutubeVideo',
 		'\lib\entities\PortfolioGalleryThumbnail',
-		'\lib\entities\PortfolioGalleryImage',
-		'\lib\entities\PortfolioGalleryYoutubeVideo'
+		'\lib\entities\PortfolioGalleryImage'
 	);
 
 	// SETTERS //
@@ -59,7 +59,7 @@ abstract class PortfolioGalleryItem extends \core\Entity {
 	}
 
 	public function link() {
-		return $this->source();
+		return $this->source;
 	}
 
 	abstract public function render();

@@ -83,11 +83,12 @@ class PortfolioController extends \core\BackController {
 		$projectName = $request->getData('name');
 
 		$project = $projectsManager->get($projectName);
-		$gallery = $galleriesManager->get($projectName);
+		$gallery = $galleriesManager->getByProject($projectName);
 
 		$i = 0;
 		foreach($gallery as $key => $item) {
 			$gallery[$key] = $item->toArray();
+			$gallery[$key]['link'] = $item->link();
 			$gallery[$key]['render'] = $item->render();
 			$gallery[$key]['changeRow?'] = ($i % 3 == 0 && $i > 0);
 			$i++;
