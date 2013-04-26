@@ -1,11 +1,11 @@
 [
     {
-        "url": "\/(index\\.html)?",
+        "url": "/(index\\.html)?",
         "module": "portfolio",
         "action": "index"
     },
     {
-        "url": "\/category-([a-zA-Z0-9-_.]+)\\.html",
+        "url": "/category/([a-zA-Z0-9-_.]+)",
         "module": "portfolio",
         "action": "showCategory",
         "vars": [
@@ -13,7 +13,7 @@
         ]
     },
     {
-        "url": "\/project-([a-zA-Z0-9-_.]+)\\.html",
+        "url": "/project/([a-zA-Z0-9-_.]+)",
         "module": "portfolio",
         "action": "showProject",
         "vars": [
@@ -21,7 +21,7 @@
         ]
     },
     {
-        "url": "\/about\\.html",
+        "url": "/about",
         "module": "portfolio",
         "action": "about"
     }
