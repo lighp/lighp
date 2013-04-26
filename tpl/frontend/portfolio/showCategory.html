@@ -1,7 +1,7 @@
 <div class="container marketing">
 	{{#category}}
 		{{#hasImage}}
-			<img class="img-circle pull-right" src="img/portfolio/category/large/{{name}}.png"/>
+			<img class="img-circle pull-right" src="{{WEBSITE_ROOT}}/img/portfolio/category/large/{{name}}.png"/>
 		{{/hasImage}}
 
 		<div class="page-header">
@@ -18,10 +18,10 @@
 			{{/changeRow?}}
 			<div class="span4">
 				{{#hasImage}}
-					<img src="img/portfolio/project/medium/{{name}}.png"/>
+					<img src="{{WEBSITE_ROOT}}/img/portfolio/project/medium/{{name}}.png"/>
 				{{/hasImage}}
 				{{^hasImage}}
-					<img src="img/portfolio/generic/project.png"/>
+					<img src="{{WEBSITE_ROOT}}/img/portfolio/generic/project.png"/>
 				{{/hasImage}}
 				<h2>{{title}}</h2>
 				<p>{{{shortDescription}}}</p>

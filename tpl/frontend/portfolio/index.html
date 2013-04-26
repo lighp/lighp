@@ -11,10 +11,10 @@
 			{{/changeRow?}}
 			<div class="span4">
 				{{#hasImage}}
-					<img class="img-circle" src="img/portfolio/category/medium/{{name}}.png"/>
+					<img class="img-circle" src="{{WEBSITE_ROOT}}/img/portfolio/category/medium/{{name}}.png"/>
 				{{/hasImage}}
 				{{^hasImage}}
-					<img src="img/portfolio/generic/category.png"/>
+					<img src="{{WEBSITE_ROOT}}/img/portfolio/generic/category.png"/>
 				{{/hasImage}}
 				<h2>{{title}}</h2>
 				<p>{{{shortDescription}}}</p>
@@ -23,7 +23,7 @@
 		{{/categories}}
 
 		<div class="span4">
-			<img src="img/contact/icon-medium.png">
+			<img src="{{WEBSITE_ROOT}}/img/contact/icon-medium.png">
 			<h2>Contact</h2>
 			<p>N'h&eacute;sitez pas &agrave; me contacter pour toute question !</p>
 			<p class="btn-group">
@@ -39,7 +39,7 @@
 	{{#leadingProjects}}
 		<div class="featurette">
 			{{#data.hasImage}}
-				<img src="img/portfolio/{{item.kind}}/large/{{item.name}}.png" class="featurette-image pull-{{#pullRight?}}right{{/pullRight?}}{{^pullRight?}}left{{/pullRight?}}"/>
+				<img src="{{WEBSITE_ROOT}}/img/portfolio/{{item.kind}}/large/{{item.name}}.png" class="featurette-image pull-{{#pullRight?}}right{{/pullRight?}}{{^pullRight?}}left{{/pullRight?}}"/>
 			{{/data.hasImage}}
 			<h2 class="featurette-heading">{{data.title}}. <span class="muted">{{data.subtitle}}</span></h2>
 			<p class="lead">{{{data.shortDescription}}}</p>
@@ -66,10 +66,10 @@
 			{{/changeRow?}}
 			<div class="span4">
 				{{#hasImage}}
-					<img src="img/portfolio/project/medium/{{name}}.png"/>
+					<img src="{{WEBSITE_ROOT}}/img/portfolio/project/medium/{{name}}.png"/>
 				{{/hasImage}}
 				{{^hasImage}}
-					<img src="img/portfolio/generic/project.png"/>
+					<img src="{{WEBSITE_ROOT}}/img/portfolio/generic/project.png"/>
 				{{/hasImage}}
 				<h2>{{title}}</h2>
 				<p>{{{shortDescription}}}</p>
