@@ -2,8 +2,18 @@
 namespace core\dao;
 
 class PDOFactory {
-	public static function getMysqlConnexion() {
-		$db = new \PDO('mysql:host=localhost;dbname=lighp', 'root', '');
+	public static function getConnexion(array $conf) {
+		if (!isset($conf['username'])) {
+			$conf['username'] = '';
+		}
+		if (!isset($conf['password'])) {
+			$conf['password'] = '';
+		}
+		if (!isset($conf['driver_options'])) {
+			$conf['driver_options'] = array();
+		}
+
+		$db = new \PDO($conf['dsn'], $conf['username'], $conf['password'], $conf['driver_options']);
 		$db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
 		return $db;

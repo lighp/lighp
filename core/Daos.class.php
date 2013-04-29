@@ -59,7 +59,7 @@ class Daos {
 
 		//Create the DAO
 		$daoData = $this->config[$api];
-		$dao = call_user_func_array($daoData['callback'], $daoData['config']);
+		$dao = call_user_func($daoData['callback'], $daoData['config']);
 
 		if ($dao === false) { //Check for errors
 			throw new \RuntimeException('Unable to load DAO "'.$api.'"');

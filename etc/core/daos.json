@@ -2,20 +2,21 @@
     "pdo": {
         "callback": [
             "\\core\\dao\\PDOFactory",
-            "getMysqlConnexion"
+            "getConnexion"
         ],
-        "config": [
-
-        ]
+        "config": {
+            "dsn": "mysql:host=localhost;dbname=lighp",
+            "username": "root",
+            "password": "",
+            "driver_options": {}
+        }
     },
     "json": {
         "callback": [
             "\\core\\dao\\JSONDBFactory",
             "getLocalConnexion"
         ],
-        "config": [
-
-        ],
+        "config": {},
         "default": true
     }
 }
