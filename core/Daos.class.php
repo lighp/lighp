@@ -91,6 +91,22 @@ class Daos {
 	}
 
 	/**
+	 * List all registered APIs.
+	 * @return array A list of APIs.
+	 */
+	public function listApis() {
+		$this->_loadConfig(); //Load config
+
+		$apis = array(); //APIs list
+
+		foreach($this->config as $api => $daoData) {
+			$apis[] = $api;
+		}
+
+		return $apis;
+	}
+
+	/**
 	 * Register a new DAO.
 	 * @param  string   $name     The new DAO's name.
 	 * @param  callable $callback The DAO's callback (i.e. the function which creates an instance of it).

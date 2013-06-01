@@ -70,19 +70,36 @@ class Managers {
 		}
 
 		if (!isset($this->managers[$module])) {
+			$managerBaseName = '\\lib\\manager\\'.ucfirst($module).'Manager';
+
 			$api = $this->_getApiOf($module);
 			if (empty($api)) {
-				$api = $this->daos->getDefaultApi();
+				$availableApis = $this->daos->listApis();
+				$compatibleApis = array();
 
-				if (empty($api)) {
-					throw new \RuntimeException('No DAO available');
+				foreach ($availableApis as $apiName) {
+					if (class_exists($managerBaseName.'_'.$apiName)) {
+						$compatibleApis[] = $apiName;
+					}
+				}
+
+				if (in_array($this->daos->getDefaultApi(), $compatibleApis)) {
+					$api = $this->daos->getDefaultApi();
+				} else if (count($compatibleApis) > 0) {
+					$api = $compatibleApis[0];
+				} else {
+					throw new \RuntimeException('No DAO available for manager "'.$managerName.'"');
 				}
 			}
 
 			$dao = $this->daos->getDao($api);
+			$managerName = $managerBaseName.'_'.$api;
 
-			$manager = '\\lib\\manager\\'.ucfirst($module).'Manager_'.$api;
-			$this->managers[$module] = new $manager($dao);
+			if (!class_exists($managerName)) {
+				throw new \RuntimeException('Unable to find manager "'.$managerName.'"');
+			}
+
+			$this->managers[$module] = new $managerName($dao);
 		}
 
 		return $this->managers[$module];
