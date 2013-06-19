@@ -166,19 +166,5 @@
         "extractedSize": 102348,
         "updateDate": "2013-04-17 19:26:48",
         "hasScripts": false
-    },
-    {
-        "name": "module-portfolio",
-        "title": "Portfolio",
-        "subtitle": "",
-        "version": "0.1",
-        "description": "A portfolio module.",
-        "url": "",
-        "maintainer": "Simon Ser",
-        "license": "GPLv3",
-        "size": 55434,
-        "extractedSize": 220326,
-        "updateDate": "2013-04-18 09:54:55",
-        "hasScripts": false
     }
 ]

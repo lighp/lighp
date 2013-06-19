@@ -1,28 +1,3 @@
 [
-    {
-        "url": "/(index\\.html)?",
-        "module": "portfolio",
-        "action": "index"
-    },
-    {
-        "url": "/category/([a-zA-Z0-9-_.]+)",
-        "module": "portfolio",
-        "action": "showCategory",
-        "vars": [
-            "name"
-        ]
-    },
-    {
-        "url": "/project/([a-zA-Z0-9-_.]+)",
-        "module": "portfolio",
-        "action": "showProject",
-        "vars": [
-            "name"
-        ]
-    },
-    {
-        "url": "/about",
-        "module": "portfolio",
-        "action": "about"
-    }
+
 ]

@@ -88,7 +88,7 @@ class Managers {
 				} else if (count($compatibleApis) > 0) {
 					$api = $compatibleApis[0];
 				} else {
-					throw new \RuntimeException('No DAO available for manager "'.$managerName.'"');
+					throw new \RuntimeException('No DAO available for manager "'.$managerBaseName.'"');
 				}
 			}
 
