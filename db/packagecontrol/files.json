@@ -505,41 +505,6 @@
         "md5sum": "ba55ec9d66eb87d9f2b0e2c98a0c9061"
     },
     {
-        "path": "ctrl\/frontend\/contact\/ContactController.class.php",
-        "pkg": "module-contact",
-        "md5sum": "d88f099a241aa87408b75355edd1519a"
-    },
-    {
-        "path": "etc\/app\/frontend\/contact\/config.json",
-        "pkg": "module-contact",
-        "md5sum": "1806625d19c153e5f3afdf93201ba806"
-    },
-    {
-        "path": "etc\/app\/frontend\/contact\/routes.json",
-        "pkg": "module-contact",
-        "md5sum": "3570e9de82070de204e779559368cf48"
-    },
-    {
-        "path": "lib\/entities\/ContactMessage.class.php",
-        "pkg": "module-contact",
-        "md5sum": "228ed443ff3f5092bacc672a5fd6a36d"
-    },
-    {
-        "path": "public\/img\/contact\/icon-medium.png",
-        "pkg": "module-contact",
-        "md5sum": "f04709e12b998ed104d56649a29923a7"
-    },
-    {
-        "path": "share\/locale\/fr_FR\/contact.yaml",
-        "pkg": "module-contact",
-        "md5sum": "0f3b10de4061d99d7841f89d5aab672e"
-    },
-    {
-        "path": "tpl\/frontend\/contact\/index.html",
-        "pkg": "module-contact",
-        "md5sum": "322789e186895802519492f8ce64b9f9"
-    },
-    {
         "path": "ctrl\/backend\/packagecontrol\/PackagecontrolController.class.php",
         "pkg": "module-packagecontrol",
         "md5sum": "bdf96721b34c7116e00f85bdfe94a345"
