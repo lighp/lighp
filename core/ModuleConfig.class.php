@@ -8,10 +8,10 @@ namespace core;
  */
 class ModuleConfig extends ModuleComponent {
 	/**
-	 * The config file.
-	 * @var Config
+	 * Configuration files.
+	 * @var array
 	 */
-	protected $config;
+	protected $configs = array();
 
 	/**
 	 * Initialize the configuration file.
@@ -20,31 +20,45 @@ class ModuleConfig extends ModuleComponent {
 	 */
 	public function __construct(Application $app, $module) {
 		parent::__construct($app, $module);
-
-		$this->config = new Config($this->_path());
 	}
 
 	/**
-	 * Get this configuration file's path.
-	 * @return string
+	 * Get this configuration file.
+	 * @param string $appName The app's name. If not specified, set as the current app name.
+	 * @return Config
 	 */
-	protected function _path() {
-		return __DIR__.'/../etc/app/'.$this->app->name().'/'.$this->module.'/config.json';
+	protected function _config($appName = null) {
+		if (empty($appName)) {
+			$appName = $this->app->name();
+		}
+
+		if (isset($this->configs[$appName])) {
+			return $this->configs[$appName];
+		}
+
+		$configPath = __DIR__.'/../etc/app/'.$appName.'/'.$this->module.'/config.json';
+
+		$config = new Config($configPath);
+		$this->configs[$appName] = $config;
+
+		return $config;
 	}
 
 	/**
 	 * Get the configuration.
+	 * @param string $appName The app's name. If not specified, set as the current app name.
 	 * @return array The configuration.
 	 */
-	public function read() {
-		return $this->config->read();
+	public function read($appName = null) {
+		return $this->_config($appName)->read();
 	}
 
 	/**
 	 * Update the configuration.
+	 * @param string $appName The app's name. If not specified, set as the current app name.
 	 * @param array $data The new configuration.
 	 */
-	public function write($data) {
-		return $this->config->write($data);
+	public function write($appName = null) {
+		return $this->_config($appName)->write($data);
 	}
 }

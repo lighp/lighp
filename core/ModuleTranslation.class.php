@@ -22,6 +22,18 @@ class ModuleTranslation extends ModuleComponent {
 	public function __construct(Application $app, $module, $section = null) {
 		parent::__construct($app, $module);
 
+		$this->setSection($section);
+	}
+
+	public function section() {
+		return $this->section;
+	}
+
+	public function setSection($section) {
+		if (!is_string($section) || empty($section)) {
+			throw new \InvalidArgumentException('Invalid section name');
+		}
+
 		$this->section = $section;
 	}
 
@@ -43,28 +55,47 @@ class ModuleTranslation extends ModuleComponent {
 		return $this->_getSection();
 	}
 
-	public function get($path) {
+	public function get($path = null) {
+		$sectionData = $this->read();
+
+		$result = $this->_followPath($path, $this->translationData);
+		if ($result !== false) {
+			return $result;
+		}
+
+		$result = $this->_followPath($path, $sectionData);
+		if ($result !== false) {
+			return $result;
+		}
+
+		return $path;
+	}
+
+	protected function _followPath($path, array $data) {
 		$indexes = explode('.', $path);
-		$value = $this->read();
+		
+		if (empty($path)) {
+			return $data;
+		}
 
 		foreach($indexes as $key => $index) {
 			$remainingIndexes = array_slice($indexes, $key);
 			$remainingPath = implode('.', $remainingIndexes);
-			if (isset($value[$remainingPath])) {
-				return $value[$remainingPath];
+			if (isset($data[$remainingPath])) {
+				return $data[$remainingPath];
 			}
 
-			if (isset($value[$index])) {
-				$value = $value[$index];
+			if (isset($data[$index])) {
+				$data = $data[$index];
 			} else {
-				return $path;
+				return false;
 			}
 		}
 
-		return $value;
+		return $data;
 	}
 
-	public function _getSection($section = null) {
+	protected function _getSection($section = null) {
 		if (empty($section)) {
 			$section = $this->section;
 		}

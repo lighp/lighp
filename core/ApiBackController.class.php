@@ -18,12 +18,6 @@ abstract class ApiBackController extends BackController {
 
 		$this->app()->httpResponse()->addHeader('Content-Type: application/json');
 
-		$this->setModule($module);
-		$this->setAction($action);
-
-		$daos = new Daos;
-		$this->managers = new Managers($daos);
-		$this->config = new ModuleConfig($app, $module);
 		$this->responseContent = new ApiResponse($app, $module, $action);
 	}
 }

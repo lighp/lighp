@@ -86,7 +86,8 @@ class Daos {
 
 		//No default API found, return the first one
 		if (count($this->config) > 0) {
-			return array_keys($this->config)[0];
+			$apisList = array_keys($this->config);
+			return $apisList[0];
 		}
 	}
 

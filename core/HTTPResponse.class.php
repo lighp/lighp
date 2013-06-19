@@ -73,8 +73,7 @@ class HTTPResponse {
 	 * @param Application $app The application.
 	 */
 	public function redirect404($app) {
-		$page = new Page($app);
-		$page->setTemplate(__DIR__.'/../tpl/error/404.html');
+		$page = new Page($app, '../error', '404');
 
 		$this->setContent($page);
 
@@ -88,8 +87,7 @@ class HTTPResponse {
 	 * @param Application $app The application.
 	 */
 	public function redirect403($app) {
-		$page = new Page($app);
-		$page->setTemplate(__DIR__.'/../tpl/error/403.html');
+		$page = new Page($app, '../error', '403');
 
 		$this->setContent($page);
 
