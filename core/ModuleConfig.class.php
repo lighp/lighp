@@ -55,10 +55,10 @@ class ModuleConfig extends ModuleComponent {
 
 	/**
 	 * Update the configuration.
-	 * @param string $appName The app's name. If not specified, set as the current app name.
 	 * @param array $data The new configuration.
+	 * @param string $appName The app's name. If not specified, set as the current app name.
 	 */
-	public function write($appName = null) {
+	public function write($data, $appName = null) {
 		return $this->_config($appName)->write($data);
 	}
 }
