@@ -106,67 +106,6 @@ class MainController extends \core\BackController {
 		return $backends;
 	}
 
-	protected function _searchItems($query, array $items, array $searchFields = null) {
-		$accentChars = array(
-			'A|À|Á|Â|Ã|Ä|Å',
-			'a|à|á|â|ã|ä|å',
-			'O|Ò|Ó|Ô|Õ|Ö|Ø',
-			'o|ò|ó|ô|õ|ö|ø',
-			'E|È|É|Ê|Ë',
-			'e|é|è|ê|ë',
-			'C|Ç',
-			'c|ç',
-			'I|Ì|Í|Î|Ï',
-			'i|ì|í|î|ï',
-			'U|Ù|Ú|Û|Ü',
-			'u|ù|ú|û|ü',
-			'y|ÿ',
-			'N|Ñ',
-			'n|ñ'
-		);
-
-		$escapedQuery = preg_quote($query);
-		$escapedQuery = str_replace(' ', '|', $escapedQuery);
-		foreach ($accentChars as $chars) {
-			$regex = '('.$chars.')';
-			$escapedQuery = preg_replace('#'.$regex.'#', $regex, $escapedQuery);
-		}
-
-		$matchingItems = array();
-
-		$nbrFields = count($searchFields);
-
-		$nbrItems = count($items);
-		$hitsPower = strlen((string) $nbrItems);
-		$hitsFactor = pow(10, $hitsPower);
-
-		$i = 0;
-		foreach($items as $item) {
-			$itemHits = 0;
-
-			$j = 0;
-			foreach($searchFields as $field) {
-				if (isset($item[$field])) {
-					$item[$field] = preg_replace('#('.$escapedQuery.')#i', '<strong>$1</strong>', $item[$field], -1, $fieldHits);
-					$itemHits += $fieldHits * ($nbrFields - $j);
-				}
-
-				$j++;
-			}
-
-			if ($itemHits > 0) {
-				$matchingItems[$itemHits * $hitsFactor + ($nbrItems - $i)] = $item;
-			}
-
-			$i++;
-		}
-
-		krsort($matchingItems);
-		$matchingItems = array_values($matchingItems);
-
-		return $matchingItems;
-	}
-
 	public function executeIndex(\core\HTTPRequest $request) {
 		$this->page()->addVar('title', 'Espace d\'administration');
 
@@ -193,6 +132,7 @@ class MainController extends \core\BackController {
 
 				foreach ($backend['actions'] as $action) {
 					$action['title'] = $backend['title'] . ' : ' . $action['title'];
+					$action['backend'] = $backend['name'];
 
 					if (isset($backend['icon'])) {
 						$action['icon'] = $backend['icon'];
@@ -203,7 +143,7 @@ class MainController extends \core\BackController {
 			}
 
 			$searcher = new \lib\ArraySearcher($actions);
-			$actions = $searcher->search($searchQuery, array('title'));
+			$actions = $searcher->search($searchQuery, array('title', 'backend', 'name'));
 
 			$this->page()->addVar('actions', $actions);
 		}
@@ -224,7 +164,7 @@ class MainController extends \core\BackController {
 
 		if (!empty($searchQuery) && isset($backend['actions'])) {
 			$searcher = new \lib\ArraySearcher($backend['actions']);
-			$backend['actions'] = $searcher->search($searchQuery, array('title'));
+			$backend['actions'] = $searcher->search($searchQuery, array('title', 'name'));
 		}
 
 		if (!empty($backend)) {

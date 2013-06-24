@@ -4,7 +4,10 @@
 	{{#searchQuery}}
 		<ul class="nav nav-tabs nav-stacked" id="main-stack">
 			{{#actions}}
-				<li><a href="{{WEBSITE_ROOT}}/{{url}}"><i class="icon-{{icon}}{{^icon}}cog{{/icon}}"></i>&nbsp;{{{title}}}</a></li>
+				<li><a href="{{WEBSITE_ROOT}}/{{url}}">
+					<span class="muted pull-right">{{{backend}}} {{{name}}}</span>
+					<i class="icon-{{icon}}{{^icon}}cog{{/icon}}"></i>&nbsp;{{{title}}}
+				</a></li>
 			{{/actions}}
 		</ul>
 		{{^actions}}
@@ -18,7 +21,10 @@
 	{{^searchQuery}}
 		<ul class="nav nav-tabs nav-stacked" id="main-stack">
 			{{#backends}}
-				<li><a href="{{WEBSITE_ROOT}}/{{url}}"><i class="icon-{{#icon}}{{icon}}{{/icon}}{{^icon}}cog{{/icon}}"></i>&nbsp;{{title}}</a></li>
+				<li><a href="{{WEBSITE_ROOT}}/{{url}}">
+					<span class="muted pull-right">{{{name}}}</span>
+					<i class="icon-{{#icon}}{{icon}}{{/icon}}{{^icon}}cog{{/icon}}"></i>&nbsp;{{title}}
+				</a></li>
 			{{/backends}}
 		</ul>
 		{{^backends}}

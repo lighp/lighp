@@ -54,8 +54,15 @@ $(function() {
 			e.preventDefault();
 		});
 
+		var actualQuery = $(searchFormQuerySel).val();
 		$(searchFormQuerySel).off('keyup').on('keyup', function() {
+			var searchQuery = $(searchFormQuerySel).val();
+			if (searchQuery == actualQuery) {
+				return;
+			}
+
 			emptyMainStack();
+			actualQuery = searchQuery;
 		});
 
 		Lighp.backend.main.buildSearchEntry(searchFormQuerySel, function(searchQuery) {

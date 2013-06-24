@@ -3,7 +3,10 @@
 	<div id="main-stack-container">
 		<ul class="nav nav-tabs nav-stacked" id="main-stack">
 			{{#actions}}
-				<li><a href="{{WEBSITE_ROOT}}/{{url}}">{{{title}}}</a></li>
+				<li><a href="{{WEBSITE_ROOT}}/{{url}}">
+					<span class="muted pull-right">{{{name}}}</span>
+					{{{title}}}
+				</a></li>
 			{{/actions}}
 		</ul>
 		{{^actions}}
