@@ -311,6 +311,12 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 	protected function _extract(\lib\AvailablePackage $package, $zipPath, LocalRepositoryManager $localRepo) {
 		$pkgFiles = $package->files(); //Get the package's files
 
+		//Check if the package is already installed
+		$isUpgrade = false;
+		if (($localPkg = $localRepo->getPackage($package->metadata()->name())) !== null) {
+			$isUpgrade = true;
+		}
+
 		$zip = new \ZipArchive();
 		$result = $zip->open($zipPath); //Open the package's source
 		
@@ -322,7 +328,7 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 
 		$filesToCopy = array();
 
-		//Check if already goes the right way, and store files to copy in an array
+		//Check if everything goes the right way, and store files to copy in an array
 		for ($i = 0; $i < $zip->numFiles; $i++) { //For each file
 			//Get info about it
 			$itemStat = $zip->statIndex($i); //From the archive
@@ -350,7 +356,7 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 			$itemDestPath = $root . '/' . $itemName; //Here is the final file's destination
 
 			//Add this file in the list
-			$filesToCopy[] = array(
+			$filesToCopy[$itemName] = array(
 				'sourcePath' => $itemStat['name'],
 				'name' => $itemName,
 				'destPath' => $itemDestPath,
@@ -375,8 +381,16 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 				$fileData = $localRepo->getPackageFile($item['name']);
 
 				if (!empty($fileData)) {
-					throw new \RuntimeException('File collision detected : "'.$item['name'].'" is already provided by "'.$fileData['pkg'].'"');
-				} else { //File not provided by another pkg
+					//Collision
+					if ($fileData['pkg'] != $package->metadata()->name()) {
+						throw new \RuntimeException('File collision detected : "'.$item['name'].'" is already provided by "'.$fileData['pkg'].'"');
+					}
+
+					//Check if the file is modified
+					if (!empty($item['md5sum']) && isset($fileData['md5sum']) && !empty($fileData['md5sum']) && $fileData['md5sum'] == $item['md5sum']) {
+						continue; //Skip this file
+					}
+				} else { //File not provided by another pkg, maybe locally modified
 					continue; //Skip this file
 				}
 			}
@@ -405,10 +419,59 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 			chmod($item['destPath'], 0777); //Allow read-write-execute for all users - better for maintaining the framework
 		}
 
+		//If it is an upgrade, remove newly deleted files
+		if ($isUpgrade) {
+			foreach($localPkg->files() as $fileData) {
+				$oldFilePath = preg_replace('#^\./#', '', $fileData['path']);
+
+				//Was this file already processed ?
+				if (!isset($filesToCopy[$oldFilePath])) {
+					//Delete old file
+					if (!unlink($oldFilePath)) { //Delete this file
+						throw new \RuntimeException('Cannot delete file "'.$oldFilePath.'"');
+					}
+
+					//Delete parent folders while they are empty
+					do {
+						$parentDirPath = dirname((isset($parentDirPath)) ? $parentDirPath : $oldFilePath);
+						$parentDir = opendir($parentDirPath);
+
+						$isEmpty = true;
+
+						if ($parentDir === false) {
+							continue;
+						}
+
+						while (false !== ($entry = readdir($parentDir))) {
+							if ($entry == '.' || $entry == '..') { continue; }
+
+							$isEmpty = false;
+							break;
+						}
+						closedir($parentDir);
+
+						if ($isEmpty) {
+							rmdir($parentDirPath);
+						}
+					} while($isEmpty);
+				}
+			}
+		}
+
 		$zip->close(); //Close the package's source
 	}
 
 	protected function _register(\lib\AvailablePackage $package, \core\dao\json\Collection &$metadatas, \core\dao\json\Collection &$files) {
+		//Check if the package is already installed
+		$isUpgrade = false;
+		if (($localPkg = $localRepo->getPackage($package->metadata()->name())) !== null) {
+			$isUpgrade = true;
+		}
+
+		if ($isUpgrade) { //If this is an upgrade, remove the old data before inserting the new one
+			$localRepo->_unregister($localPkg, $metadatas, $files);
+		}
+
 		$metadataItem = $this->dao->createItem($package->metadata()->toArray());
 		$metadatas[] = $metadataItem;
 

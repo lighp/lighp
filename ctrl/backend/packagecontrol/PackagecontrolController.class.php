@@ -68,10 +68,10 @@ class PackagecontrolController extends \core\BackController {
 
 		$localPkg = $localRepo->getPackage($pkgName);
 		$alreadyInstalled = false;
-		$isUpdate = false;
+		$isUpgrade = false;
 		if (!empty($localPkg)) {
 			if (version_compare($pkg->metadata()['version'], $localPkg->metadata()['version'], '>')) {
-				$isUpdate = true;
+				$isUpgrade = true;
 			} else {
 				$alreadyInstalled = true;
 			}
@@ -85,15 +85,11 @@ class PackagecontrolController extends \core\BackController {
 		$this->page()->addVar('package', $pkg);
 		$this->page()->addVar('filesList', $files);
 		$this->page()->addVar('alreadyInstalled?', $alreadyInstalled);
-		$this->page()->addVar('update?', $isUpdate);
+		$this->page()->addVar('update?', $isUpgrade);
 		$this->page()->addVar('unsafePkg?', $pkg->unsafe());
 		
 		if ($request->postExists('check') && !$alreadyInstalled) {
 			try {
-				if ($isUpdate) {
-					$localRepo->remove($localPkg);
-				}
-
 				$packageManager->install($pkg, $localRepo);
 			} catch (\Exception $e) {
 				$this->page()->addVar('error', $e->getMessage());
@@ -117,7 +113,7 @@ class PackagecontrolController extends \core\BackController {
 		$remotePkg = $packageManager->getPackage($pkgName);
 
 		$alreadyInstalled = false;
-		$isUpdate = false;
+		$isUpgrade = false;
 
 		$pkg = (!empty($remotePkg)) ? $remotePkg : $localPkg;
 
@@ -129,7 +125,7 @@ class PackagecontrolController extends \core\BackController {
 
 		if (!empty($localPkg) && !empty($remotePkg)) {
 			if (version_compare($remotePkg->metadata()['version'], $localPkg->metadata()['version'], '>')) {
-				$isUpdate = true;
+				$isUpgrade = true;
 			} else {
 				$alreadyInstalled = true;
 			}
@@ -150,7 +146,7 @@ class PackagecontrolController extends \core\BackController {
 		$this->page()->addVar('filesNbr', count($files));
 		$this->page()->addVar('filesList', $files);
 		$this->page()->addVar('alreadyInstalled?', $alreadyInstalled);
-		$this->page()->addVar('update?', $isUpdate);
+		$this->page()->addVar('update?', $isUpgrade);
 		$this->page()->addVar('repository', $localRepo);
 		$this->page()->addVar('unsafePkg?', $pkg->unsafe());
 	}
@@ -215,12 +211,6 @@ class PackagecontrolController extends \core\BackController {
 
 		if ($request->postExists('check')) {
 			try {
-				$localPkgs = array();
-				foreach($upgrades as $pkg) {
-					$localPkgs[] = $localRepo->getPackage($pkg->metadata()['name']);
-				}
-				$localRepo->remove($localPkgs);
-
 				$packageManager->install($upgrades, $localRepo);
 			} catch (\Exception $e) {
 				$this->page()->addVar('error', $e->getMessage());
