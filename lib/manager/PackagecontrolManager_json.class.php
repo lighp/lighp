@@ -386,11 +386,16 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 						throw new \RuntimeException('File collision detected : "'.$item['name'].'" is already provided by "'.$fileData['pkg'].'"');
 					}
 
-					//Check if the file is modified
+					//Check if the file must be upgraded
 					if (!empty($item['md5sum']) && isset($fileData['md5sum']) && !empty($fileData['md5sum']) && $fileData['md5sum'] == $item['md5sum']) {
-						continue; //Skip this file
+						continue; //Skip this file : not changed
 					}
-				} else { //File not provided by another pkg, maybe locally modified
+					//Check if the file was manually modified
+					$destMd5 = md5_file($item['destPath']); //Calculate the MD5 sum of the destination file
+					if (!empty($fileData['md5sum']) && $fileData['md5sum'] != $destMd5) {
+						continue; //Skip this file : manually modified
+					}
+				} else { //File not provided by another pkg, maybe manually modified
 					continue; //Skip this file
 				}
 			}
@@ -462,16 +467,6 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 	}
 
 	protected function _register(\lib\AvailablePackage $package, \core\dao\json\Collection &$metadatas, \core\dao\json\Collection &$files) {
-		//Check if the package is already installed
-		$isUpgrade = false;
-		if (($localPkg = $localRepo->getPackage($package->metadata()->name())) !== null) {
-			$isUpgrade = true;
-		}
-
-		if ($isUpgrade) { //If this is an upgrade, remove the old data before inserting the new one
-			$localRepo->_unregister($localPkg, $metadatas, $files);
-		}
-
 		$metadataItem = $this->dao->createItem($package->metadata()->toArray());
 		$metadatas[] = $metadataItem;
 
@@ -657,6 +652,12 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 		$files = $filesFile->read();
 
 		foreach($packagesToInstall as $pkg) {
+			//Check if the package is already installed
+			//If this is an upgrade, remove the old data before inserting the new one
+			if (($localPkg = $localRepository->getPackage($pkg->metadata()->name())) !== null) {
+				$localRepository->_unregister($localPkg, $metadatas, $files);
+			}
+
 			$this->_register($pkg, $metadatas, $files);
 		}
 
