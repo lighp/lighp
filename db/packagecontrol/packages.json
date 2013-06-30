@@ -1,5 +1,5 @@
-[
-    {
+{
+    "0": {
         "name": "lib-jquery",
         "title": "lib-jquery",
         "subtitle": "",
@@ -11,7 +11,7 @@
         "size": 33510,
         "extractedSize": 109013
     },
-    {
+    "1": {
         "name": "lib-twitter-bootstrap",
         "title": "lib-twitter-bootstrap",
         "subtitle": "",
@@ -24,7 +24,7 @@
         "size": 51748,
         "extractedSize": 201460
     },
-    {
+    "2": {
         "name": "dao-jsondb",
         "title": "dao-jsondb",
         "subtitle": "",
@@ -38,7 +38,7 @@
         "updateDate": "2013-04-17 07:49:57",
         "hasScripts": true
     },
-    {
+    "3": {
         "name": "lib-arraysearcher",
         "title": "lib-arraysearcher",
         "subtitle": "",
@@ -52,7 +52,7 @@
         "updateDate": "2013-04-17 19:26:46",
         "hasScripts": false
     },
-    {
+    "4": {
         "name": "lib-captcha",
         "title": "lib-captcha",
         "subtitle": "",
@@ -66,7 +66,7 @@
         "updateDate": "2013-04-17 19:26:46",
         "hasScripts": false
     },
-    {
+    "5": {
         "name": "lib-mustache",
         "title": "lib-mustache",
         "subtitle": "",
@@ -80,7 +80,7 @@
         "updateDate": "2013-04-17 19:26:47",
         "hasScripts": false
     },
-    {
+    "6": {
         "name": "lib-spyc",
         "title": "lib-spyc",
         "subtitle": "",
@@ -94,36 +94,7 @@
         "updateDate": "2013-04-17 19:26:47",
         "hasScripts": false
     },
-    {
-        "name": "lighp-core",
-        "title": "lighp-core",
-        "subtitle": "Core files for Lighp",
-        "version": "1.0alpha1",
-        "description": "A light-weight php framework based on a package system.",
-        "url": "http:\/\/github.com\/lighp\/lighp",
-        "maintainer": "Simon Ser",
-        "license": "GPLv3",
-        "size": 91128,
-        "extractedSize": 196221,
-        "updateDate": "2013-04-17 19:26:47",
-        "hasScripts": false
-    },
-    {
-        "name": "module-backend-main",
-        "title": "module-backend-main",
-        "subtitle": "",
-        "version": "0.1",
-        "description": "Main module for backend.",
-        "url": "",
-        "maintainer": "Simon Ser",
-        "license": "GPLv3",
-        "depends": "lib-arraysearcher",
-        "size": 10720,
-        "extractedSize": 86819,
-        "updateDate": "2013-04-17 19:26:47",
-        "hasScripts": false
-    },
-    {
+    "9": {
         "name": "module-backend-routes",
         "title": "module-backend-routes",
         "subtitle": "",
@@ -137,19 +108,48 @@
         "updateDate": "2013-04-17 19:26:47",
         "hasScripts": false
     },
-    {
-        "name": "module-packagecontrol",
-        "title": "Package control",
+    "11": {
+        "name": "lighp-core",
+        "title": "lighp-core",
+        "subtitle": "Core files for Lighp",
+        "version": "1.0alpha1.2",
+        "description": "A light-weight php framework based on a package system.",
+        "url": "http:\/\/github.com\/lighp\/lighp",
+        "maintainer": "Simon Ser",
+        "license": "GPLv3",
+        "size": 96579,
+        "extractedSize": 234073,
+        "updateDate": "2013-06-30 12:58:30",
+        "hasScripts": false
+    },
+    "12": {
+        "name": "module-backend-main",
+        "title": "module-backend-main",
         "subtitle": "",
-        "version": "0.1",
-        "description": "A package control module.",
+        "version": "0.2",
+        "description": "Main module for backend.",
         "url": "",
         "maintainer": "Simon Ser",
         "license": "GPLv3",
         "depends": "lib-arraysearcher",
-        "size": 19121,
-        "extractedSize": 102348,
-        "updateDate": "2013-04-17 19:26:48",
+        "size": 10796,
+        "extractedSize": 88143,
+        "updateDate": "2013-06-30 12:58:30",
+        "hasScripts": false
+    },
+    "13": {
+        "name": "module-packagecontrol",
+        "title": "Package control",
+        "subtitle": "",
+        "version": "0.2",
+        "description": "A package control module, supporting Confiture specification.",
+        "url": "",
+        "maintainer": "Simon Ser",
+        "license": "GPLv3",
+        "depends": "lib-arraysearcher",
+        "size": 28139,
+        "extractedSize": 129787,
+        "updateDate": "2013-06-30 12:58:30",
         "hasScripts": false
     }
-]
+}
