@@ -57,8 +57,15 @@ class Page extends ResponseContent {
 		return $vars;
 	}
 
-	protected function _getCoreScripts() {
-		$conf = new Config(__DIR__.'/../etc/core/scripts.json');
+	protected function _getCoreLinkedFiles($type) {
+		if ($type == 'js') {
+			$configFilename = 'scripts';
+		} else if ($type == 'css') {
+			$configFilename = 'stylesheets';
+		} else {
+			return array();
+		}
+		$conf = new Config(__DIR__.'/../etc/core/'.$configFilename.'.json');
 		return $conf->read();
 	}
 
@@ -170,8 +177,11 @@ class Page extends ResponseContent {
 		$action = $this->action();
 		$globalVars = $this->globalVars();
 		$pageVars = $this->vars();
-		$coreScripts = $this->_getCoreScripts();
-		$mustache->addHelper('getLinkedFiles', function($type) use ($appName, $module, $action, $globalVars, $pageVars, $coreScripts) {
+		$coreLinkedFiles = array(
+			'js' => $this->_getCoreLinkedFiles('js'),
+			'css' => $this->_getCoreLinkedFiles('css')
+		);
+		$mustache->addHelper('getLinkedFiles', function($type) use ($appName, $module, $action, $globalVars, $pageVars, $coreLinkedFiles) {
 			$linkedFiles = array();
 
 			$filesBaseDir = $type;
@@ -183,28 +193,11 @@ class Page extends ResponseContent {
 
 			//Core files
 			$coreFilesPath = $filesBaseDir.'/core';
-			if ($type == 'js') {
-				foreach($coreScripts as $scriptData) {
+			if (isset($coreLinkedFiles[$type])) {
+				foreach($coreLinkedFiles[$type] as $scriptData) {
 					$filePath = $coreFilesPath.'/'.$scriptData['filename'];
 
 					$linkedFiles[] = $filePath;
-				}
-			} else {
-				if (is_dir($relativePublicFilesDir.'/'.$coreFilesPath)) {
-					$coreFilesDir = opendir($relativePublicFilesDir.'/'.$coreFilesPath);
-
-					if ($coreFilesDir !== false) {
-						while(false !== ($file = readdir($coreFilesDir))) {
-							$filePath = $coreFilesPath.'/'.$file;
-
-							if (pathinfo($relativePublicFilesDir.'/'.$filePath, PATHINFO_EXTENSION) != $type) {
-								continue;
-							}
-
-							$linkedFiles[] = $filePath;
-						}
-						closedir($coreFilesDir);
-					}
 				}
 			}
 
