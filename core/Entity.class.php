@@ -6,7 +6,7 @@ namespace core;
  * @author Simon Ser
  * @since 1.0alpha1
  */
-abstract class Entity implements \ArrayAccess, \JsonSerializable {
+abstract class Entity implements \ArrayAccess, JsonSerializable {
 	/**
 	 * The identifier of this entity.
 	 * @var int
