@@ -239,5 +239,105 @@
 		return moduleApi;
 	};
 
+	Lighp.ArraySearcher = function (data) {
+		this._data = data;
+	};
+	Lighp.ArraySearcher.prototype = {
+		_pregQuote: function (str, delimiter) { //From http://phpjs.org/functions/preg_quote/
+			return (str + '').replace(new RegExp('[.\\\\+*?\\[\\^\\]$(){}=!<>|:\\' + (delimiter || '') + '-]', 'g'), '\\$&');
+		},
+		_replaceAll: function (find, replace, str) {
+			return str.replace(new RegExp(this._pregQuote(find), 'g'), replace);
+		},
+		_accentedChars: [
+			'A|À|Á|Â|Ã|Ä|Å',
+			'a|à|á|â|ã|ä|å',
+			'O|Ò|Ó|Ô|Õ|Ö|Ø',
+			'o|ò|ó|ô|õ|ö|ø',
+			'E|È|É|Ê|Ë',
+			'e|é|è|ê|ë',
+			'C|Ç',
+			'c|ç',
+			'I|Ì|Í|Î|Ï',
+			'i|ì|í|î|ï',
+			'U|Ù|Ú|Û|Ü',
+			'u|ù|ú|û|ü',
+			'y|ÿ',
+			'N|Ñ',
+			'n|ñ'
+		],
+		data: function () {
+			return this._data;
+		},
+		search: function (query, searchFields) {
+			if (!searchFields) {
+				searchFields = [];
+			}
+
+			var escapedQuery = this._pregQuote(String(query).trim());
+			escapedQuery = this._replaceAll(' ', '|', escapedQuery);
+			for (var i = 0; i < this._accentedChars.length; i++) {
+				var regex = '('+this._accentedChars[i]+')';
+				escapedQuery = escapedQuery.replace(new RegExp(regex, 'gi'), regex);
+			}
+
+			if (!escapedQuery) {
+				return this.data();
+			}
+
+			matchingItems = [];
+			nbrFields = searchFields.length;
+
+			nbrItems = this._data.length;
+			hitsPower = String(nbrItems).length;
+			hitsFactor = Math.pow(10, hitsPower);
+
+			for (var i = 0; i < this._data.length; i++) {
+				var item = this._data[i],
+					itemHits = 0;
+
+				if (nbrFields == 0) {
+					for (var field in item) {
+						nbrFields++;
+					}
+				}
+
+				var j = 0;
+				for (var field in item) {
+					var value = item[field];
+
+					if (nbrFields != 0 && !~$.inArray(field, searchFields)) {
+						continue;
+					}
+
+					var fieldHits = 0;
+					item[field] = String(item[field]).replace(new RegExp('('+escapedQuery+')', 'gi'), function (match) {
+						fieldHits++;
+						return '<strong>'+match+'</strong>';
+					});
+
+					itemHits += fieldHits;
+
+					j++;
+				}
+
+				if (itemHits > 0) {
+					matchingItems.push({
+						index: itemHits * hitsFactor + (nbrItems - i),
+						item: item
+					});
+				}
+			}
+
+			matchingItems.sort(function (a, b) {
+				return b.index - a.index;
+			});
+
+			return matchingItems.map(function (data) {
+				return data.item;
+			});
+		}
+	};
+
 	window.Lighp = Lighp;
 })();

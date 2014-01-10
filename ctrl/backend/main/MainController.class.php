@@ -118,6 +118,8 @@ class MainController extends \core\BackController {
 
 		if (empty($searchQuery)) {
 			foreach ($backends as $key => $metadata) {
+				$backends[$key] = $this->_getBackend($metadata['name']);
+
 				$backends[$key]['url'] = $router->getUrl($this->module(), 'showModule', array(
 					'module' => $metadata['name']
 				));

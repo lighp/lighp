@@ -15,7 +15,7 @@
 		<div class="navbar navbar-static-top">
 			<div class="navbar-inner">
 				<div class="container">
-					<a class="brand" href="{{WEBSITE_ROOT}}/">{{{WEBSITE_NAME}}}</a>
+					<a class="brand" href="{{WEBSITE_ROOT}}/admin/">{{{WEBSITE_NAME}}}</a>
 					
 					<!-- .btn-navbar is used as the toggle for collapsed navbar content -->
 					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -33,7 +33,7 @@
 						</form>
 
 						<ul class="nav">
-							<li{{^breadcrumb}} class="active"{{/breadcrumb}}><a href="{{WEBSITE_ROOT}}/admin/">Espace d'administration</a></li>
+							<li{{^breadcrumb}} class="active"{{/breadcrumb}}><a href="{{WEBSITE_ROOT}}/admin/">Admin</a></li>
 							{{#breadcrumb}}{{#title}}
 								<li{{^url}} class="active"{{/url}}><a href="{{#url}}{{WEBSITE_ROOT}}/{{url}}{{/url}}">{{{title}}}</a></li>
 							{{/title}}{{/breadcrumb}}

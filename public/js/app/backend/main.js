@@ -1,8 +1,12 @@
 (function() {
 	var mainApi = Lighp.registerModule('backend', 'main');
 
-	mainApi.buildSearchEntry = function (input, searchCallback, abortCallback) {
+	mainApi.buildSearchEntry = function (input, searchCallback, abortCallback, delay) {
 		var $input = $(input);
+
+		if (typeof delay != 'number') {
+			delay = 300;
+		}
 
 		var actualQuery = $input.val(), keypressTimer = null;
 		$input.on('keyup', function() {
@@ -12,19 +16,24 @@
 				return;
 			}
 
-			if (keypressTimer !== null) {
-				clearTimeout(keypressTimer);
-			}
-			keypressTimer = setTimeout(function() {
-				keypressTimer = null;
+			if (delay) {
+				if (keypressTimer !== null) {
+					clearTimeout(keypressTimer);
+				}
+				keypressTimer = setTimeout(function() {
+					keypressTimer = null;
 
-				actualQuery = searchQuery;
+					actualQuery = searchQuery;
+
+					abortCallback();
+					searchCallback(searchQuery);
+				}, delay);
 
 				abortCallback();
+			} else {
+				actualQuery = searchQuery;
 				searchCallback(searchQuery);
-			}, 300);
-
-			abortCallback();
+			}
 		});
 
 		$input.on('keydown', function(event) {
