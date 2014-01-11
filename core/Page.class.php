@@ -1,6 +1,9 @@
 <?php
 namespace core;
 
+use \Mustache_Engine;
+use \Mustache_Loader_FilesystemLoader;
+
 /**
  * A page.
  * Page's templates are stored in /tpl.
@@ -99,8 +102,8 @@ class Page extends ResponseContent {
 
 		$globalVars = $this->globalVars();
 
-		$contentLoader = new mustache\loader\FilesystemLoader(dirname($templatePath), array('extension' => '.html'));
-		$layoutLoader = new mustache\loader\FilesystemLoader(dirname($layoutPath), array('extension' => '.html'));
+		$contentLoader = new Mustache_Loader_FilesystemLoader(dirname($templatePath), array('extension' => '.html'));
+		$layoutLoader = new Mustache_Loader_FilesystemLoader(dirname($layoutPath), array('extension' => '.html'));
 
 		$engine = $this->_templatesEngine();
 
@@ -135,7 +138,7 @@ class Page extends ResponseContent {
 		} catch(\Exception $e) {}
 
 		//Create the engine
-		$mustache = new mustache\Engine($mustacheOptions);
+		$mustache = new Mustache_Engine($mustacheOptions);
 
 		//Translate
 		$translation = $this->translation();

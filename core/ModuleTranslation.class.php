@@ -1,6 +1,8 @@
 <?php
 namespace core;
 
+use \Spyc;
+
 /**
  * A module's translation.
  * @author Simon Ser
@@ -43,7 +45,7 @@ class ModuleTranslation extends ModuleComponent {
 
 	public function read() {
 		if (empty($this->translationData)) {
-			$translationData = spyc\Spyc::YAMLLoad($this->_filePath());
+			$translationData = Spyc::YAMLLoad($this->_filePath());
 
 			if ($translationData === false) {
 				throw new \RuntimeException('Cannot open translation file "'.$this->_filePath().'"');

@@ -1,0 +1,21 @@
+{
+	"name": "lighp/lighp",
+	"description":"A light-weight php framework based on a package system.",
+	"homepage":"http://lighp.github.io/lighp/",
+	"version":"1.0-alpha1",
+	"license":"GPLv3",
+	"type":"application",
+	"authors":[
+		{
+			"name":"emersion",
+			"homepage":"http://emersion.fr"
+		}
+	],
+	"config":{
+		"vendor-dir":"lib/vendor"
+	},
+	"require": {
+		"mustache/mustache": "dev-master",
+		"mustangostang/spyc": "0.5.*@dev"
+	}
+}

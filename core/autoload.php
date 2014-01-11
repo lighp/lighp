@@ -12,3 +12,5 @@ function autoload($class) {
 }
 
 spl_autoload_register('autoload');
+
+require __DIR__.'/../lib/vendor/autoload.php';
