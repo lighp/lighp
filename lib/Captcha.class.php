@@ -6,7 +6,7 @@ if (!isset($_SESSION)) {
 }
 
 class Captcha {
-	protected $id, $question, $result;
+	protected $id, $question, $result, $dict;
 
 	public function __construct() {
 		$this->_generate();
@@ -17,9 +17,17 @@ class Captcha {
 		$n1 = mt_rand(0, 10);
 		$n2 = mt_rand(0, 10);
 
-		$humanNbr = array('zéro','un','deux','trois','quatre','cinq','six','sept','huit','neuf','dix');
+		$humanNbr = array('zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'height', 'nine', 'ten');
 
-		$this->question = 'Combien font ' . $humanNbr[$n1] .' plus ' . $humanNbr[$n2] . ' ?';
+		if (!empty($this->dict)) {
+			foreach($humanNbr as $i => $englishNbr) {
+				$humanNbr[$i] = $this->dict->get('numbers.'.$englishNbr);
+			}
+			$this->question = $this->dict->get('howMuchIs') . ' ' . $humanNbr[$n1] .' '.$this->dict->get('plus').' ' . $humanNbr[$n2] . ' ?';
+		} else {
+			$this->question = 'Combien font ' . $humanNbr[$n1] .' plus ' . $humanNbr[$n2] . ' ?';
+		}
+		
 		$this->result = $n1 + $n2;
 	}
 
@@ -33,6 +41,13 @@ class Captcha {
 
 	public function check($result) {
 		return ($this->result === $result);
+	}
+
+	public function setDictionary(\core\ModuleTranslation $dict) {
+		$this->dict = $dict;
+
+		$this->_generate();
+		$this->_remember();
 	}
 
 	protected function _remember() {
