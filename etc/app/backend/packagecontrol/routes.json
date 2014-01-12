@@ -1,41 +1,41 @@
 [
 	{
-		"url":"/admin/packagecontrol-show-([a-zA-Z0-9-_.]+)\\.html",
+		"url":"/admin/packagecontrol/show/([a-zA-Z0-9-_.]+)/?",
 		"action":"showPackage",
 		"vars": ["name"]
 	},
 	{
-		"url":"/admin/packagecontrol-search\\.html",
+		"url":"/admin/packagecontrol/search/?",
 		"action":"searchPackage"
 	},
 	{
-		"url":"/admin/packagecontrol-install-([a-zA-Z0-9-_.]+)\\.html",
+		"url":"/admin/packagecontrol/install/([a-zA-Z0-9-_.]+)/?",
 		"action":"installPackage",
 		"vars": ["name"]
 	},
 	{
-		"url":"/admin/packagecontrol-remove-([a-zA-Z0-9-_.]+)\\.html",
+		"url":"/admin/packagecontrol/remove/([a-zA-Z0-9-_.]+)/?",
 		"action":"removePackage",
 		"vars": ["name"]
 	},
 	{
-		"url":"/admin/packagecontrol-update\\.html",
+		"url":"/admin/packagecontrol/update/?",
 		"action":"updateCache"
 	},
 	{
-		"url":"/admin/packagecontrol-upgrade\\.html",
+		"url":"/admin/packagecontrol/upgrade/?",
 		"action":"upgradePackages"
 	},
 	{
-		"url":"/admin/packagecontrol-repos\\.html",
+		"url":"/admin/packagecontrol/repos/?",
 		"action":"listRepositories"
 	},
 	{
-		"url":"/admin/packagecontrol-repos-add\\.html",
+		"url":"/admin/packagecontrol/repos/add/?",
 		"action":"addRepository"
 	},
 	{
-		"url":"/admin/packagecontrol-repos-remove-([a-zA-Z0-9-_.]+)\\.html",
+		"url":"/admin/packagecontrol/repos/remove/([a-zA-Z0-9-_.]+)/?",
 		"action":"removeRepository",
 		"vars": ["name"]
 	}
