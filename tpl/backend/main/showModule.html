@@ -1,17 +1,42 @@
 {{#backend}}
 	{{> partials/form-search}}
 	<div id="main-stack-container">
-		<ul class="nav nav-tabs nav-stacked" id="main-stack">
-			{{#actions}}
-				<li><a href="{{WEBSITE_ROOT}}/{{url}}">
-					<span class="muted pull-right">{{{name}}}</span>
-					{{{title}}}
-				</a></li>
-			{{/actions}}
-		</ul>
-		{{^actions}}
-			<p class="muted">Aucune action n'est associ&eacute;e &agrave; ce module.</p>
-		{{/actions}}
+		<div class="row-fluid">
+			<div class="{{#actions.0}}{{#items.0}}span6{{/items.0}}{{/actions.0}}">
+				<ul class="nav nav-tabs nav-stacked" id="main-stack">
+					{{#actions}}
+						<li><a href="{{WEBSITE_ROOT}}/{{url}}">
+							<span class="muted pull-right">{{{name}}}</span>
+							{{{title}}}
+						</a></li>
+					{{/actions}}
+				</ul>
+			</div>
+			<div class="{{#actions.0}}{{#items.0}}span6{{/items.0}}{{/actions.0}}">
+				<table class="table table-bordered" id="items-stack">
+					{{#items}}
+						<tr><td>
+							<div class="btn-group pull-right">
+								<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+									Actions
+									<span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu">
+								{{#actions}}
+									<li><a href="{{WEBSITE_ROOT}}/{{url}}">{{{action.title}}}</a></li>
+								{{/actions}}
+								</ul>
+							</div>
+							{{{kind.title}}} : {{{title}}}{{#shortDescription}}<br />
+							<small class="muted">{{{shortDescription}}}</small>{{/shortDescription}}
+						</td></tr>
+					{{/items}}
+				</table>
+			</div>
+		</div>
+		{{^actions}}{{^items}}
+			<p class="muted text-center">Aucun r&eacute;sultat trouv&eacute;.</p>
+		{{/items}}{{/actions}}
 	</div>
 {{/backend}}
 {{^backend}}

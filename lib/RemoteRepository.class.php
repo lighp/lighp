@@ -68,7 +68,11 @@ class RemoteRepository implements Repository {
 
 	public function updatePackagesList() {
 		$this->packages = null;
-		unlink($this->_cacheFilePath());
+
+		$cacheFile = $this->_cacheFilePath();
+		if (file_exists($cacheFile)) {
+			unlink($this->_cacheFilePath());
+		}
 
 		return $this->getPackagesList();
 	}

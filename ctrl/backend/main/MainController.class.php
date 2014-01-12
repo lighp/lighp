@@ -106,6 +106,56 @@ class MainController extends \core\BackController {
 		return $backends;
 	}
 
+	protected function _listItems($moduleName, $itemsToList, $searchQuery = '') {
+		$request = $this->app->httpRequest();
+
+		$ctrl = $this->app->buildController($moduleName);
+		$methodName = 'list' . ucfirst($itemsToList);
+
+		if (method_exists($ctrl, $methodName)) {
+			$items = $ctrl->$methodName($request);
+
+			//Search query
+			if (!empty($searchQuery)) {
+				$searcher = new \lib\ArraySearcher($items);
+				$items = $searcher->search($searchQuery, array('title', 'shortDescription'));
+			}
+
+			return $items;
+		}
+	}
+
+	protected function _insertUrlToItems($moduleName, $actionName, $items) {
+		$router = $this->app->router();
+		$route = $router->getRoute($moduleName, $actionName);
+
+		foreach($items as $key => $item) {
+			if (isset($item['vars']) && $route->hasVars()) {
+				if (isset($action['list']['vars'])) {
+					$routeVarsNames = $route->varsNames();
+					$joinVarsNames = $action['list']['vars'];
+					$itemsVars = $item['vars'];
+					$vars = array();
+
+					foreach($routeVarsNames as $routeVarName) {
+						if (isset($joinVarsNames[$routeVarName])) {
+							$itemVarName = $joinVarsNames[$routeVarName];
+							$vars[$routeVarName] = $itemsVars[$itemVarName];
+						}
+					}
+				} else {
+					$vars = $item['vars'];
+				}
+
+				$route->setVars($vars);
+			}
+
+			$items[$key]['url'] = $route->buildUrl();
+		}
+
+		return $items;
+	}
+
 	public function executeIndex(\core\HTTPRequest $request) {
 		$this->page()->addVar('title', 'Espace d\'administration');
 
@@ -164,12 +214,60 @@ class MainController extends \core\BackController {
 
 		$this->page()->addVar('searchQuery', $searchQuery);
 
-		if (!empty($searchQuery) && isset($backend['actions'])) {
-			$searcher = new \lib\ArraySearcher($backend['actions']);
-			$backend['actions'] = $searcher->search($searchQuery, array('title', 'name'));
-		}
-
 		if (!empty($backend)) {
+			if (isset($backend['actions'])) {
+				$lists = array();
+				foreach($backend['actions'] as $i => $action) {
+					if (isset($action['list']) && isset($action['list']['items'])) {
+						$itemsName = $action['list']['items'];
+
+						if (isset($lists[$itemsName])) {
+							$lists[$itemsName][] = $i;
+						} else {
+							$lists[$itemsName] = array($i);
+						}
+					}
+				}
+
+				$items = array();
+				$itemsLimit = 10;
+				foreach($lists as $listName => $actionIndexes) {
+					$list = $this->_listItems($moduleName, $listName, $searchQuery);
+					$kind = $backend['lists'][$listName];
+
+					foreach($actionIndexes as $actionIndex) {
+						$actionList = array();
+						$action = $backend['actions'][$actionIndex];
+
+						$actionList = $this->_insertUrlToItems($moduleName, $action['name'], $list);
+						foreach ($actionList as $itemName => $item) {
+							if (!isset($list[$itemName]['actions'])) {
+								$list[$itemName]['actions'] = array();
+							}
+
+							$list[$itemName]['actions'][] = array(
+								'action' => $action,
+								'url' => $item['url']
+							);
+							$list[$itemName]['kind'] = array(
+								'name' => $listName,
+								'title' => $kind['title']
+							);
+						}
+					}
+
+					$list = array_slice(array_reverse($list), 0, $itemsLimit);
+					$items = array_merge($items, $list);
+				}
+
+				$backend['items'] = $items;
+			}
+
+			if (!empty($searchQuery) && isset($backend['actions'])) {
+				$searcher = new \lib\ArraySearcher($backend['actions']);
+				$backend['actions'] = $searcher->search($searchQuery, array('title', 'name'));
+			}
+
 			$this->page()->addVar('backend', $backend);
 			$this->page()->addVar('title', $backend['title']);
 			$this->page()->addVar('breadcrumb', array(

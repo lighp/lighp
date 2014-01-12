@@ -32,5 +32,13 @@
 				"items":"repositories"
 			}
 		}
+	},
+	"lists":{
+		"installedPackages":{
+			"title":"Paquets installés"
+		},
+		"repositories":{
+			"title":"Dépôts"
+		}
 	}
 }
