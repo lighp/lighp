@@ -57,7 +57,15 @@ abstract class Application {
 		$requestURI = $this->httpRequest->requestURI();
 		$websiteConfigFile = new Config(__DIR__.'/../etc/core/website.json');
 		$websiteConfig = $websiteConfigFile->read();
-		$requestURI = preg_replace('#^'.preg_quote($websiteConfig['root']).'#', '$1', $requestURI);
+
+		$rootPath = $websiteConfig['root'];
+		if ($rootPath == '/') {
+			$rootPath = '';
+		}
+		if (!empty($rootPath) && substr($rootPath, 0, 1) != '/') {
+			$rootPath = '/' . $rootPath;
+		}
+		$requestURI = preg_replace('#^'.preg_quote($rootPath).'#', '$1', $requestURI);
 
 		try { //Let's get the route matching with the URL
 			$matchedRoute = $router->getRouteFromUrl($requestURI);
