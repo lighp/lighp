@@ -233,7 +233,10 @@ class MainController extends \core\BackController {
 				$itemsLimit = 10;
 				foreach($lists as $listName => $actionIndexes) {
 					$list = $this->_listItems($moduleName, $listName, $searchQuery);
-					$kind = $backend['lists'][$listName];
+					$kind = array('title' => null);
+					if (isset($backend['lists']) && isset($backend['lists'][$listName])) {
+						$kind = $backend['lists'][$listName];
+					}
 
 					foreach($actionIndexes as $actionIndex) {
 						$actionList = array();
