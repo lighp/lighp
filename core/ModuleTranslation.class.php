@@ -110,4 +110,12 @@ class ModuleTranslation extends ModuleComponent {
 			return $translationData;
 		}
 	}
+
+	public function __isset($path) {
+		return ($this->get($path) != $path);
+	}
+
+	public function __get($path) {
+		return $this->get($path);
+	}
 }

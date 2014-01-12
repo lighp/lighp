@@ -81,7 +81,7 @@ abstract class Application {
 	 * @param  string $action The controller's action.
 	 * @return BackController The controller.
 	 */
-	public function buildController($module, $action) {
+	public function buildController($module, $action = 'index') {
 		$controllerClass = 'ctrl\\'.$this->name.'\\'.$module.'\\'.ucfirst($module).'Controller';
 
 		return new $controllerClass($this, $module, $action);

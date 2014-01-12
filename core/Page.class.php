@@ -292,6 +292,9 @@ class Page extends ResponseContent {
 	public function setTranslation(ModuleTranslation $translation, $section = null) {
 		$this->translation = $translation;
 		$this->translationSection = $section;
+
+		$this->addVar('dictionary', $translation);
+		$this->addVar('_', $translation);
 	}
 
 	/**
