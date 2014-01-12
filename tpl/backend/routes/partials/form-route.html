@@ -12,19 +12,19 @@
 	<div class="control-group">
 		<label class="control-label" for="route-url">Masque de l'URL</label>
 		<div class="controls">
-			<input type="text" name="route-url" id="route-url" value="{{#route}}{{url}}{{/route}}" placeholder="Masque de l'URL" class="input-xxlarge" required><span class="help-block">Ceci est le masque, sous forme de regex, qui doit correspondre à l'URL de la page cible.</span>
+			<input type="text" name="route-url" id="route-url" value="{{route.url}}" placeholder="Masque de l'URL" class="input-xxlarge" required><span class="help-block">Ceci est le masque, sous forme de regex, qui doit correspondre à l'URL de la page cible.</span>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="route-module">Module</label>
 		<div class="controls">
-			<input type="text" name="route-module" id="route-module" value="{{#route}}{{module}}{{/route}}" placeholder="Module" required>
+			<input type="text" name="route-module" id="route-module" value="{{route.module}}" placeholder="Module" required>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="route-action">Action</label>
 		<div class="controls">
-			<input type="text" name="route-action" id="route-action" value="{{#route}}{{action}}{{/route}}" placeholder="Action" required>
+			<input type="text" name="route-action" id="route-action" value="{{route.action}}" placeholder="Action" required>
 		</div>
 	</div>
 	<div class="control-group">
@@ -36,6 +36,6 @@
 
 	<div class="form-actions">
 		<button type="submit" class="btn btn-primary">Valider</button>
-		<a class="btn" href="module-routes.html">Annuler</a>
+		<a class="btn" href="{{#buildUrl}}main showModule routes{{/buildUrl}}">Annuler</a>
 	</div>
 </form>

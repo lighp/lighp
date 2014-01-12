@@ -2,7 +2,7 @@
 	<div class="alert alert-block alert-success">
 		<h4 class="alert-heading">Paquet install&eacute;</h4>
 		<p>Le paquet a bien &eacute;t&eacute; install&eacute;.</p>
-		<p><a class="btn" href="module-packagecontrol.html">Retour</a></p>
+		<p><a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Retour</a></p>
 	</div>
 {{/installed?}}
 
@@ -41,7 +41,7 @@
 								<button type="submit" class="btn btn-warning"><i class="icon-arrow-down icon-white"></i>&nbsp;Installer tout de m&ecirc;me</button>
 							{{/update?}}
 							<a class="btn" href="{{source}}">T&eacute;l&eacute;charger le contenu du paquet</a>
-							<a class="btn" href="module-packagecontrol.html">Annuler</a>
+							<a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Annuler</a>
 						</p>
 					{{/installed?}}
 				</div>
@@ -54,14 +54,14 @@
 							<p>Ce paquet est d&eacute;j&agrave; install&eacute;, mais une version plus r&eacute;cente est disponible dans les d&eacute;p&ocirc;ts.</p>
 							<p>
 								<button type="submit" class="btn btn-info"><i class="icon-arrow-down icon-white"></i>&nbsp;Mettre &agrave; jour</button>
-								<a class="btn" href="module-packagecontrol.html">Annuler</a>
+								<a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Annuler</a>
 							</p>
 						</div>
 					{{/update?}}
 					{{^update?}}
 						<div class="form-actions">
 							<button type="submit" class="btn btn-primary"><i class="icon-arrow-down icon-white"></i>&nbsp;Installer</button>
-							<a class="btn" href="module-packagecontrol.html">Annuler</a>
+							<a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Annuler</a>
 						</div>
 					{{/update?}}
 				{{/installed?}}
@@ -72,8 +72,8 @@
 				<h4 class="alert-heading">Paquet d&eacute;j&agrave; install&eacute;</h4>
 				<p>Ce paquet est d&eacute;j&agrave; install&eacute;.</p>
 				<p>
-					<a class="btn btn-info" href="packagecontrol-remove-{{metadata.name}}.html"><i class="icon-trash icon-white"></i>&nbsp;Supprimer</a>
-					<a class="btn" href="module-packagecontrol.html">Retour</a>
+					<a class="btn btn-info" href="{{#buildUrl}}packagecontrol removePackage {{metadata.name}}{{/buildUrl}}"><i class="icon-trash icon-white"></i>&nbsp;Supprimer</a>
+					<a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Retour</a>
 				</p>
 			</div>
 		{{/alreadyInstalled?}}

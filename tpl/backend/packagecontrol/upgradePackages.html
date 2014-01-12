@@ -5,7 +5,7 @@
 	<div class="alert alert-block alert-success">
 		<h4 class="alert-heading">Mises &agrave; jour appliqu&eacute;es</h4>
 		<p>Les mises &agrave; jour ont bien &eacute;t&eacute; appliqu&eacute;es.</p>
-		<p><a class="btn" href="module-packagecontrol.html">Retour</a></p>
+		<p><a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Retour</a></p>
 	</div>
 {{/upgraded?}}
 
@@ -64,7 +64,7 @@
 
 			<div class="form-actions">
 				<button type="submit" class="btn btn-primary"><i class="icon-arrow-down icon-white"></i>&nbsp;Mettre à jour</button>
-				<a class="btn" href="module-packagecontrol.html">Annuler</a>
+				<a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Annuler</a>
 			</div>
 		</form>
 	{{/upgrades?}}
@@ -72,7 +72,7 @@
 		<div class="alert alert-block alert-info">
 			<h4 class="alert-heading">Le système est à jour</h4>
 			<p>Aucune mise à jour n'est pour l'instant disponible.</p>
-			<p><a class="btn" href="module-packagecontrol.html">Retour</a></p>
+			<p><a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Retour</a></p>
 		</div>
 	{{/upgrades?}}
 {{/upgraded?}}

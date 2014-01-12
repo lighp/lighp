@@ -2,12 +2,13 @@
 	<div class="alert alert-block alert-success">
 		<h4 class="alert-heading">Route supprim&eacute;e</h4>
 		<p>La route a bien &eacute;t&eacute; supprim&eacute;e.</p>
-		<p><a class="btn" href="module-routes.html">Retour</a></p>
+		<p><a class="btn" href="{{#buildUrl}}main showModule routes{{/buildUrl}}">Retour</a></p>
 	</div>
 {{/deleted?}}
 {{#error}}
 	<div class="alert alert-block alert-error">
 		<h4 class="alert-heading">Erreur lors de la suppression</h4>
 		<p>La route n'a pas p&ucirc; &eacute;t&eacute; supprim&eacute;e : {{error}}</p>
+		<p><a class="btn" href="{{#buildUrl}}main showModule routes{{/buildUrl}}">Retour</a></p>
 	</div>
 {{/error}}

@@ -2,7 +2,7 @@
 	<div class="alert alert-block alert-success">
 		<h4 class="alert-heading">Identifiants modifi&eacute;s</h4>
 		<p>Les identifiants ont bien &eacute;t&eacute; modifi&eacute;s.</p>
-		<p><a class="btn" href="module-login.html">Retour</a></p>
+		<p><a class="btn" href="{{#buildUrl}}main showModule login{{/buildUrl}}">Retour</a></p>
 	</div>
 {{/updated?}}
 {{^updated?}}
@@ -38,7 +38,7 @@
 			</div>
 		<div class="form-actions">
 			<button type="submit" class="btn btn-primary">Valider</button>
-			<a class="btn" href="module-login.html">Annuler</a>
+			<a class="btn" href="{{#buildUrl}}main showModule login{{/buildUrl}}">Annuler</a>
 		</div>
 	</form>
 {{/updated?}}

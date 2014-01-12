@@ -17,7 +17,7 @@
 				<td>{{varsList}}</td>
 				<td>
 					<div class="btn-group">
-						{{#editable?}}<a class="btn btn-danger" href="routes-delete-{{app}}-{{id}}.html"><i class="icon-trash icon-white"></i>&nbsp;Supprimer</a>{{/editable?}}
+						{{#editable?}}<a class="btn btn-danger" href="{{#buildUrl}}routes deleteRoute {{app}} {{id}}{{/buildUrl}}"><i class="icon-trash icon-white"></i>&nbsp;Supprimer</a>{{/editable?}}
 					</div>
 				</td>
 			</tr>

@@ -2,7 +2,7 @@
 	<div class="alert alert-block alert-success">
 		<h4 class="alert-heading">D&eacute;p&ocirc;t supprim&eacute;</h4>
 		<p>Le d&eacute;p&ocirc;t a bien &eacute;t&eacute; supprim&eacute;.</p>
-		<p><a class="btn" href="module-packagecontrol.html">Retour</a></p>
+		<p><a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Retour</a></p>
 	</div>
 {{/removed?}}
 {{^removed?}}
@@ -21,7 +21,7 @@
 				<p>Voulez-vous supprimer le d&eacute;p&ocirc;t <strong>{{name}}</strong> ?</p>
 				<p>
 					<button type="submit" class="btn btn-info"><i class="icon-trash icon-white"></i>&nbsp;Supprimer</button>
-					<a class="btn" href="module-packagecontrol.html">Retour</a>
+					<a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Retour</a>
 				</p>
 			</div>
 		</form>
