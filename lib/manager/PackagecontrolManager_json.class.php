@@ -430,7 +430,7 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 				$oldFilePath = preg_replace('#^\./#', '', $fileData['path']);
 
 				//Was this file already processed ?
-				if (!isset($filesToCopy[$oldFilePath])) {
+				if (!isset($filesToCopy[$oldFilePath]) && file_exists($oldFilePath)) {
 					//Delete old file
 					if (!unlink($oldFilePath)) { //Delete this file
 						throw new \RuntimeException('Cannot delete file "'.$oldFilePath.'"');
