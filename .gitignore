@@ -3,3 +3,5 @@
 /db/packagecontrol/repositories.json
 /composer.phar
 /etc/core/website.json
+composer.lock
+/lib/vendor
