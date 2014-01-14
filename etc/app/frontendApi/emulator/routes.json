@@ -1,0 +1,12 @@
+[
+	{
+		"url":"/api/execute/([a-zA-Z0-9_.-]+)/([a-zA-Z0-9_.-]+)",
+		"action":"emulate",
+		"vars": ["emulateModule","emulateAction"]
+	},
+	{
+		"url":"/api/list/([a-zA-Z0-9_.-]+)/([a-zA-Z0-9_.-]+)",
+		"action":"emulateList",
+		"vars": ["emulateModule","emulateListItems"]
+	}
+]
