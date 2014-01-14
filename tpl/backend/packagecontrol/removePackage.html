@@ -2,7 +2,7 @@
 	<div class="alert alert-block alert-success">
 		<h4 class="alert-heading">Paquet supprim&eacute;</h4>
 		<p>Le paquet a bien &eacute;t&eacute; supprim&eacute;.</p>
-		<p><a class="btn" href="module-packagecontrol.html">Retour</a></p>
+		<p><a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Retour</a></p>
 	</div>
 {{/removed?}}
 {{^removed?}}
@@ -22,7 +22,7 @@
 					<p>Voulez-vous supprimer le paquet <strong>{{metadata.name}} {{metadata.version}}</strong> ?</p>
 					<p>
 						<button type="submit" class="btn btn-info"><i class="icon-trash icon-white"></i>&nbsp;Supprimer</button>
-						<a class="btn" href="module-packagecontrol.html">Retour</a>
+						<a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Retour</a>
 					</p>
 				</div>
 			{{/isInstalled?}}
@@ -32,7 +32,7 @@
 					<p>Ce paquet n'est pas encore install&eacute;.</p>
 					<p>
 						<a class="btn btn-info" href="packagecontrol-install-{{name}}.html"><i class="icon-trash icon-white"></i>&nbsp;Installer</a>
-						<a class="btn" href="module-packagecontrol.html">Retour</a>
+						<a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Retour</a>
 					</p>
 				</div>
 			{{/isInstalled?}}
