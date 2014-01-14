@@ -1,5 +1,5 @@
-{
-    "0": {
+[
+    {
         "name": "lib-jquery",
         "title": "lib-jquery",
         "subtitle": "",
@@ -11,7 +11,7 @@
         "size": 33510,
         "extractedSize": 109013
     },
-    "2": {
+    {
         "name": "dao-jsondb",
         "title": "dao-jsondb",
         "subtitle": "",
@@ -25,7 +25,7 @@
         "updateDate": "2013-04-17 07:49:57",
         "hasScripts": true
     },
-    "3": {
+    {
         "name": "lib-arraysearcher",
         "title": "lib-arraysearcher",
         "subtitle": "",
@@ -39,7 +39,7 @@
         "updateDate": "2013-04-17 19:26:46",
         "hasScripts": false
     },
-    "11": {
+    {
         "name": "lib-twitter-bootstrap",
         "title": "lib-twitter-bootstrap",
         "subtitle": "",
@@ -54,7 +54,7 @@
         "updateDate": "2013-11-24 17:29:14",
         "hasScripts": false
     },
-    "12": {
+    {
         "name": "lib-captcha",
         "title": "lib-captcha",
         "subtitle": "",
@@ -68,7 +68,7 @@
         "updateDate": "2014-01-12 13:10:28",
         "hasScripts": false
     },
-    "13": {
+    {
         "name": "lib-mustache",
         "title": "lib-mustache",
         "subtitle": "",
@@ -82,7 +82,7 @@
         "updateDate": "2014-01-12 13:10:29",
         "hasScripts": false
     },
-    "14": {
+    {
         "name": "lib-spyc",
         "title": "lib-spyc",
         "subtitle": "",
@@ -96,7 +96,7 @@
         "updateDate": "2014-01-12 13:10:29",
         "hasScripts": false
     },
-    "15": {
+    {
         "name": "module-backend-routes",
         "title": "module-backend-routes",
         "subtitle": "",
@@ -110,7 +110,7 @@
         "updateDate": "2014-01-12 13:10:30",
         "hasScripts": false
     },
-    "16": {
+    {
         "name": "lighp-core",
         "title": "lighp-core",
         "subtitle": "Core files for Lighp",
@@ -124,7 +124,7 @@
         "updateDate": "2014-01-12 13:10:30",
         "hasScripts": false
     },
-    "17": {
+    {
         "name": "module-backend-main",
         "title": "module-backend-main",
         "subtitle": "",
@@ -139,7 +139,7 @@
         "updateDate": "2014-01-12 13:10:30",
         "hasScripts": false
     },
-    "18": {
+    {
         "name": "module-packagecontrol",
         "title": "Package control",
         "subtitle": "",
@@ -154,4 +154,4 @@
         "updateDate": "2014-01-12 13:10:31",
         "hasScripts": false
     }
-}
+]
