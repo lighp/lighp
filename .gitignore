@@ -1,6 +1,6 @@
-/var/cache
-/var/tmp
-/db/packagecontrol/repositories.json
+var/cache/
+var/tmp/
+db/packagecontrol/repositories.json
+etc/core/website.json
 /composer.phar
 /composer.lock
-/etc/core/website.json
