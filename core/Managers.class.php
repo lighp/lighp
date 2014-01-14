@@ -72,34 +72,47 @@ class Managers {
 		if (!isset($this->managers[$module])) {
 			$managerBaseName = '\\lib\\manager\\'.ucfirst($module).'Manager';
 
-			$api = $this->_getApiOf($module);
-			if (empty($api)) {
-				$availableApis = $this->daos->listApis();
-				$compatibleApis = array();
+			$useBaseManager = false;
+			if (class_exists($managerBaseName)) {
+				$reflectBaseManager = new \ReflectionClass($managerBaseName);
 
-				foreach ($availableApis as $apiName) {
-					if (class_exists($managerBaseName.'_'.$apiName)) {
-						$compatibleApis[] = $apiName;
+				$useBaseManager = (!$reflectBaseManager->isAbstract());
+			}
+
+			if ($useBaseManager) {
+				$manager = new $managerBaseName(null);
+			} else {
+				$api = $this->_getApiOf($module);
+				if (empty($api)) { //Auto-detect API
+					$availableApis = $this->daos->listApis();
+					$compatibleApis = array();
+
+					foreach ($availableApis as $apiName) {
+						if (class_exists($managerBaseName.'_'.$apiName)) {
+							$compatibleApis[] = $apiName;
+						}
+					}
+
+					if (in_array($this->daos->getDefaultApi(), $compatibleApis)) {
+						$api = $this->daos->getDefaultApi();
+					} else if (count($compatibleApis) > 0) {
+						$api = $compatibleApis[0];
+					} else {
+						throw new \RuntimeException('No DAO available for manager "'.$managerBaseName.'"');
 					}
 				}
 
-				if (in_array($this->daos->getDefaultApi(), $compatibleApis)) {
-					$api = $this->daos->getDefaultApi();
-				} else if (count($compatibleApis) > 0) {
-					$api = $compatibleApis[0];
-				} else {
-					throw new \RuntimeException('No DAO available for manager "'.$managerBaseName.'"');
+				$dao = $this->daos->getDao($api);
+				$managerName = $managerBaseName.'_'.$api;
+
+				if (!class_exists($managerName)) {
+					throw new \RuntimeException('Unable to find manager "'.$managerName.'"');
 				}
+
+				$manager = new $managerName($dao);
 			}
 
-			$dao = $this->daos->getDao($api);
-			$managerName = $managerBaseName.'_'.$api;
-
-			if (!class_exists($managerName)) {
-				throw new \RuntimeException('Unable to find manager "'.$managerName.'"');
-			}
-
-			$this->managers[$module] = new $managerName($dao);
+			$this->managers[$module] = $manager;
 		}
 
 		return $this->managers[$module];
