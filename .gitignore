@@ -1,3 +1,4 @@
+/lib/vendor/
 /var/cache/
 /var/tmp/
 /composer.phar
