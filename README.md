@@ -1,4 +1,4 @@
-Lighp 1.0 alpha 1
+Lighp 1.0 alpha 2
 =================
 
 A light-weight PHP framework based on a package system.
