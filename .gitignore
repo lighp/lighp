@@ -2,4 +2,5 @@
 /var/tmp
 /db/packagecontrol/repositories.json
 /composer.phar
+/composer.lock
 /etc/core/website.json
