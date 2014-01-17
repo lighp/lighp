@@ -4,7 +4,7 @@ namespace ctrl\backend\login;
 class LoginController extends \core\BackController {
 	protected function _addBreadcrumb($page = array()) {
 		$breadcrumb = array(
-			array('url' => 'module-'.$this->module.'.html', 'title' => 'Compte administrateur')
+			array('url' => 'admin/module/'.$this->module, 'title' => 'Compte administrateur')
 		);
 
 		$this->page()->addVar('breadcrumb', array_merge($breadcrumb, array($page)));
