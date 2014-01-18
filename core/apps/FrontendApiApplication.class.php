@@ -7,7 +7,7 @@ namespace core\apps;
  * @author Simon Ser
  * @since 1.0alpha1
  */
-class FrontendApiApplication extends \core\Application {
+class FrontendApiApplication extends Application {
 	/**
 	 * Initialize this frontend.
 	 */

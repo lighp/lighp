@@ -1,7 +1,9 @@
 <?php
+
 namespace core;
 
 use \Spyc;
+use core\apps\Application;
 
 /**
  * A module's translation.

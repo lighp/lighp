@@ -1,8 +1,13 @@
 <?php
-namespace core;
+
+namespace core\apps;
 
 use core\http\HTTPRequest;
 use core\http\HTTPResponse;
+use core\User;
+use core\Router;
+use core\Route;
+use core\Config;
 
 /**
  * An application (e.g. frontend/backend).
@@ -58,7 +63,7 @@ abstract class Application {
 		$router = $this->router();
 
 		$requestURI = $this->httpRequest->requestURI();
-		$websiteConfigFile = new Config(__DIR__.'/../etc/core/website.json');
+		$websiteConfigFile = new Config(__DIR__.'/../../etc/core/website.json');
 		$websiteConfig = $websiteConfigFile->read();
 
 		$rootPath = $websiteConfig['root'];
@@ -144,7 +149,7 @@ abstract class Application {
 		if (empty($this->router)) {
 			$router = new Router;
 
-			$configPath = __DIR__ . '/../etc/app/' . $this->name;
+			$configPath = __DIR__ . '/../../etc/app/' . $this->name;
 			$dir = opendir($configPath);
 
 			if ($dir === false) {

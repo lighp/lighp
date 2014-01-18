@@ -7,7 +7,7 @@ namespace core\apps;
  * @author Simon Ser
  * @since 1.0alpha1
  */
-class BackendApiApplication extends \core\Application {
+class BackendApiApplication extends Application {
 	/**
 	 * Initialize this backend.
 	 */

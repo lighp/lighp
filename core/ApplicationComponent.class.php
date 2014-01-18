@@ -1,5 +1,8 @@
 <?php
+
 namespace core;
+
+use core\apps\Application;
 
 /**
  * An application component.

@@ -1,5 +1,8 @@
 <?php
+
 namespace core;
+
+use core\apps\Application;
 
 /**
  * A module's configuration file.

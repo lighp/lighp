@@ -1,5 +1,8 @@
 <?php
+
 namespace core;
+
+use core\apps\Application;
 
 /**
  * A response's content.

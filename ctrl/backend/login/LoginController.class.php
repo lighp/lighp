@@ -1,5 +1,9 @@
 <?php
+
 namespace ctrl\backend\login;
+
+use core\apps\Application;
+use core\http\HTTPRequest;
 
 class LoginController extends \core\BackController {
 	protected function _addBreadcrumb($page = array()) {
@@ -25,7 +29,7 @@ class LoginController extends \core\BackController {
 		}
 	}
 
-	public function executeIndex(\core\HTTPRequest $request) {
+	public function executeIndex(HTTPRequest $request) {
 		$this->page()->addVar('title', 'Connexion');
 
 		$cryptoManager = $this->managers->getManagerOf('crypto');
@@ -47,14 +51,14 @@ class LoginController extends \core\BackController {
 		}
 	}
 
-	public function executeLogout(\core\HTTPRequest $request) {
+	public function executeLogout(HTTPRequest $request) {
 		$this->page()->addVar('title', 'Déconnexion');
 
 		$this->app->user()->setAdmin(false);
 		$this->app->httpResponse()->redirect('');
 	}
 
-	public function executeUpdate(\core\HTTPRequest $request) {
+	public function executeUpdate(HTTPRequest $request) {
 		$this->page()->addVar('title', 'Modifier les identifiants de connexion');
 		$this->_addBreadcrumb();
 
