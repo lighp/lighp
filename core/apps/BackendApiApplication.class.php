@@ -1,5 +1,6 @@
 <?php
-namespace core;
+
+namespace core\apps;
 
 /**
  * A backend API.
