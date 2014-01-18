@@ -1,25 +1,26 @@
 <?php
-namespace core;
+
+namespace core\apps;
 
 /**
- * A frotend (the public part).
+ * A frontend API.
  * @author Simon Ser
  * @since 1.0alpha1
  */
-class FrontendApplication extends \core\Application {
+class FrontendApiApplication extends \core\Application {
 	/**
 	 * Initialize this frontend.
 	 */
 	public function __construct() {
 		parent::__construct();
 
-		$this->name = 'frontend';
+		$this->name = 'frontendApi';
 	}
 
 	public function run() {
 		$controller = $this->getController();
 		$controller->execute();
 
-		$this->httpResponse->setContent($controller->page());
+		$this->httpResponse->setContent($controller->responseContent());
 	}
 }

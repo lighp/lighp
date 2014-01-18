@@ -1,5 +1,6 @@
 <?php
-namespace core;
+
+namespace core\http;
 
 /**
  * The HTTP request.

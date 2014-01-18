@@ -6,5 +6,7 @@ date_default_timezone_set('Europe/Paris');
 
 require '../core/autoload.php';
 
-$app = new core\BackendApplication;
+use core\apps\BackendApplication;
+
+$app = new BackendApplication;
 $app->render();

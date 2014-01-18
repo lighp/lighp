@@ -1,5 +1,9 @@
 <?php
-namespace core;
+
+namespace core\http;
+
+use core\Page;
+use core\ResponseContent;
 
 /**
  * The HTTP response.

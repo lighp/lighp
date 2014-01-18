@@ -1,6 +1,9 @@
 <?php
 namespace core;
 
+use core\http\HTTPRequest;
+use core\http\HTTPResponse;
+
 /**
  * An application (e.g. frontend/backend).
  * @author Simon Ser
