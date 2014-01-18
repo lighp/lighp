@@ -21,8 +21,7 @@ class Config {
 
 	/**
 	 * Initialize the configuration file.
-	 * @param Application $app    The application.
-	 * @param string      $module The module.
+	 * @param string $path Configuration file path.
 	 */
 	public function __construct($path) {
 		$this->path = $path;
@@ -50,6 +49,10 @@ class Config {
 		return $this->data;
 	}
 
+	/**
+	 * Write things to the configuration file
+	 * @param array $data Configuration data.
+	 */
 	public function write(array $data) {
 		if (defined('JSON_PRETTY_PRINT')) { //PHP >= 5.4
 			$json = json_encode($data, JSON_PRETTY_PRINT);
