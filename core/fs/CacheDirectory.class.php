@@ -1,5 +1,6 @@
 <?php
-namespace core;
+
+namespace core\fs;
 
 /**
  * A cache directory.
@@ -45,7 +46,7 @@ class CacheDirectory {
 	 * @return string The path to the cache directory.
 	 */
 	public function path() {
-		return __DIR__.'/../var/cache/'.$this->name.'/';
+		return __DIR__.'/../../var/cache/'.$this->name.'/';
 	}
 
 	/**

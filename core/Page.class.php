@@ -1,6 +1,7 @@
 <?php
 namespace core;
 
+use core\fs\CacheDirectory;
 use \Mustache_Engine;
 use \Mustache_Loader_FilesystemLoader;
 
