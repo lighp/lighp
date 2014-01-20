@@ -30,6 +30,12 @@ class CryptoManager extends Manager {
 		}
 	}
 
+	/**
+	 * Hash a password.
+	 * @param  string $password      The password to hash.
+	 * @param  string $hashGenerator The hash generator.
+	 * @return string                The hash.
+	 */
 	public function hashPassword($password, $hashGenerator = null) {
 		if (empty($hashGenerator)) {
 			$hashGenerator = $this->getHashGenerator();
@@ -40,6 +46,13 @@ class CryptoManager extends Manager {
 		return $hash;
 	}
 
+	/**
+	 * Verify a password.
+	 * @param  string $password      The password that will be verified.
+	 * @param  string $hash          The hash.
+	 * @param  string $hashGenerator The hash generator.
+	 * @return bool                  True if the password matches, false otherwise.
+	 */
 	public function verifyPassword($password, $hash, $hashGenerator = 'sha512') {
 		$info = password_get_info($hash);
 		if ($info['algo'] != 0) { //Hash generated with password_hash() or crypt()
@@ -57,6 +70,11 @@ class CryptoManager extends Manager {
 		}
 	}
 
+	/**
+	 * Check if a password needs a rehash.
+	 * @param  string $hash The hash.
+	 * @return bool         True if the password needs a rehash, false otherwise.
+	 */
 	public function needsRehash($hash) {
 		if (!$this->_supportsBasicHash()) {
 			return false;
