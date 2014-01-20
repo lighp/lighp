@@ -1,5 +1,8 @@
 <?php
+
 namespace lib\manager;
+
+use core\fs\TemporaryDirectory;
 
 //Rename this to RemoteRepositoryManager_json
 class PackagecontrolManager_json extends PackagecontrolManager {
@@ -542,7 +545,7 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 		$zip->close(); //Close the package's ZIP file
 	}
 
-	public function _getPkgZipPath(\core\TemporaryDirectory $tmpDir, \lib\AvailablePackage $pkg) {
+	public function _getPkgZipPath(TemporaryDirectory $tmpDir, \lib\AvailablePackage $pkg) {
 		return $tmpDir->root().'/'.$pkg->metadata()['name'].'.zip';
 	}
 
@@ -622,7 +625,7 @@ class PackagecontrolManager_json extends PackagecontrolManager {
 		}
 
 		//Second, download the packages' sources
-		$tmpDir = new \core\TemporaryDirectory(); //Create a temporary folder
+		$tmpDir = new TemporaryDirectory(); //Create a temporary folder
 
 		foreach($packagesToInstall as $pkg) { //Download each package
 			$zipPath = $this->_getPkgZipPath($tmpDir, $pkg);

@@ -1,5 +1,6 @@
 <?php
-namespace core;
+
+namespace core\fs;
 
 /**
  * A temporary directory.
@@ -25,7 +26,7 @@ class TemporaryDirectory {
 	 * @return string
 	 */
 	public function _rootPath() {
-		return __DIR__.'/../var/tmp/'.$this->name.'/';
+		return __DIR__.'/../../var/tmp/'.$this->name.'/';
 	}
 
 	/**
