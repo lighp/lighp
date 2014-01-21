@@ -3,6 +3,7 @@
 namespace core;
 
 use core\apps\Application;
+use core\fs\Pathfinder;
 
 /**
  * A module's configuration file.
@@ -39,7 +40,7 @@ class ModuleConfig extends ModuleComponent {
 			return $this->configs[$appName];
 		}
 
-		$configPath = __DIR__.'/../etc/app/'.$appName.'/'.$this->module.'/config.json';
+		$configPath = Pathfinder::getRoot().'/etc/app/'.$appName.'/'.$this->module.'/config.json';
 
 		$config = new Config($configPath);
 		$this->configs[$appName] = $config;
