@@ -2,7 +2,7 @@
 
 namespace core\http;
 
-use core\Page;
+use core\responses\Page;
 use core\ResponseContent;
 
 /**

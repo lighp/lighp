@@ -3,6 +3,7 @@
 namespace core;
 
 use core\apps\Application;
+use core\responses\Page;
 
 /**
  * An back controller.

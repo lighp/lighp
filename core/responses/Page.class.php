@@ -1,7 +1,11 @@
 <?php
-namespace core;
+
+namespace core\responses;
 
 use core\fs\CacheDirectory;
+use core\ResponseContent;
+use core\Config;
+use core\ModuleTranslation;
 use \Mustache_Engine;
 use \Mustache_Loader_FilesystemLoader;
 
@@ -50,7 +54,7 @@ class Page extends ResponseContent {
 	 * @return array
 	 */
 	public function globalVars() {
-		$json = file_get_contents(__DIR__.'/../etc/core/website.json');
+		$json = file_get_contents(__DIR__.'/../../etc/core/website.json');
 		$data = json_decode($json, true);
 
 		$vars = array();
@@ -69,7 +73,7 @@ class Page extends ResponseContent {
 		} else {
 			return array();
 		}
-		$conf = new Config(__DIR__.'/../etc/core/'.$configFilename.'.json');
+		$conf = new Config(__DIR__.'/../../etc/core/'.$configFilename.'.json');
 		return $conf->read();
 	}
 
@@ -89,7 +93,7 @@ class Page extends ResponseContent {
 			throw new \RuntimeException('Cannot read template "'.$templatePath.'"');
 		}
 
-		$layoutPath = __DIR__.'/../tpl/'.$this->app->name().'/layout.html';
+		$layoutPath = __DIR__.'/../../tpl/'.$this->app->name().'/layout.html';
 		$layoutTpl = file_get_contents($layoutPath);
 		if ($layoutTpl === false) {
 			throw new \RuntimeException('Cannot read template "'.$layoutPath.'"');
@@ -122,7 +126,7 @@ class Page extends ResponseContent {
 	 * @return string The template path.
 	 */
 	protected function _templatePath() {
-		return __DIR__.'/../tpl/'.$this->app->name().'/'.$this->module.'/'.$this->action.'.html';
+		return __DIR__.'/../../tpl/'.$this->app->name().'/'.$this->module.'/'.$this->action.'.html';
 	}
 
 	/**
@@ -189,7 +193,7 @@ class Page extends ResponseContent {
 			$linkedFiles = array();
 
 			$filesBaseDir = $type;
-			$relativePublicFilesDir = __DIR__.'/../public/';
+			$relativePublicFilesDir = __DIR__.'/../../public/';
 
 			if (!is_dir($relativePublicFilesDir.'/'.$filesBaseDir)) {
 				return '';
