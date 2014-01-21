@@ -8,7 +8,7 @@ namespace core\fs;
  * @since 1.0alpha2
  */
 class Pathfinder {
-	protected static $_rootdir;
+	protected static $_rootdir = null;
 	
 	protected static $_domains = [
 		'cache' => 'var/cache/',
@@ -22,7 +22,11 @@ class Pathfinder {
 	}
 
 	public static function getPathFor($domain) {
-		return self::$_rootdir.'/'.self::$_domains[$domain];
+		if (isset(self::$_domains[$domain])) {
+			return self::$_rootdir.'/'.self::$_domains[$domain];
+		} else {
+			throw new \InvalidArgumentException('Domain not recognized');
+		}
 	}
 
 	public static function getRoot() {
