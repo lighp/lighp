@@ -1,5 +1,8 @@
 <?php
+
 namespace core;
+
+use core\responses\ApiResponse;
 
 /**
  * An API back controller.
