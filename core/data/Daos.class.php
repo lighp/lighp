@@ -3,6 +3,7 @@
 namespace core\data;
 
 use core\fs\Pathfinder;
+use core\Config;
 
 /**
  * A Data Access Objects manager.
