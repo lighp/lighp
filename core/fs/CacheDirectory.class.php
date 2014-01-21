@@ -2,6 +2,8 @@
 
 namespace core\fs;
 
+use core\fs\Pathfinder;
+
 /**
  * A cache directory.
  * @author Simon Ser
@@ -46,7 +48,7 @@ class CacheDirectory {
 	 * @return string The path to the cache directory.
 	 */
 	public function path() {
-		return __DIR__.'/../../var/cache/'.$this->name.'/';
+		return Pathfinder::getPathFor('cache').$this->name.'/';
 	}
 
 	/**
