@@ -1,5 +1,8 @@
 <?php
+
 namespace core;
+
+use core\fs\Pathfinder;
 
 /**
  * A Data Access Objects manager.
@@ -25,7 +28,7 @@ class Daos {
 	public function __construct() {}
 
 	protected function _getConfig() {
-		$configPath = __DIR__.'/../etc/core/daos.json';
+		$configPath = Pathfinder::getRoot().'/etc/core/daos.json';
 
 		return new Config($configPath);
 	}
