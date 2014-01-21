@@ -5,8 +5,8 @@ namespace core\apps;
 use core\http\HTTPRequest;
 use core\http\HTTPResponse;
 use core\User;
-use core\Router;
-use core\Route;
+use core\routing\Router;
+use core\routing\Route;
 use core\Config;
 
 /**

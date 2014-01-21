@@ -1,5 +1,6 @@
 <?php
-namespace core;
+
+namespace core\routing;
 
 /**
  * A route to a page.
