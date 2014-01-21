@@ -4,6 +4,7 @@ namespace core;
 
 use core\apps\Application;
 use core\responses\Page;
+use core\data\Daos;
 
 /**
  * An back controller.

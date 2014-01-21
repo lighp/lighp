@@ -1,6 +1,8 @@
 <?php
 namespace core;
 
+use core\data\Daos;
+
 /**
  * A class providing access to managers.
  * @author Simon Ser
