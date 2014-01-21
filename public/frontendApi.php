@@ -7,6 +7,9 @@ date_default_timezone_set('Europe/Paris');
 require '../core/autoload.php';
 
 use core\apps\FrontendApiApplication;
+use core\fs\Pathfinder;
+
+Pathfinder::setRootDir(__DIR__.'/../');
 
 $app = new FrontendApiApplication;
 $app->render();
