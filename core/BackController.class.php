@@ -6,6 +6,8 @@ use core\apps\Application;
 use core\responses\Page;
 use core\data\Daos;
 use core\data\Managers;
+use core\submodules\ModuleConfig;
+use core\submodules\ModuleTranslation;
 
 /**
  * An back controller.

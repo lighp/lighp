@@ -1,6 +1,6 @@
 <?php
 
-namespace core;
+namespace core\submodules;
 
 use \Spyc;
 use core\apps\Application;

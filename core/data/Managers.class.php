@@ -1,5 +1,8 @@
 <?php
+
 namespace core\data;
+
+use core\fs\Pathfinder;
 
 /**
  * A class providing access to managers.
@@ -45,7 +48,7 @@ class Managers {
 	 */
 	protected function _getApiOf($module) {
 		if (empty($this->config)) { //Config not loaded yet
-			$configPath = __DIR__.'/../'.self::CONFIG_FILE;
+			$configPath = Pathfinder::getRoot().'/'.self::CONFIG_FILE;
 			$json = file_get_contents($configPath);
 
 			if ($json === false) {

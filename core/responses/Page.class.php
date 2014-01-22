@@ -4,7 +4,7 @@ namespace core\responses;
 
 use core\fs\CacheDirectory;
 use core\Config;
-use core\ModuleTranslation;
+use core\submodules\ModuleTranslation;
 use \Mustache_Engine;
 use \Mustache_Loader_FilesystemLoader;
 

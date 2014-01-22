@@ -1,9 +1,10 @@
 <?php
 
-namespace core;
+namespace core\submodules;
 
 use core\apps\Application;
 use core\fs\Pathfinder;
+use core\Config;
 
 /**
  * A module's configuration file.

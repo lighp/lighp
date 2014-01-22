@@ -1,7 +1,8 @@
 <?php
 
-namespace core;
+namespace core\submodules;
 
+use core\ApplicationComponent;
 use core\apps\Application;
 
 /**

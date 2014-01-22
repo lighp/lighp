@@ -3,7 +3,7 @@
 namespace core\responses;
 
 use core\apps\Application;
-use core\ModuleComponent;
+use core\submodules\ModuleComponent;
 
 /**
  * A response's content.
