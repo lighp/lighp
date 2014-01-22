@@ -3,7 +3,7 @@
 namespace core\http;
 
 use core\responses\Page;
-use core\ResponseContent;
+use core\responses\ResponseContent;
 
 /**
  * The HTTP response.

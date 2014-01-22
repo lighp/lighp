@@ -3,7 +3,6 @@
 namespace core\responses;
 
 use core\fs\CacheDirectory;
-use core\ResponseContent;
 use core\Config;
 use core\ModuleTranslation;
 use \Mustache_Engine;
