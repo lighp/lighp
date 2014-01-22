@@ -1,7 +1,5 @@
 <?php
-namespace core;
-
-use core\data\Daos;
+namespace core\data;
 
 /**
  * A class providing access to managers.
@@ -9,6 +7,11 @@ use core\data\Daos;
  * @since 1.0alpha1
  */
 class Managers {
+	/**
+	 * Managers configuration file path.
+	 */
+	const CONFIG_FILE = 'etc/core/managers.json';
+
 	/**
 	 * The managers' config.
 	 * @var array
@@ -42,7 +45,7 @@ class Managers {
 	 */
 	protected function _getApiOf($module) {
 		if (empty($this->config)) { //Config not loaded yet
-			$configPath = __DIR__.'/../etc/core/managers.json';
+			$configPath = __DIR__.'/../'.self::CONFIG_FILE;
 			$json = file_get_contents($configPath);
 
 			if ($json === false) {
