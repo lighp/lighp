@@ -1,6 +1,8 @@
 <?php
 namespace ctrl\backendApi\tplLoader;
 
+use core\http\HTTPRequest;
+
 class TplLoaderController extends \core\ApiBackController {
 	protected function _loadPartials($tpl, $baseDir, array $alreadyLoadedPartials = array()) {
 		preg_match_all('#\\{\\{\s*\\>(.+)\\}\\}#U', $tpl, $matchedPartials);
@@ -31,7 +33,7 @@ class TplLoaderController extends \core\ApiBackController {
 		return $partials;
 	}
 
-	public function executeLoadTpl(\core\HttpRequest $request) {
+	public function executeLoadTpl(HTTPRequest $request) {
 		$index = $request->getData('index');
 
 		$tplDirPath = __DIR__.'/../../../tpl/backend';

@@ -2,6 +2,7 @@
 
 namespace core;
 
+use core\apps\Application;
 use core\responses\ApiResponse;
 
 /**

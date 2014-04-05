@@ -1,15 +1,18 @@
 <?php
 namespace ctrl\backendApi\emulator;
 
+use core\http\HTTPRequest;
+use core\apps\BackendApplication;
+
 class EmulatorController extends \core\ApiBackController {
 	protected function _emulateController($module, $action = 'index') {
-		$app = new \core\BackendApplication;
+		$app = new BackendApplication;
 		$emulatedController = $app->buildController($module, $action);
 
 		return $emulatedController;
 	}
 
-	public function executeEmulate(\core\HttpRequest $request) {
+	public function executeEmulate(HTTPRequest $request) {
 		$emulatedController = $this->_emulateController($request->getData('emulateModule'), $request->getData('emulateAction'));
 
 		$emulatedController->execute();
@@ -17,7 +20,7 @@ class EmulatorController extends \core\ApiBackController {
 		$this->responseContent()->setData($emulatedController->responseContent()->vars());
 	}
 
-	public function executeEmulateList(\core\HttpRequest $request) {
+	public function executeEmulateList(HTTPRequest $request) {
 		$moduleName = $request->getData('emulateModule');
 		$itemsName = $request->getData('emulateListItems');
 
