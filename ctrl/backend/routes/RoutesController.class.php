@@ -97,7 +97,8 @@ class RoutesController extends \core\BackController {
 				'url' => $request->postData('route-url'),
 				'module' => $request->postData('route-module'),
 				'action' => $request->postData('route-action'),
-				'vars' => $routeVars
+				'vars' => $routeVars,
+				'redirect' => ($request->postData('route-redirect') == 'on')
 			);
 
 			$this->page()->addVar('route', $route);
