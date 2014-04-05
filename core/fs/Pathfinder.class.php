@@ -13,7 +13,8 @@ class Pathfinder {
 	protected static $_domains = [
 		'cache' => 'var/cache/',
 		'tmp' => 'var/tmp/',
-		'public' => 'public'
+		'public' => 'public',
+		'locale' => 'share/locale/'
 	];
 
 
@@ -33,5 +34,3 @@ class Pathfinder {
 		return self::$_rootdir;
 	}
 }
-
-?>
