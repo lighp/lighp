@@ -1,12 +1,13 @@
 <?php
-namespace core;
+
+namespace core\apps;
 
 /**
  * A frontend API.
  * @author Simon Ser
  * @since 1.0alpha1
  */
-class FrontendApiApplication extends \core\Application {
+class FrontendApiApplication extends Application {
 	/**
 	 * Initialize this frontend.
 	 */

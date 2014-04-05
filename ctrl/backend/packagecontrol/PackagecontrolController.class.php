@@ -1,5 +1,8 @@
 <?php
+
 namespace ctrl\backend\packagecontrol;
+
+use core\http\HTTPRequest;
 
 class PackagecontrolController extends \core\BackController {
 	protected function _addBreadcrumb($page = array()) {
@@ -15,7 +18,7 @@ class PackagecontrolController extends \core\BackController {
 		$this->page()->addVar('breadcrumb', array_merge($breadcrumb, array($page)));
 	}
 
-	public function executeSearchPackage(\core\HTTPRequest $request) {
+	public function executeSearchPackage(HTTPRequest $request) {
 		$this->page()->addVar('title', 'Rechercher un paquet');
 		$this->_addBreadcrumb();
 
@@ -55,7 +58,7 @@ class PackagecontrolController extends \core\BackController {
 		}
 	}
 
-	public function executeInstallPackage(\core\HTTPRequest $request) {
+	public function executeInstallPackage(HTTPRequest $request) {
 		$this->page()->addVar('title', 'Installer un paquet');
 		$this->_addBreadcrumb();
 
@@ -100,7 +103,7 @@ class PackagecontrolController extends \core\BackController {
 		}
 	}
 
-	public function executeShowPackage(\core\HTTPRequest $request) {
+	public function executeShowPackage(HTTPRequest $request) {
 		$this->page()->addVar('title', 'Afficher un paquet');
 		$this->_addBreadcrumb();
 
@@ -177,7 +180,7 @@ class PackagecontrolController extends \core\BackController {
 		}
 	}
 
-	public function executeUpdateCache(\core\HTTPRequest $request) {
+	public function executeUpdateCache(HTTPRequest $request) {
 		$this->page()->addVar('title', 'Synchroniser le cache');
 		$this->_addBreadcrumb();
 
@@ -193,7 +196,7 @@ class PackagecontrolController extends \core\BackController {
 		$this->page()->addVar('updated?', true);
 	}
 
-	public function executeUpgradePackages(\core\HTTPRequest $request) {
+	public function executeUpgradePackages(HTTPRequest $request) {
 		$this->page()->addVar('title', 'Mettre &agrave; jour les paquets');
 		$this->_addBreadcrumb();
 
@@ -237,7 +240,7 @@ class PackagecontrolController extends \core\BackController {
 		}
 	}
 
-	public function executeAddRepository(\core\HTTPRequest $request) {
+	public function executeAddRepository(HTTPRequest $request) {
 		$this->page()->addVar('title', 'Ajouter un d&eacute;p&ocirc;t');
 		$this->_addBreadcrumb();
 
@@ -260,7 +263,7 @@ class PackagecontrolController extends \core\BackController {
 		}
 	}
 
-	public function executeRemoveRepository(\core\HTTPRequest $request) {
+	public function executeRemoveRepository(HTTPRequest $request) {
 		$this->page()->addVar('title', 'Supprimer un d&eacute;p&ocirc;t');
 		$this->_addBreadcrumb();
 

@@ -1,5 +1,9 @@
 <?php
-namespace core;
+
+namespace core\responses;
+
+use core\apps\Application;
+use core\submodules\ModuleComponent;
 
 /**
  * A response's content.

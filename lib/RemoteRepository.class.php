@@ -1,6 +1,9 @@
 <?php
 namespace lib;
 
+use core\fs\CacheDirectory;
+use \RuntimeException;
+
 class RemoteRepository implements Repository {
 	protected $name, $url, $packages;
 
@@ -18,7 +21,7 @@ class RemoteRepository implements Repository {
 	}
 
 	public function _cacheFilePath() {
-		$cacheDir = new \core\CacheDirectory('app/packagecontrol');
+		$cacheDir = new CacheDirectory('app/packagecontrol');
 		$cacheFile = $cacheDir->path().'/'.$this->name().'.json';
 		return $cacheFile;
 	}
@@ -40,12 +43,12 @@ class RemoteRepository implements Repository {
 		//Open index file
 		$json = file_get_contents($indexPath);
 		if ($json === false) {
-			throw new \RuntimeException('Cannot open index file : "'.$indexPath.'"');
+			throw new RuntimeException('Cannot open index file : "'.$indexPath.'"');
 		}
 
 		$list = json_decode($json, true);
 		if ($list === false || json_last_error() != JSON_ERROR_NONE) {
-			throw new \RuntimeException('Cannot load index file (malformed JSON) : "'.$indexPath.'"');
+			throw new RuntimeException('Cannot load index file (malformed JSON) : "'.$indexPath.'"');
 		}
 
 		if (!$isCached) { //If repo is not cached

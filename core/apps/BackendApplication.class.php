@@ -1,31 +1,31 @@
 <?php
-namespace core;
+
+namespace core\apps;
 
 /**
- * A backend API.
+ * A backend (where you can manage the framework).
  * @author Simon Ser
  * @since 1.0alpha1
  */
-class BackendApiApplication extends \core\Application {
+class BackendApplication extends Application {
 	/**
 	 * Initialize this backend.
 	 */
 	public function __construct() {
 		parent::__construct();
 
-		$this->name = 'backendApi';
+		$this->name = 'backend';
 	}
 
 	public function run() {
 		if ($this->user->isAdmin()) {
 			$controller = $this->getController();
 		} else {
-			$this->httpResponse()->redirect403($this);
-			return;
+			$controller = new \ctrl\backend\login\LoginController($this, 'login', 'index');
 		}
 
 		$controller->execute();
 
-		$this->httpResponse->setContent($controller->responseContent());
+		$this->httpResponse->setContent($controller->page());
 	}
 }

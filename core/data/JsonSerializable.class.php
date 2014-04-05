@@ -1,5 +1,5 @@
 <?php
-namespace core;
+namespace core\data;
 
 if (!interface_exists('\JsonSerializable')) {
 	interface JsonSerializable {

@@ -1,5 +1,9 @@
 <?php
-namespace core;
+
+namespace core\submodules;
+
+use core\ApplicationComponent;
+use core\apps\Application;
 
 /**
  * A module's component.

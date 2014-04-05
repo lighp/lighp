@@ -1,7 +1,10 @@
 <?php
-namespace core;
+
+namespace core\submodules;
 
 use \Spyc;
+use core\apps\Application;
+use core\fs\Pathfinder;
 
 /**
  * A module's translation.
@@ -40,7 +43,7 @@ class ModuleTranslation extends ModuleComponent {
 	}
 
 	protected function _filePath() {
-		return __DIR__.'/../share/locale/fr_FR/'.$this->module.'.yaml';
+		return Pathfinder::getPathFor('locale').'/fr_FR/'.$this->module.'.yaml';
 	}
 
 	public function read() {
