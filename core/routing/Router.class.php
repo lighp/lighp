@@ -32,11 +32,16 @@ class Router {
 
 	/**
 	 * Get the route associated to a given URL.
-	 * @param  string $url The URL.
-	 * @return Route       The route.
+	 * @param  string $url         The URL.
+	 * @param  bool   $forceDirect True to force the route to be direct (no redirection).
+	 * @return Route               The route.
 	 */
-	public function getRouteFromUrl($url) {
+	public function getRouteFromUrl($url, $forceDirect = false) {
 		foreach ($this->routes as $route) {
+			if ($forceDirect && $route->redirect()) {
+				continue;
+			}
+
 			//Si la route correspond à l'URL
 			if (($varsValues = $route->match($url)) !== false) {
 				// Si elle a des variables
@@ -68,12 +73,16 @@ class Router {
 	 */
 	public function getRoute($module, $action) {
 		foreach ($this->routes as $route) {
+			if ($route->redirect()) {
+				continue;
+			}
+
 			if ($route->module() == $module && $route->action() == $action) { //This route matches
 				return $route;
 			}
 		}
 
-		throw new \RuntimeException('No route matches given module and action');
+		throw new \RuntimeException('No route matches given module and action', self::NO_ROUTE);
 	}
 
 	/**
@@ -91,7 +100,5 @@ class Router {
 		}
 
 		return $route->buildUrl();
-
-		throw new \RuntimeException('No route matches given module and action');
 	}
 }

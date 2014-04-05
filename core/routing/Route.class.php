@@ -39,17 +39,25 @@ class Route {
 	protected $vars = array();
 
 	/**
+	 * True if the route is a redirection.
+	 * @var boolean
+	 */
+	protected $redirect = false;
+
+	/**
 	 * Initialize the route.
 	 * @param string $url       The route's URL.
 	 * @param string $module    The route's module.
 	 * @param string $action    The route's action.
 	 * @param array  $varsNames The route's variables' names.
+	 * @param bool   $redirect  True if this route is temporary, false otherwise.
 	 */
-	public function __construct($url, $module, $action, array $varsNames) {
+	public function __construct($url, $module, $action, array $varsNames, $redirect = false) {
 		$this->setUrl($url);
 		$this->setModule($module);
 		$this->setAction($action);
 		$this->setVarsNames($varsNames);
+		$this->setRedirect($redirect);
 	}
 
 	/**
@@ -113,6 +121,16 @@ class Route {
 	}
 
 	/**
+	 * Mark this route as a redirection or not.
+	 * @param bool $redirect True if this route is a redirection, false otherwise.
+	 */
+	public function setRedirect($redirect) {
+		if (is_bool($redirect)) {
+			$this->redirect = $redirect;
+		}
+	}
+
+	/**
 	 * Set this route's variables' values.
 	 * @param string $vars The variables' values.
 	 */
@@ -152,6 +170,18 @@ class Route {
 		return $this->varsNames;
 	}
 
+	/**
+	 * Check if this route is a redirection.
+	 * @return bool True if this route is a redirection, false otherwise.
+	 */
+	public function redirect() {
+		return $this->redirect;
+	}
+
+	/**
+	 * Build this route's URL.
+	 * @return string The route's URL.
+	 */
 	public function buildUrl() {
 		$url = $this->url;
 

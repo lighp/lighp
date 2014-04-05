@@ -97,6 +97,9 @@ class MainController extends \core\BackController {
 			if (in_array($module, array('.', '..', 'main'))) {
 				continue;
 			}
+			if (!is_dir($backendPath . '/' . $module)) {
+				continue;
+			}
 
 			$backend = $this->_getBackendMetadata($module);
 

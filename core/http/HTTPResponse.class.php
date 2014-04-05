@@ -78,11 +78,9 @@ class HTTPResponse {
 	 */
 	public function redirect404($app) {
 		$page = new Page($app, '../error', '404');
-
 		$this->setContent($page);
 
 		$this->addHeader('HTTP/1.0 404 Not Found');
-
 		$this->send();
 	}
 
@@ -92,11 +90,18 @@ class HTTPResponse {
 	 */
 	public function redirect403($app) {
 		$page = new Page($app, '../error', '403');
-
 		$this->setContent($page);
 
 		$this->addHeader('HTTP/1.0 403 Forbidden');
-
 		$this->send();
+	}
+
+	/**
+	 * Send a 301 response (moved permanently).
+	 * @param string $location The destination's URI.
+	 */
+	public function redirect301($location) {
+		$this->addHeader('HTTP/1.0 301 Moved Permanently');
+		$this->redirect($location);
 	}
 }

@@ -85,6 +85,20 @@ abstract class Application {
 			}
 		}
 
+		//Check if this route is a redirection
+		if ($matchedRoute->redirect()) {
+			try { //Let's get another direct route
+				$redirectUrl = $rootPath . '/' . $router->getUrl($matchedRoute->module(), $matchedRoute->action(), $matchedRoute->vars());
+			} catch (\RuntimeException $e) {
+				if ($e->getCode() == Router::NO_ROUTE) { //No route matching, the page doesn't exist
+					$this->httpResponse->redirect404($this);
+					return;
+				}
+			}
+
+			$this->httpResponse->redirect301($redirectUrl);
+		}
+
 		//Add variables to the $_GET array
 		$_GET = array_merge($_GET, $matchedRoute->vars());
 
@@ -190,6 +204,7 @@ abstract class Application {
 
 					foreach ($routes as $route) {
 						$varsNames = (isset($route['vars']) && is_array($route['vars'])) ? $route['vars'] : array();
+						$redirect = (isset($route['redirect'])) ? (bool)$route['redirect'] : false;
 
 						if ($module == '.') { //Global route
 							$routeModule = $route['module'];
@@ -197,7 +212,7 @@ abstract class Application {
 							$routeModule = $module;
 						}
 
-						$router->addRoute(new Route($route['url'], $routeModule, $route['action'], $varsNames));
+						$router->addRoute(new Route($route['url'], $routeModule, $route['action'], $varsNames, $redirect));
 					}
 				}
 			}
