@@ -1,5 +1,5 @@
-[
-    {
+{
+    "0": {
         "name": "lib-jquery",
         "title": "lib-jquery",
         "subtitle": "",
@@ -11,7 +11,7 @@
         "size": 33510,
         "extractedSize": 109013
     },
-    {
+    "1": {
         "name": "dao-jsondb",
         "title": "dao-jsondb",
         "subtitle": "",
@@ -25,7 +25,7 @@
         "updateDate": "2013-04-17 07:49:57",
         "hasScripts": true
     },
-    {
+    "2": {
         "name": "lib-arraysearcher",
         "title": "lib-arraysearcher",
         "subtitle": "",
@@ -39,7 +39,7 @@
         "updateDate": "2013-04-17 19:26:46",
         "hasScripts": false
     },
-    {
+    "3": {
         "name": "lib-twitter-bootstrap",
         "title": "lib-twitter-bootstrap",
         "subtitle": "",
@@ -54,21 +54,7 @@
         "updateDate": "2013-11-24 17:29:14",
         "hasScripts": false
     },
-    {
-        "name": "lib-captcha",
-        "title": "lib-captcha",
-        "subtitle": "",
-        "version": "0.1.1",
-        "description": "A small library to generate captchas.",
-        "url": "",
-        "maintainer": "Simon Ser",
-        "license": "GPLv3",
-        "size": 1073,
-        "extractedSize": 1716,
-        "updateDate": "2014-01-12 13:10:28",
-        "hasScripts": false
-    },
-    {
+    "5": {
         "name": "lib-mustache",
         "title": "lib-mustache",
         "subtitle": "",
@@ -82,7 +68,7 @@
         "updateDate": "2014-01-12 13:10:29",
         "hasScripts": false
     },
-    {
+    "6": {
         "name": "lib-spyc",
         "title": "lib-spyc",
         "subtitle": "",
@@ -96,62 +82,76 @@
         "updateDate": "2014-01-12 13:10:29",
         "hasScripts": false
     },
-    {
+    "11": {
+        "name": "lib-captcha",
+        "title": "lib-captcha",
+        "subtitle": "",
+        "version": "0.1.2",
+        "description": "A small library to generate captchas.",
+        "url": "",
+        "maintainer": "Simon Ser",
+        "license": "GPLv3",
+        "size": 1087,
+        "extractedSize": 1751,
+        "updateDate": "2014-04-05 09:11:31",
+        "hasScripts": false
+    },
+    "12": {
         "name": "module-backend-routes",
         "title": "module-backend-routes",
         "subtitle": "",
-        "version": "0.1.1",
+        "version": "0.1.2",
         "description": "Backend module to manage routes",
         "url": "",
         "maintainer": "Simon Ser",
         "license": "GPLv3",
-        "size": 6312,
-        "extractedSize": 8504,
-        "updateDate": "2014-01-12 13:10:30",
+        "size": 6373,
+        "extractedSize": 8680,
+        "updateDate": "2014-04-05 09:11:32",
         "hasScripts": false
     },
-    {
+    "13": {
         "name": "lighp-core",
         "title": "lighp-core",
         "subtitle": "Core files for Lighp",
-        "version": "1.0alpha1.3",
+        "version": "1.0alpha1.4",
         "description": "A light-weight PHP framework based on a package system.",
         "url": "http:\/\/lighp.github.io\/lighp\/",
         "maintainer": "Simon Ser",
         "license": "GPLv3",
-        "size": 98545,
-        "extractedSize": 153743,
-        "updateDate": "2014-01-12 13:10:30",
+        "size": 99204,
+        "extractedSize": 155579,
+        "updateDate": "2014-04-05 09:11:32",
         "hasScripts": false
     },
-    {
+    "14": {
         "name": "module-backend-main",
         "title": "module-backend-main",
         "subtitle": "",
-        "version": "0.3",
+        "version": "0.3.1",
         "description": "Main module for backend.",
         "url": "",
         "maintainer": "Simon Ser",
         "license": "GPLv3",
         "depends": "lib-arraysearcher",
-        "size": 11717,
-        "extractedSize": 24058,
-        "updateDate": "2014-01-12 13:10:30",
+        "size": 11761,
+        "extractedSize": 24287,
+        "updateDate": "2014-04-05 09:11:32",
         "hasScripts": false
     },
-    {
+    "15": {
         "name": "module-packagecontrol",
         "title": "Package control",
         "subtitle": "",
-        "version": "0.2.1",
+        "version": "0.2.2",
         "description": "A package control module, supporting Confiture specification.",
         "url": "",
         "maintainer": "Simon Ser",
         "license": "GPLv3",
         "depends": "lib-arraysearcher",
-        "size": 28166,
-        "extractedSize": 69902,
-        "updateDate": "2014-01-12 13:10:31",
+        "size": 28352,
+        "extractedSize": 70719,
+        "updateDate": "2014-04-05 09:11:33",
         "hasScripts": false
     }
-]
+}
