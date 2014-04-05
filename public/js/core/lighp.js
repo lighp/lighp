@@ -163,7 +163,7 @@
 		if (Lighp._isLoading) {
 			$loadingMsg = $('#loading-container');
 		} else {
-			$loadingMsg = $('<p id="loading-container"><img src="../img/loader.gif"/>&nbsp;' + options.message + '</p>');
+			$loadingMsg = $('<p id="loading-container"><img src="'+Lighp.websiteConf.WEBSITE_ROOT+'/img/loader.gif"/>&nbsp;' + options.message + '</p>');
 		}
 
 		if (value && !Lighp._isLoading) {
