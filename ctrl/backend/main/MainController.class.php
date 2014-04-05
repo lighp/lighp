@@ -1,5 +1,8 @@
 <?php
+
 namespace ctrl\backend\main;
+
+use core\http\HTTPRequest;
 
 class MainController extends \core\BackController {
 	protected function _buildAction($module, $actionName, $actionData) {
@@ -94,6 +97,9 @@ class MainController extends \core\BackController {
 			if (in_array($module, array('.', '..', 'main'))) {
 				continue;
 			}
+			if (!is_dir($backendPath . '/' . $module)) {
+				continue;
+			}
 
 			$backend = $this->_getBackendMetadata($module);
 
@@ -156,7 +162,7 @@ class MainController extends \core\BackController {
 		return $items;
 	}
 
-	public function executeIndex(\core\HTTPRequest $request) {
+	public function executeIndex(HTTPRequest $request) {
 		$this->page()->addVar('title', 'Espace d\'administration');
 
 		$searchQuery = ($request->getExists('q')) ? trim($request->getData('q')) : null;
@@ -201,7 +207,7 @@ class MainController extends \core\BackController {
 		}
 	}
 
-	public function executeShowModule(\core\HTTPRequest $request) {
+	public function executeShowModule(HTTPRequest $request) {
 		$this->page()->addVar('title', 'Afficher un module');
 		$this->page()->addVar('breadcrumb', array(
 			array()
@@ -279,7 +285,7 @@ class MainController extends \core\BackController {
 		}
 	}
 
-	public function executeShowAction(\core\HTTPRequest $request) {
+	public function executeShowAction(HTTPRequest $request) {
 		$this->page()->addVar('title', 'Afficher une action');
 		$this->page()->addVar('breadcrumb', array(
 			array()

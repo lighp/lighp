@@ -1,5 +1,8 @@
 <?php
+
 namespace core;
+
+use core\data\JsonSerializable;
 
 /**
  * A data entity.

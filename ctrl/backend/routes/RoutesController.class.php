@@ -1,5 +1,8 @@
 <?php
+
 namespace ctrl\backend\routes;
+
+use core\http\HTTPRequest;
 
 class RoutesController extends \core\BackController {
 	protected function _addBreadcrumb($page = array()) {
@@ -49,7 +52,7 @@ class RoutesController extends \core\BackController {
 		return $routes;
 	}
 
-	public function executeListRoutes(\core\HTTPRequest $request) {
+	public function executeListRoutes(HTTPRequest $request) {
 		$this->page()->addVar('title', 'G&eacute;rer une route');
 		$this->_addBreadcrumb();
 
@@ -78,7 +81,7 @@ class RoutesController extends \core\BackController {
 		$this->page()->addVar('routes', $tplRoutes);
 	}
 
-	public function executeInsertRoute(\core\HTTPRequest $request) {
+	public function executeInsertRoute(HTTPRequest $request) {
 		$this->page()->addVar('title', 'Ajouter une route');
 		$this->_addBreadcrumb();
 
@@ -120,7 +123,7 @@ class RoutesController extends \core\BackController {
 		}
 	}
 
-	public function executeDeleteRoute(\core\HTTPRequest $request) {
+	public function executeDeleteRoute(HTTPRequest $request) {
 		$this->page()->addVar('title', 'Supprimer une route');
 		$this->_addBreadcrumb();
 
