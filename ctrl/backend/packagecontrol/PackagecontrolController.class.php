@@ -154,7 +154,7 @@ class PackagecontrolController extends \core\BackController {
 		$this->page()->addVar('unsafePkg?', $pkg->unsafe());
 	}
 
-	public function executeRemovePackage(\core\HTTPRequest $request) {
+	public function executeRemovePackage(HTTPRequest $request) {
 		$this->page()->addVar('title', 'Supprimer un paquet');
 		$this->_addBreadcrumb();
 
