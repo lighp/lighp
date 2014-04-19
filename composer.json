@@ -14,6 +14,12 @@
 	"config":{
 		"vendor-dir":"lib/vendor"
 	},
+	"repositories": [
+		{
+			"type": "composer",
+			"url": "http://emersion.fr/projects/lighp.repo"
+		}
+	],
 	"require": {
 		"mustache/mustache": "dev-master",
 		"mustangostang/spyc": "0.5.*@dev",
