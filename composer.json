@@ -21,8 +21,6 @@
 		}
 	],
 	"require": {
-		"mustache/mustache": "dev-master",
-		"mustangostang/spyc": "0.5.*@dev",
-		"ircmaxell/password-compat": "dev-master"
+		"lighp/lighp-core": "dev-master"
 	}
 }
