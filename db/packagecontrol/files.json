@@ -1269,507 +1269,517 @@
         "pkg": "lib-spyc",
         "md5sum": "0725910e6aebc365933068d768923440"
     },
-    "254": {
+    "355": {
         "path": "ctrl\/backend\/routes\/RoutesController.class.php",
         "pkg": "module-backend-routes",
-        "md5sum": "12b40eed12c894744873b7ce0a495eda"
+        "md5sum": "2fe1c361973f0191b3db82e5d683bac0"
     },
-    "255": {
+    "356": {
         "path": "etc\/app\/backend\/routes\/metadata.json",
         "pkg": "module-backend-routes",
         "md5sum": "d3043e34a34fcc28035927d182c1e86c"
     },
-    "256": {
+    "357": {
         "path": "etc\/app\/backend\/routes\/routes.json",
         "pkg": "module-backend-routes",
         "md5sum": "d078afa39e76b79547a86267fa0f328c"
     },
-    "257": {
+    "358": {
         "path": "tpl\/backend\/routes\/deleteRoute.html",
         "pkg": "module-backend-routes",
         "md5sum": "bf7b7598bf10460cdb947044c0134650"
     },
-    "258": {
+    "359": {
         "path": "tpl\/backend\/routes\/insertRoute.html",
         "pkg": "module-backend-routes",
         "md5sum": "2b1bb930d91e7cae41a97b1047780396"
     },
-    "259": {
+    "360": {
         "path": "tpl\/backend\/routes\/listRoutes.html",
         "pkg": "module-backend-routes",
-        "md5sum": "311b72dec18f0dd97b1cd7430eb1187c"
+        "md5sum": "51e7927149ade746271930ef77cba49f"
     },
-    "260": {
+    "361": {
         "path": "tpl\/backend\/routes\/partials\/form-route.html",
         "pkg": "module-backend-routes",
-        "md5sum": "f60ad4f57ac785e026fef293d2bddcb6"
+        "md5sum": "31590ab51caad87a9443d1863be48170"
     },
-    "261": {
+    "362": {
         "path": "ctrl\/backend\/packagecontrol\/PackagecontrolController.class.php",
         "pkg": "module-packagecontrol",
-        "md5sum": "58a0ae94c6b114f533d59bf117080d8b"
+        "md5sum": "06a03c6eb5edbde51f2ce9af78875d5d"
     },
-    "262": {
+    "363": {
         "path": "etc\/app\/backend\/packagecontrol\/metadata.json",
         "pkg": "module-packagecontrol",
         "md5sum": "e04179182a3bb35c7dbd6125d1ae3a67"
     },
-    "263": {
+    "364": {
         "path": "etc\/app\/backend\/packagecontrol\/routes.json",
         "pkg": "module-packagecontrol",
         "md5sum": "f7605877e63acbf6be48bd751ae15c71"
     },
-    "264": {
+    "365": {
         "path": "lib\/AvailablePackage.class.php",
         "pkg": "module-packagecontrol",
         "md5sum": "9ec0ffefc9f669a81f92013631bde956"
     },
-    "265": {
+    "366": {
         "path": "lib\/entities\/PackageMetadata.class.php",
         "pkg": "module-packagecontrol",
         "md5sum": "b7d067673f2a72a6e2439c868888ca38"
     },
-    "266": {
+    "367": {
         "path": "lib\/InstalledPackage.class.php",
         "pkg": "module-packagecontrol",
         "md5sum": "5249ee6525cfe913983280cb6125d15e"
     },
-    "267": {
+    "368": {
         "path": "lib\/manager\/LocalRepositoryManager.class.php",
         "pkg": "module-packagecontrol",
         "md5sum": "4f58afc2d7eca37ed0c52753d8137ae6"
     },
-    "268": {
+    "369": {
         "path": "lib\/manager\/LocalRepositoryManager_json.class.php",
         "pkg": "module-packagecontrol",
         "md5sum": "859de7d86cd56980bf7ea96231f6e630"
     },
-    "269": {
+    "370": {
         "path": "lib\/manager\/PackagecontrolManager.class.php",
         "pkg": "module-packagecontrol",
         "md5sum": "b31872d334d8ac540d0a44f95849c479"
     },
-    "270": {
+    "371": {
         "path": "lib\/manager\/PackagecontrolManager_json.class.php",
         "pkg": "module-packagecontrol",
         "md5sum": "74c4565f8dbaa2de6c832061ec17ffed"
     },
-    "271": {
+    "372": {
         "path": "lib\/Package.class.php",
         "pkg": "module-packagecontrol",
         "md5sum": "72d56cbf60447c600609d61f2faa2633"
     },
-    "272": {
+    "373": {
         "path": "lib\/RemotePackage.class.php",
         "pkg": "module-packagecontrol",
         "md5sum": "a016b5e5aa0dc6c68855f665e291d723"
     },
-    "273": {
+    "374": {
         "path": "lib\/RemoteRepository.class.php",
         "pkg": "module-packagecontrol",
         "md5sum": "c7066264b64d7affe68ccae6431cb023"
     },
-    "274": {
+    "375": {
         "path": "lib\/Repository.class.php",
         "pkg": "module-packagecontrol",
         "md5sum": "2290f256cda48635b250b8d997ac8ba0"
     },
-    "275": {
+    "376": {
         "path": "tpl\/backend\/packagecontrol\/addRepository.html",
         "pkg": "module-packagecontrol",
         "md5sum": "de9ddf431f09a7d48960c8c36f48d1c1"
     },
-    "276": {
+    "377": {
         "path": "tpl\/backend\/packagecontrol\/installPackage.html",
         "pkg": "module-packagecontrol",
         "md5sum": "1d60f7989642610822f6aad74522dc19"
     },
-    "277": {
+    "378": {
         "path": "tpl\/backend\/packagecontrol\/partials\/pkg-details.html",
         "pkg": "module-packagecontrol",
         "md5sum": "9235a9abac49d688dbba23cef002f9ef"
     },
-    "278": {
+    "379": {
         "path": "tpl\/backend\/packagecontrol\/partials\/table-package.html",
         "pkg": "module-packagecontrol",
         "md5sum": "c45ae496d58348e4a371c7fedb298fe7"
     },
-    "279": {
+    "380": {
         "path": "tpl\/backend\/packagecontrol\/partials\/table-repository.html",
         "pkg": "module-packagecontrol",
         "md5sum": "1eed628abd10ff4a80d9ee97ca421497"
     },
-    "280": {
+    "381": {
         "path": "tpl\/backend\/packagecontrol\/partials\/table-upgrade.html",
         "pkg": "module-packagecontrol",
         "md5sum": "7c4b27a95a71d9b5b75a2800ecaccca4"
     },
-    "281": {
+    "382": {
         "path": "tpl\/backend\/packagecontrol\/removePackage.html",
         "pkg": "module-packagecontrol",
         "md5sum": "44368b61e4be921eaa98de2fcf379d99"
     },
-    "282": {
+    "383": {
         "path": "tpl\/backend\/packagecontrol\/removeRepository.html",
         "pkg": "module-packagecontrol",
         "md5sum": "220d5a95fb07573fb5978e1b663e47a4"
     },
-    "283": {
+    "384": {
         "path": "tpl\/backend\/packagecontrol\/searchPackage.html",
         "pkg": "module-packagecontrol",
         "md5sum": "53f64d5ed6a27cb854bfa2073bd4b296"
     },
-    "284": {
+    "385": {
         "path": "tpl\/backend\/packagecontrol\/showPackage.html",
         "pkg": "module-packagecontrol",
         "md5sum": "829e28f993691d266d2725c21fa51bb0"
     },
-    "285": {
+    "386": {
         "path": "tpl\/backend\/packagecontrol\/updateCache.html",
         "pkg": "module-packagecontrol",
         "md5sum": "916534d36d4c32ccbd09fe58ed3b7f26"
     },
-    "286": {
+    "387": {
         "path": "tpl\/backend\/packagecontrol\/upgradePackages.html",
         "pkg": "module-packagecontrol",
         "md5sum": "748edfba45fe1c404ae6cf3456ef8f9f"
     },
-    "288": {
+    "388": {
         "path": "CHANGELOG.md",
         "pkg": "lighp-core",
         "md5sum": "d7838b2f22834c3bad831ca113f8d137"
     },
-    "289": {
-        "path": "composer.json",
-        "pkg": "lighp-core",
-        "md5sum": "3330a0dd377f09e7ecab03b5ac6b0a15"
-    },
-    "290": {
+    "389": {
         "path": "COPYING",
         "pkg": "lighp-core",
         "md5sum": "d32239bcb673463ab874e80d47fae504"
     },
-    "291": {
+    "390": {
         "path": "core\/ApiBackController.class.php",
         "pkg": "lighp-core",
         "md5sum": "b9e94f13470499b87ce61d752cd14d4e"
     },
-    "292": {
+    "391": {
         "path": "core\/ApplicationComponent.class.php",
         "pkg": "lighp-core",
         "md5sum": "bcb2863c9e3cd024ca2c41d47c53b3cc"
     },
-    "293": {
+    "392": {
         "path": "core\/apps\/Application.class.php",
         "pkg": "lighp-core",
-        "md5sum": "143c50c7fe961571d0e0e20cb0e93457"
+        "md5sum": "5b4940a0f661a950d9278757213837cb"
     },
-    "294": {
+    "393": {
         "path": "core\/apps\/BackendApiApplication.class.php",
         "pkg": "lighp-core",
         "md5sum": "bfbc50be458d02a136a87fdb22a5a5b1"
     },
-    "295": {
+    "394": {
         "path": "core\/apps\/BackendApplication.class.php",
         "pkg": "lighp-core",
         "md5sum": "f42c10dd0603970a4715b2bb0a74a6ce"
     },
-    "296": {
+    "395": {
         "path": "core\/apps\/FrontendApiApplication.class.php",
         "pkg": "lighp-core",
         "md5sum": "198eb448ad99131c1001121c54b893c8"
     },
-    "297": {
+    "396": {
         "path": "core\/apps\/FrontendApplication.class.php",
         "pkg": "lighp-core",
         "md5sum": "ba76a5d654fa071522617df0b86454d2"
     },
-    "298": {
+    "397": {
         "path": "core\/autoload.php",
         "pkg": "lighp-core",
         "md5sum": "64295d00f7a3a629be52265596509d7d"
     },
-    "299": {
+    "398": {
         "path": "core\/BackController.class.php",
         "pkg": "lighp-core",
         "md5sum": "d0d95769533930eb8883b47e6eb7ea15"
     },
-    "300": {
+    "399": {
         "path": "core\/Config.class.php",
         "pkg": "lighp-core",
         "md5sum": "f64a61dc57724815194a8f53264bc3dc"
     },
-    "301": {
+    "400": {
         "path": "core\/data\/Daos.class.php",
         "pkg": "lighp-core",
         "md5sum": "331760ae1de1475d21dc2eba1c074858"
     },
-    "302": {
+    "401": {
         "path": "core\/data\/JsonSerializable.class.php",
         "pkg": "lighp-core",
         "md5sum": "f56626f3564cafd75117ac342b3132a5"
     },
-    "303": {
+    "402": {
         "path": "core\/data\/Managers.class.php",
         "pkg": "lighp-core",
         "md5sum": "a42a9720772eca4318826fe15882a332"
     },
-    "304": {
+    "403": {
         "path": "core\/Entity.class.php",
         "pkg": "lighp-core",
         "md5sum": "8ccf80acb43f76880842c487a4b4506e"
     },
-    "305": {
+    "404": {
         "path": "core\/fs\/CacheDirectory.class.php",
         "pkg": "lighp-core",
         "md5sum": "4c8380e3808044603e80133a2c562e2a"
     },
-    "306": {
+    "405": {
         "path": "core\/fs\/Pathfinder.class.php",
         "pkg": "lighp-core",
-        "md5sum": "00a63dd02f0a2e61c80450c1974bef5e"
+        "md5sum": "71aa7ba7010ae5a940b0ac28587cbc1c"
     },
-    "307": {
+    "406": {
         "path": "core\/fs\/TemporaryDirectory.class.php",
         "pkg": "lighp-core",
         "md5sum": "f617a76774aa508c5279a3c42628a3f1"
     },
-    "308": {
+    "407": {
         "path": "core\/http\/HTTPRequest.class.php",
         "pkg": "lighp-core",
-        "md5sum": "62b14d53e1d0ea485157b7ab9650dc52"
+        "md5sum": "712657aca2438e1c8fb9667818f5769d"
     },
-    "309": {
+    "408": {
         "path": "core\/http\/HTTPResponse.class.php",
         "pkg": "lighp-core",
         "md5sum": "fb41ee1530082cb5c3374b179341a0d1"
     },
-    "310": {
+    "409": {
+        "path": "core\/http\/SessionProvider.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "bdb3ceb6bd15acf1a6bd5e064a8d57fe"
+    },
+    "410": {
+        "path": "core\/i18n\/TranslationDictionary.class.php",
+        "pkg": "lighp-core",
+        "md5sum": "3fe5348258005d6e5db2d0ed39627f66"
+    },
+    "411": {
         "path": "core\/Manager.class.php",
         "pkg": "lighp-core",
         "md5sum": "46a849028ab5ec1fc6df408aec9c67b1"
     },
-    "311": {
+    "412": {
         "path": "core\/responses\/ApiResponse.class.php",
         "pkg": "lighp-core",
         "md5sum": "45b1a5f62adaa1e657766d127c6294e4"
     },
-    "312": {
+    "413": {
         "path": "core\/responses\/Page.class.php",
         "pkg": "lighp-core",
-        "md5sum": "439d4a178829d318447579740f6b7144"
+        "md5sum": "3aa6b2b20286ef08d47603935cd2e3c5"
     },
-    "313": {
+    "414": {
         "path": "core\/responses\/ResponseContent.class.php",
         "pkg": "lighp-core",
         "md5sum": "67cc9f5b5b7990b8ee8aebecd37815fb"
     },
-    "314": {
+    "415": {
         "path": "core\/routing\/Route.class.php",
         "pkg": "lighp-core",
         "md5sum": "78d902176094660506d6df5c987c789c"
     },
-    "315": {
+    "416": {
         "path": "core\/routing\/Router.class.php",
         "pkg": "lighp-core",
         "md5sum": "79267a6efe8029171f45e4f6bcfa1f3f"
     },
-    "316": {
+    "417": {
         "path": "core\/submodules\/ModuleComponent.class.php",
         "pkg": "lighp-core",
         "md5sum": "7d44c83e6d09776927e5c1d4fe76f0aa"
     },
-    "317": {
+    "418": {
         "path": "core\/submodules\/ModuleConfig.class.php",
         "pkg": "lighp-core",
         "md5sum": "035e66bbebdab5a8fd36d53b553c2c83"
     },
-    "318": {
+    "419": {
         "path": "core\/submodules\/ModuleTranslation.class.php",
         "pkg": "lighp-core",
-        "md5sum": "868758f66b01e10850f12497fc16f7d8"
+        "md5sum": "bd8ac8fa3102cc1fc8de6affc6169b99"
     },
-    "319": {
+    "420": {
         "path": "core\/User.class.php",
         "pkg": "lighp-core",
-        "md5sum": "0edf69108d8417f56c75335435a311bb"
+        "md5sum": "0b2ea8044cce8e00fb2e8d1ced5223b8"
     },
-    "320": {
+    "421": {
         "path": "ctrl\/backend\/login\/LoginController.class.php",
         "pkg": "lighp-core",
         "md5sum": "3e5e8ddd90d04985761dd97453409318"
     },
-    "321": {
+    "422": {
         "path": "etc\/app\/backend\/login\/config.json",
         "pkg": "lighp-core",
         "md5sum": "fde6b81a277b1e9b409d5ff2ef8da03a"
     },
-    "322": {
+    "423": {
         "path": "etc\/app\/backend\/login\/metadata.json",
         "pkg": "lighp-core",
         "md5sum": "0e38c764ca863c5c2c26ad071616b287"
     },
-    "323": {
+    "424": {
         "path": "etc\/app\/backend\/login\/routes.json",
         "pkg": "lighp-core",
         "md5sum": "68b5aec11f317973055b0b124cb76928"
     },
-    "324": {
+    "425": {
         "path": "etc\/core\/daos.json",
         "pkg": "lighp-core",
         "md5sum": "ae5775e3063f0549c43c40f8838ac210"
     },
-    "325": {
+    "426": {
         "path": "etc\/core\/managers.json",
         "pkg": "lighp-core",
         "md5sum": "99914b932bd37a50b983c5e7c90ae93b"
     },
-    "326": {
+    "427": {
         "path": "etc\/core\/scripts.json",
         "pkg": "lighp-core",
         "md5sum": "81115bd66c6b3984fa798f6f8e4a8302"
     },
-    "327": {
+    "428": {
         "path": "etc\/core\/stylesheets.json",
         "pkg": "lighp-core",
         "md5sum": "07fa7edd7854900ff92f0851099dfba6"
     },
-    "328": {
+    "429": {
         "path": "etc\/core\/website.json",
         "pkg": "lighp-core",
         "md5sum": "f440bfb08a76c1ebceb8c1be23e8813c"
     },
-    "329": {
+    "430": {
+        "path": ".gitignore",
+        "pkg": "lighp-core",
+        "md5sum": "ab2154e537314e92554429d9c22626d3"
+    },
+    "431": {
         "path": ".htaccess",
         "pkg": "lighp-core",
         "md5sum": "ad1a685a798e2e27059c2ba4faa7e01a"
     },
-    "330": {
+    "432": {
         "path": "public\/backendApi.php",
         "pkg": "lighp-core",
         "md5sum": "fc93d437b53e194d412357ad1b59fdff"
     },
-    "331": {
+    "433": {
         "path": "public\/backend.php",
         "pkg": "lighp-core",
         "md5sum": "bdc041f6660e9d061579f9e36fe75841"
     },
-    "332": {
+    "434": {
         "path": "public\/frontendApi.php",
         "pkg": "lighp-core",
         "md5sum": "c88d97345c5ab1807b4a796978db84db"
     },
-    "333": {
+    "435": {
         "path": "public\/frontend.php",
         "pkg": "lighp-core",
         "md5sum": "c1b2e12eb3eaa296360a7e848c42ae5f"
     },
-    "334": {
+    "436": {
         "path": "public\/.htaccess",
         "pkg": "lighp-core",
         "md5sum": "551f9923e4a07861c065609bdf0140da"
     },
-    "335": {
+    "437": {
         "path": "public\/img\/error\/404\/dead-link.png",
         "pkg": "lighp-core",
         "md5sum": "38d062f63681b3b431328bacb6695006"
     },
-    "336": {
+    "438": {
         "path": "public\/img\/loader.gif",
         "pkg": "lighp-core",
         "md5sum": "faa74e8c61fc64d5edb11613c7eead2c"
     },
-    "337": {
+    "439": {
         "path": "public\/js\/core\/lighp.js",
         "pkg": "lighp-core",
-        "md5sum": "be2deccb43b07ee409efd34e3e0bd042"
+        "md5sum": "bd85f3ba5f83ddb68af0413b6411aabe"
     },
-    "338": {
+    "440": {
         "path": "README.md",
         "pkg": "lighp-core",
-        "md5sum": "02e7d24c21e47690f363ddd65df9debc"
+        "md5sum": "94bc8d7405d17962d859bb979d2b9edd"
     },
-    "339": {
+    "441": {
         "path": "tpl\/backend\/layout.html",
         "pkg": "lighp-core",
         "md5sum": "07c2a09e039afc88c6328584782f8c9a"
     },
-    "340": {
+    "442": {
         "path": "tpl\/backend\/login\/index.html",
         "pkg": "lighp-core",
         "md5sum": "d36a94dd77639a3b0ed5fe2ee7f48718"
     },
-    "341": {
+    "443": {
         "path": "tpl\/backend\/login\/logout.html",
         "pkg": "lighp-core",
         "md5sum": "d41d8cd98f00b204e9800998ecf8427e"
     },
-    "342": {
+    "444": {
         "path": "tpl\/backend\/login\/update.html",
         "pkg": "lighp-core",
         "md5sum": "589977a1821506e7e756b022dcbf1fe9"
     },
-    "343": {
+    "445": {
         "path": "tpl\/error\/403.html",
         "pkg": "lighp-core",
         "md5sum": "c1ad1e3e4debdc46c87eed11102d5c7c"
     },
-    "344": {
+    "446": {
         "path": "tpl\/error\/404.html",
         "pkg": "lighp-core",
         "md5sum": "7dc631843bb5e9e9b421d64d20747b85"
     },
-    "345": {
+    "447": {
         "path": "tpl\/frontend\/layout.html",
         "pkg": "lighp-core",
         "md5sum": "38f26c2243a680096840d90f7065b6cd"
     },
-    "346": {
+    "448": {
         "path": "ctrl\/backend\/main\/MainController.class.php",
         "pkg": "module-backend-main",
         "md5sum": "c72b656bb7bc8308bc89c7790afe5cb8"
     },
-    "347": {
+    "449": {
         "path": "etc\/app\/backend\/main\/routes.json",
         "pkg": "module-backend-main",
         "md5sum": "fc684e095381989d81e30466c32e6bae"
     },
-    "348": {
+    "450": {
         "path": "public\/js\/app\/backend\/main\/index.js",
         "pkg": "module-backend-main",
         "md5sum": "5f38d5f8caae9b684930a13f3639fd05"
     },
-    "349": {
+    "451": {
         "path": "public\/js\/app\/backend\/main\/showAction.js",
         "pkg": "module-backend-main",
         "md5sum": "4fcad43ae2fc683b56354358d2684233"
     },
-    "350": {
+    "452": {
         "path": "public\/js\/app\/backend\/main\/showModule.js",
         "pkg": "module-backend-main",
         "md5sum": "c3c24cbf120c93d44789f0a7404a942d"
     },
-    "351": {
+    "453": {
         "path": "public\/js\/app\/backend\/main.js",
         "pkg": "module-backend-main",
         "md5sum": "4cd8d4bb0e78527ae808300c11a9a3ea"
     },
-    "352": {
+    "454": {
         "path": "tpl\/backend\/main\/index.html",
         "pkg": "module-backend-main",
         "md5sum": "13f606ea3f8d70b43b27ab8c011ab3fa"
     },
-    "353": {
+    "455": {
         "path": "tpl\/backend\/main\/partials\/form-search.html",
         "pkg": "module-backend-main",
         "md5sum": "4c459b6f9b670f6dc439bd4773a45916"
     },
-    "354": {
+    "456": {
         "path": "tpl\/backend\/main\/showAction.html",
         "pkg": "module-backend-main",
         "md5sum": "0f61f3b86b4ab721ab767e5316c20c64"
     },
-    "355": {
+    "457": {
         "path": "tpl\/backend\/main\/showModule.html",
         "pkg": "module-backend-main",
         "md5sum": "244ae675d460d46a5a8450b2106521dd"
