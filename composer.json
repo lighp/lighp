@@ -21,8 +21,10 @@
 		}
 	],
 	"require": {
+		"php": ">=5.3.0",
 		"mustache/mustache": "dev-master",
 		"mustangostang/spyc": "0.5.*@dev",
-		"ircmaxell/password-compat": "dev-master"
+		"ircmaxell/password-compat": "dev-master",
+		"symfony/http-foundation": "~2.2"
 	}
 }
