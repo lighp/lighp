@@ -4,6 +4,7 @@ namespace core\apps;
 
 use core\http\HTTPRequest;
 use core\http\HTTPResponse;
+use core\http\SessionProvider;
 use core\fs\Pathfinder;
 use core\User;
 use core\routing\Router;
@@ -50,7 +51,10 @@ abstract class Application {
 	 * Initialize a new application.
 	 */
 	public function __construct() {
-		$this->httpRequest = new HTTPRequest;
+		$sessionProvider = SessionProvider::get();
+		$session = $sessionProvider->session();
+
+		$this->httpRequest = new HTTPRequest($session);
 		$this->httpResponse = new HTTPResponse;
 
 		$this->user = new User($this);
