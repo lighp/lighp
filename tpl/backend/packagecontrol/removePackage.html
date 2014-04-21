@@ -18,8 +18,8 @@
 
 			{{#isInstalled?}}
 				<div class="alert alert-block alert-info">
-					<h4 class="alert-heading">Supprimer {{metadata.name}} {{metadata.version}}</h4>
-					<p>Voulez-vous supprimer le paquet <strong>{{metadata.name}} {{metadata.version}}</strong> ?</p>
+					<h4 class="alert-heading">Supprimer {{package}}</h4>
+					<p>Voulez-vous supprimer le paquet <strong>{{package}}</strong> ?</p>
 					<p>
 						<button type="submit" class="btn btn-info"><i class="icon-trash icon-white"></i>&nbsp;Supprimer</button>
 						<a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Retour</a>
@@ -42,3 +42,5 @@
 		<p class="alert alert-warning">Le paquet sp&eacute;cifi&eacute; est inexistant.</p>
 	{{/package}}
 {{/removed?}}
+
+{{> partials/output}}

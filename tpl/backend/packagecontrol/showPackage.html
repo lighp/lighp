@@ -1,7 +1,7 @@
 {{#package}}
 	{{> partials/pkg-details}}
 
-	<form action="{{#buildUrl}}packagecontrol installPackage {{metadata.name}}{{/buildUrl}}" method="post">
+	<form action="{{#buildUrl}}packagecontrol installPackage {{getName}}{{/buildUrl}}" method="post">
 		<input type="hidden" name="check" value="1">
 
 		{{^alreadyInstalled?}}

@@ -1,26 +1,32 @@
 {
-	"name": "lighp/lighp",
-	"description":"A light-weight php framework based on a package system.",
-	"homepage":"http://lighp.github.io/lighp/",
-	"version":"1.0-alpha1",
-	"license":"GPLv3",
-	"type":"application",
-	"authors":[
-		{
-			"name":"emersion",
-			"homepage":"http://emersion.fr"
-		}
-	],
-	"config":{
-		"vendor-dir":"lib/vendor"
-	},
-	"repositories": [
-		{
-			"type": "composer",
-			"url": "http://emersion.fr/projects/lighp.repo"
-		}
-	],
-	"require": {
-		"lighp/lighp-core": "dev-master"
-	}
+    "name": "lighp/lighp",
+    "description": "A light-weight php framework based on a package system.",
+    "homepage": "http://lighp.github.io/lighp/",
+    "version": "1.0-alpha1",
+    "license": "GPLv3",
+    "type": "application",
+    "authors": [
+        {
+            "name": "emersion",
+            "homepage": "http://emersion.fr"
+        }
+    ],
+    "config": {
+        "vendor-dir": "lib/vendor"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://emersion.fr/projects/lighp.repo"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "composer/composer": "1.0.*@dev",
+        "mustache/mustache": "dev-master",
+        "mustangostang/spyc": "0.5.*@dev",
+        "ircmaxell/password-compat": "dev-master",
+        "symfony/http-foundation": "~2.2",
+        "lighp/composer-lighp-installers": "dev-master"
+    }
 }

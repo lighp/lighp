@@ -2,9 +2,7 @@
 {{%FILTERS}}
 
 <tr>
-	<td><strong>{{#url}}<a href="{{url}}" title="Acc&eacute;der au site web" target="_blank">{{/url}}{{title}}{{#url}}</a>{{/url}}</strong>{{#subtitle}} - {{subtitle}}{{/subtitle}}</td>
-	<td>{{version}}</td>
-	<td>{{license}}</td>
-	<td>{{size | filesize}}</td>
-	<td>{{extractedSize | filesize}}</td>
+	<td><strong><a href="{{#buildUrl}}packagecontrol showPackage {{getName}}{{/buildUrl}}">{{getPrettyName}}</a></strong>{{#getDescription}} - {{getDescription}}{{/getDescription}}</td>
+	<td>{{getPrettyVersion}}</td>
+	<td>{{getLicence | join}}</td>
 </tr>
