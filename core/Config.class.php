@@ -53,12 +53,16 @@ class Config {
 	 * Write things to the configuration file
 	 * @param array $data Configuration data.
 	 */
-	public function write(array $data) {
-		if (defined('JSON_PRETTY_PRINT')) { //PHP >= 5.4
-			$json = json_encode($data, JSON_PRETTY_PRINT);
-		} else {
-			$json = json_encode($data);
+	public function write(array $data, $flags = null) {
+		if (!is_int($flags)) {
+			$flags = JSON_UNESCAPED_SLASHES;
+
+			if (defined('JSON_PRETTY_PRINT')) { //PHP >= 5.4
+				$flags = $flags | JSON_PRETTY_PRINT;
+			}
 		}
+
+		$json = json_encode($data, $flags);
 
 		if ($json === false) {
 			throw new \RuntimeException('Cannot encode configuration to JSON');
