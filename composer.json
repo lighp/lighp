@@ -27,7 +27,6 @@
         "mustangostang/spyc": "0.5.*@dev",
         "ircmaxell/password-compat": "dev-master",
         "symfony/http-foundation": "~2.2",
-        "lighp/composer-lighp-installers": "dev-master",
-        "lighp/module-test": "dev-master"
+        "lighp/composer-lighp-installers": "dev-master"
     }
 }
