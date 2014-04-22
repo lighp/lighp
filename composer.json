@@ -4,7 +4,7 @@
     "homepage": "http://lighp.github.io/lighp/",
     "version": "1.0-alpha1",
     "license": "GPLv3",
-    "type": "application",
+    "type": "project",
     "authors": [
         {
             "name": "emersion",
