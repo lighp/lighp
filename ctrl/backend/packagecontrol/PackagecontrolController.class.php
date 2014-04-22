@@ -10,6 +10,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Composer\Console\HtmlOutputFormatter;
 
+use Composer\Composer;
 use Composer\Factory;
 use Composer\Console\Application;
 use Composer\IO\NullIO;
@@ -17,10 +18,12 @@ use Composer\Package\Version\VersionParser;
 use Composer\Json\JsonValidationException;
 use Composer\Plugin\CommandEvent;
 use Composer\Plugin\PluginEvents;
+use Composer\Config as ComposerConfig;
 
+use Composer\Repository\RepositoryInterface;
+use Composer\Repository\InstalledRepositoryInterface;
 use Composer\Repository\CompositeRepository;
 use Composer\Repository\PlatformRepository;
-use Composer\Repository\RepositoryInterface;
 use Composer\Repository\ArrayRepository;
 
 use Composer\DependencyResolver\Pool;
@@ -45,7 +48,9 @@ class PackagecontrolController extends \core\BackController {
 	}
 
 	protected function _composerConfig() {
-		$config = new Config(Pathfinder::getRoot() . '/composer.json');
+		$this->_initEnv();
+
+		$config = new Config(Factory::getComposerFile());
 
 		return $config;
 	}
@@ -97,14 +102,14 @@ class PackagecontrolController extends \core\BackController {
 		return $application;
 	}
 
-	protected function getComposer($disablePlugins = false) {
+	protected function getComposer(array $config = null, $disablePlugins = false) {
 		$io = $this->_getIO();
 
 		$this->_initEnv();
 
 		if (null === $this->composer) {
 			try {
-				$this->composer = Factory::create($io, null, $disablePlugins);
+				$this->composer = Factory::create($io, $config, $disablePlugins);
 			} catch (\InvalidArgumentException $e) {
 				$io->write($e->getMessage());
 				return false;
@@ -135,11 +140,13 @@ class PackagecontrolController extends \core\BackController {
 		return $result;
 	}
 
-	protected function _getInstalledRepo() {
+	protected function _getInstalledRepo(Composer $composer = null) {
 		//Platform packages: virtual packages for things that are installed on the system but are not actually installable by Composer
 		//$platformRepo = new PlatformRepository; 
 
-		$composer = $this->getComposer();
+		if ($composer === null) {
+			$composer = $this->getComposer();
+		}
 
 		$localRepo = $composer->getRepositoryManager()->getLocalRepository();
 		//$installedRepo = new CompositeRepository(array($localRepo, $platformRepo));
@@ -147,13 +154,21 @@ class PackagecontrolController extends \core\BackController {
 		return $localRepo;
 	}
 
-	protected function _getRepos() {
-		$io = $this->_getIO();
+	protected function _getEnabledRepos(Composer $composer = null) {
+		if ($composer === null) {
+			$composer = $this->getComposer();
+		}
 
-		$installedRepo = $this->_getInstalledRepo();
-		$composer = $this->getComposer();
+		$enabledRepos = new CompositeRepository($composer->getRepositoryManager()->getRepositories());
 
-		$repos = new CompositeRepository(array_merge(array($installedRepo), $composer->getRepositoryManager()->getRepositories()));
+		return $enabledRepos;
+	}
+
+	protected function _getRepos(Composer $composer = null) {
+		$installedRepo = $this->_getInstalledRepo($composer);
+		$enabledRepos = $this->_getEnabledRepos($composer)->getRepositories();
+
+		$repos = new CompositeRepository(array_merge(array($installedRepo), $enabledRepos));
 
 		return $repos;
 	}
@@ -211,16 +226,33 @@ class PackagecontrolController extends \core\BackController {
 		$this->page()->addVar('title', 'Rechercher un paquet');
 		$this->_addBreadcrumb();
 
-		//TODO
-		/*$repositories = $packageManager->getRemoteRepositoriesList();
-		$repoList = array();
-		foreach($repositories as $repo) {
-			$repoList[] = array(
-				'name' => $repo->name(),
-				'selected?' => ($request->getExists('repo') && $request->getData('repo') == $repo->name())
+		$composer = $this->getComposer();
+		$config = $composer->getConfig();
+
+		$reposConfig = $config->getRepositories();
+		$reposList = array();
+		foreach($reposConfig as $name => $repo) {
+			$title = $name;
+			if (is_int($title)) {
+				$title = $repo['url'];
+			}
+
+			$selected = false;
+			if ($request->getExists('repo')) {
+				if ($request->getData('repo') == $name) {
+					$selected = true;
+				}
+			} elseif ($name == 'lighp') {
+				$selected = true;
+			}
+
+			$reposList[] = array(
+				'name' => $name,
+				'title' => $title,
+				'selected?' => $selected
 			);
 		}
-		$this->page()->addVar('repositories', $repoList);*/
+		$this->page()->addVar('repositories', $reposList);
 
 		if ($request->getExists('q')) {
 			$query = $request->getData('q');
@@ -231,13 +263,32 @@ class PackagecontrolController extends \core\BackController {
 				return;
 			}
 
-			/*if (empty($repoName)) {
-				$repo = null;
+			if (empty($repoName)) {
+				$repos = $this->_getRepos();
 			} else {
-				$repo = $packageManager->getRemoteRepository($repoName);
-			}*/
+				$reposConfig = $config->getRepositories();
+				$tmpConfig = array('repositories' => array());
+				foreach ($reposConfig as $name => $repo) {
+					if ($name == $repoName) {
+						continue;
+					}
 
-			$repos = $this->_getRepos();
+					$tmpConfig = array_merge($tmpConfig, array(
+						'repositories' => array(
+							$name => false
+						)
+					));
+				}
+
+				$config->merge($tmpConfig);
+
+				$configData = $config->all();
+				$configData['repositories'] = array_merge($configData['repositories'], $tmpConfig);
+
+				$this->composer = null;
+				$composer = $this->getComposer($configData);
+				$repos = $this->_getEnabledRepos($composer);
+			}
 
 			/*if ($composer = $this->getComposer()) {
 				$commandEvent = new CommandEvent(PluginEvents::COMMAND, 'search', $input, $output);
@@ -397,16 +448,25 @@ class PackagecontrolController extends \core\BackController {
 
 		if ($request->postExists('repo-url')) {
 			$repoName = $request->postData('repo-name');
-			$this->page()->addVar('repo-name', $repoName);
+			$repoType = $request->postData('repo-type');
 			$repoUrl = $request->postData('repo-url');
+			$this->page()->addVar('repo-name', $repoName);
+			$this->page()->addVar('repo-type', $repoType);
 			$this->page()->addVar('repo-url', $repoUrl);
 
-			try {
-				$packageManager->addRemoteRepository($repoName, $repoUrl);
-			} catch(\Exception $e) {
-				$this->page()->addVar('error', $e->getMessage());
-				return;
+			$configFile = $this->_composerConfig();
+			$config = $configFile->read();
+
+			if (!isset($config['repositories'])) {
+				$config['repositories'] = array();
 			}
+
+			$config['repositories'][$repoName] = array(
+				'type' => $repoType,
+				'url' => $repoUrl
+			);
+
+			$configFile->write($config);
 
 			$this->page()->addVar('added?', true);
 		}
@@ -416,20 +476,20 @@ class PackagecontrolController extends \core\BackController {
 		$this->page()->addVar('title', 'Supprimer un d&eacute;p&ocirc;t');
 		$this->_addBreadcrumb();
 
-		$packageManager = $this->managers->getManagerOf('Packagecontrol');
-
 		$repoName = $request->getData('name');
 
-		$repo = $packageManager->getRemoteRepository($repoName);
-		$this->page()->addVar('repository', $repo);
+		$configFile = $this->_composerConfig();
+		$config = $configFile->read();
+
+		if (!isset($config['repositories']) || !isset($config['repositories'][$repoName])) {
+			return;
+		}
+
+		$this->page()->addVar('repository', $repoName);
 
 		if ($request->postExists('check')) {
-			try {
-				$packageManager->removeRemoteRepository($repoName);
-			} catch(\Exception $e) {
-				$this->page()->addVar('error', $e->getMessage());
-				return;
-			}
+			unset($config['repositories'][$repoName]);
+			$configFile->write($config);
 
 			$this->page()->addVar('removed?', true);
 		}
@@ -457,16 +517,29 @@ class PackagecontrolController extends \core\BackController {
 	}
 
 	public function listRepositories() {
-		$packageManager = $this->managers->getManagerOf('Packagecontrol');
+		$composer = $this->getComposer();
+		$config = $composer->getConfig();
 
-		$repos = $packageManager->getRemoteRepositoriesList();
+		$reposConfig = $config->getRepositories();
 		$list = array();
 
-		foreach($repos as $repo) {
+		foreach($reposConfig as $name => $repo) {
+			if ($name == 'packagist') { //Skip packagist
+				continue;
+			}
+			if (!isset($repo['url'])) { //Unsupported for the moment
+				continue;
+			}
+
+			$title = $name;
+			if (is_int($title)) {
+				$title = $repo['url'];
+			}
+
 			$item = array(
-				'title' => $repo->name(),
-				'shortDescription' => $repo->url(),
-				'vars' => array('name' => $repo->name())
+				'title' => $name,
+				'shortDescription' => $repo['url'],
+				'vars' => array('name' => $name)
 			);
 
 			$list[] = $item;

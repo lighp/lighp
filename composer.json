@@ -14,12 +14,12 @@
     "config": {
         "vendor-dir": "lib/vendor"
     },
-    "repositories": [
-        {
+    "repositories": {
+        "lighp": {
             "type": "composer",
             "url": "http://emersion.fr/projects/lighp.repo"
         }
-    ],
+    },
     "require": {
         "php": ">=5.3.0",
         "composer/composer": "1.0.*@dev",
@@ -27,6 +27,7 @@
         "mustangostang/spyc": "0.5.*@dev",
         "ircmaxell/password-compat": "dev-master",
         "symfony/http-foundation": "~2.2",
-        "lighp/composer-lighp-installers": "dev-master"
+        "lighp/composer-lighp-installers": "dev-master",
+        "lighp/module-test": "dev-master"
     }
 }
