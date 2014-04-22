@@ -17,7 +17,7 @@
     "repositories": {
         "lighp": {
             "type": "composer",
-            "url": "http://emersion.fr/projects/lighp.repo"
+            "url": "https://github.com/lighp/lighp.repo/raw/master/"
         }
     },
     "require": {
