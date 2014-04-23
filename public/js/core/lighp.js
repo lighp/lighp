@@ -1,11 +1,35 @@
 (function() {
-	var Lighp = {};
+	var Lighp = (!window.Lighp) ? {} : window.Lighp;
+	window.Lighp = Lighp;
 
-	Lighp.websiteConf = {
-		WEBSITE_ROOT: ''
-	};
+	if (!Lighp.websiteConf) {
+		Lighp.websiteConf = {
+			WEBSITE_ROOT: ''
+		};
+	}
+	if (!Lighp._vars) {
+		Lighp._vars = {};
+	}
 
-	Lighp._vars = {};
+	//Requirejs
+	requirejs.config({
+		baseUrl: Lighp.websiteConf.WEBSITE_ROOT+'/assets',
+		paths: {
+			core: '../js/core',
+			app: '../js/app'
+		},
+		shim: {
+			jquery: {
+				//exports: '$'
+			},
+			mustache: {
+				exports: 'mustache'
+			}
+		}
+	});
+})();
+
+define('core/lighp', ['jquery','mustache','bootstrap'], function ($, mustache) {
 	Lighp.setVars = function(vars) {
 		Lighp._vars = vars;
 	};
@@ -46,7 +70,7 @@
 			for (var key in getData) {
 				var value = getData[key];
 
-				getParams += (i == 0) ? '?' : '&';
+				getParams += (!i) ? '?' : '&';
 				getParams += encodeURIComponent(key) + '=' + encodeURIComponent(value);
 
 				i++;
@@ -218,9 +242,9 @@
 			return moduleApi.renderTpl(index, view, function (output) {
 				$output = $(output);
 				$container = $output.filter(container);
-				if ($container.length == 0) {
+				if (!$container.length) {
 					$container = $output.find(container);
-					if ($container.length == 0) {
+					if (!$container.length) {
 						content = output;
 					} else {
 						content = $container.html();
@@ -294,19 +318,20 @@
 
 			for (var i = 0; i < this._data.length; i++) {
 				var item = this._data[i],
-					itemHits = 0;
+					itemHits = 0,
+					field;
 
-				if (nbrFields == 0) {
-					for (var field in item) {
+				if (!nbrFields) {
+					for (field in item) {
 						nbrFields++;
 					}
 				}
 
 				var j = 0;
-				for (var field in item) {
+				for (field in item) {
 					var value = item[field];
 
-					if (nbrFields != 0 && !~$.inArray(field, searchFields)) {
+					if (nbrFields && !~$.inArray(field, searchFields)) {
 						continue;
 					}
 
@@ -339,5 +364,5 @@
 		}
 	};
 
-	window.Lighp = Lighp;
+	return Lighp;
 })();

@@ -1,14 +1,5 @@
 [
 	{
-		"filename":"jquery-1.9.1.min.js"
-	},
-	{
-		"filename":"bootstrap.min.js"
-	},
-	{
-		"filename":"mustache.js"
-	},
-	{
 		"filename":"lighp.js"
 	}
 ]

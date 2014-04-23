@@ -86,7 +86,16 @@ class Page extends ResponseContent {
 			return array();
 		}
 		$conf = new Config(__DIR__.'/../../etc/core/'.$configFilename.'.json');
-		return $conf->read();
+		
+		$files = $conf->read();
+
+		if ($type == 'js') {
+			array_unshift($files, '/assets/require.js');
+		} elseif ($type == 'css') {
+			array_unshift($files, '/assets/require.css');
+		}
+
+		return $files;
 	}
 
 	/**
@@ -219,7 +228,15 @@ class Page extends ResponseContent {
 			$coreFilesPath = $filesBaseDir.'/core';
 			if (isset($coreLinkedFiles[$type])) {
 				foreach($coreLinkedFiles[$type] as $scriptData) {
-					$filePath = $coreFilesPath.'/'.$scriptData['filename'];
+					if (is_string($scriptData)) {
+						$scriptData = array('filename' => $scriptData);
+					}
+
+					if (substr($scriptData['filename'], 0, 1) == '/') { //Absolute path
+						$filePath = substr($scriptData['filename'], 1);
+					} else { //Relative path
+						$filePath = $coreFilesPath.'/'.$scriptData['filename'];
+					}
 
 					$linkedFiles[] = $filePath;
 				}
@@ -254,7 +271,7 @@ class Page extends ResponseContent {
 			}
 
 			if ($type == 'js') {
-				$linkedFilesTags .= '<script type="text/javascript">Lighp.websiteConf = '.json_encode($globalVars).';Lighp.setVars('.json_encode($pageVars).');</script>';
+				$linkedFilesTags = '<script type="text/javascript">var Lighp = {};Lighp.websiteConf = '.json_encode($globalVars).';Lighp._vars = '.json_encode($pageVars).';</script>'.$linkedFilesTags;
 			}
 
 			return $linkedFilesTags;
