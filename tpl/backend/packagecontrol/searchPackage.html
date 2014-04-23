@@ -7,7 +7,7 @@
 	<select id="package-repo" name="repo">
 		<option value="">Tous les dépôts disponibles</option>
 		{{#repositories}}
-			<option value="{{name}}"{{#selected?}} selected="selected"{{/selected?}}>{{name}}</option>
+			<option value="{{name}}"{{#selected?}} selected="selected"{{/selected?}}>{{title}}</option>
 		{{/repositories}}
 	</select>
 </form>
@@ -25,8 +25,6 @@
 		<thead>
 			<tr>
 				<th>Nom</th>
-				<th>Version</th>
-				<th>License</th>
 				<th></th>
 			</tr>
 		</thead>

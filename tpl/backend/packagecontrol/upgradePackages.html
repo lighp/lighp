@@ -7,6 +7,8 @@
 		<p>Les mises &agrave; jour ont bien &eacute;t&eacute; appliqu&eacute;es.</p>
 		<p><a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Retour</a></p>
 	</div>
+
+	{{> partials/output}}
 {{/upgraded?}}
 
 {{^upgraded?}}
@@ -17,50 +19,15 @@
 				<p>Le paquet n'a pas p&ucirc; &eacute;t&eacute; install&eacute; : {{error}}</p>
 			</div>
 		{{/error}}
+
+		{{^error}}
+			<p>Paquets &agrave; mettre &agrave; jour :</p>
+		{{/error}}
+
+		{{> partials/output}}
+
 		<form action="" method="post">
 			<input type="hidden" name="check" value="1">
-
-			<ul class="nav nav-tabs">
-				<li class="active"><a href="#upgrade-info" data-toggle="tab">Informations</a></li>
-				<li><a href="#upgrade-packages" data-toggle="tab">Paquets</a></li>
-			</ul>
-			<div class="tab-content">
-				<div class="tab-pane active" id="upgrade-info">
-					<dl class="dl-horizontal">
-						<dt>Paquets</dt>
-						<dd>{{upgradesNbr}}</dd>
-
-						<dt>&Agrave; télécharger</dt>
-						<dd>{{downloadSize | filesize}}</dd>
-
-						<dt>Une fois installé</dt>
-						<dd>{{extractedSize | filesize}}</dd>
-
-						<dt title="Espace disque suppl&eacute;mentaire qui sera consomm&eacute; par les  mises &agrave; jour, une fois install&eacute;es">Taille nette</dt>
-						<dd>{{netSize | filesize}}</dd>
-					</dl>
-				</div>
-				<div class="tab-pane" id="upgrade-packages">
-					<table class="table">
-						<thead>
-							<tr>
-								<th>Nom</th>
-								<th>Version</th>
-								<th>License</th>
-								<th>Taille à télécharger</th>
-								<th>Taille une fois installé</th>
-							</tr>
-						</thead>
-						<tbody>
-							{{#upgrades}}
-								{{#metadata}}
-									{{> partials/table-upgrade}}
-								{{/metadata}}
-							{{/upgrades}}
-						</tbody>
-					</table>
-				</div>
-			</div>
 
 			<div class="form-actions">
 				<button type="submit" class="btn btn-primary"><i class="icon-arrow-down icon-white"></i>&nbsp;Mettre à jour</button>

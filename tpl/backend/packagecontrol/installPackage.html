@@ -6,79 +6,11 @@
 	</div>
 {{/installed?}}
 
-{{#package}}
-	{{#error}}
-		<div class="alert alert-block alert-error">
-			<h4 class="alert-heading">Erreur lors de l'installation</h4>
-			<p>Le paquet n'a pas p&ucirc; &eacute;t&eacute; install&eacute; : {{error}}</p>
-		</div>
-	{{/error}}
-	<form action="" method="post">
-		<input type="hidden" name="check" value="1">
+{{#error}}
+	<div class="alert alert-block alert-error">
+		<h4 class="alert-heading">Erreur lors de l'installation</h4>
+		<p>Le paquet n'a pas p&ucirc; &eacute;t&eacute; install&eacute; : {{error}}</p>
+	</div>
+{{/error}}
 
-		{{> partials/pkg-details}}
-
-		{{^alreadyInstalled?}}
-			{{#unsafePkg?}}
-				<div class="alert alert-warning">
-					<h4 class="alert-heading">Paquet potentiellement dangereux</h4>
-					<p>Ce paquet peut causer des probl&egrave;mes de s&eacute;curit&eacute; importants. Les fichiers suivants sont dangereux :</p>
-					<ul>
-						{{#unsafeFiles}}
-							<li>{{.}}</li>
-						{{/unsafeFiles}}
-					</ul>
-					{{^unsafeFiles}}
-						<p><em>Liste non disponible.</em></p>
-					{{/unsafeFiles}}
-					<p><strong>N'installez ce paquet que si vous avez confiance en son origine.</strong></p>
-					{{^installed?}}
-						<p>
-							{{#update?}}
-								<button type="submit" class="btn btn-warning"><i class="icon-arrow-down icon-white"></i>&nbsp;Mettre &agrave; jour tout de m&ecirc;me</button>
-							{{/update?}}
-							{{^update?}}
-								<button type="submit" class="btn btn-warning"><i class="icon-arrow-down icon-white"></i>&nbsp;Installer tout de m&ecirc;me</button>
-							{{/update?}}
-							<a class="btn" href="{{source}}">T&eacute;l&eacute;charger le contenu du paquet</a>
-							<a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Annuler</a>
-						</p>
-					{{/installed?}}
-				</div>
-			{{/unsafePkg?}}
-			{{^unsafePkg?}}
-				{{^installed?}}
-					{{#update?}}
-						<div class="alert alert-block alert-info">
-							<h4 class="alert-heading">Mise &agrave; jour</h4>
-							<p>Ce paquet est d&eacute;j&agrave; install&eacute;, mais une version plus r&eacute;cente est disponible dans les d&eacute;p&ocirc;ts.</p>
-							<p>
-								<button type="submit" class="btn btn-info"><i class="icon-arrow-down icon-white"></i>&nbsp;Mettre &agrave; jour</button>
-								<a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Annuler</a>
-							</p>
-						</div>
-					{{/update?}}
-					{{^update?}}
-						<div class="form-actions">
-							<button type="submit" class="btn btn-primary"><i class="icon-arrow-down icon-white"></i>&nbsp;Installer</button>
-							<a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Annuler</a>
-						</div>
-					{{/update?}}
-				{{/installed?}}
-			{{/unsafePkg?}}
-		{{/alreadyInstalled?}}
-		{{#alreadyInstalled?}}
-			<div class="alert alert-block alert-info">
-				<h4 class="alert-heading">Paquet d&eacute;j&agrave; install&eacute;</h4>
-				<p>Ce paquet est d&eacute;j&agrave; install&eacute;.</p>
-				<p>
-					<a class="btn btn-info" href="{{#buildUrl}}packagecontrol removePackage {{metadata.name}}{{/buildUrl}}"><i class="icon-trash icon-white"></i>&nbsp;Supprimer</a>
-					<a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Retour</a>
-				</p>
-			</div>
-		{{/alreadyInstalled?}}
-	</form>
-{{/package}}
-{{^package}}
-	<p class="alert alert-warning">Le paquet sp&eacute;cifi&eacute; est inexistant.</p>
-{{/package}}
+{{> partials/output}}

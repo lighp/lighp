@@ -1,72 +1,44 @@
 {{! We will use filters}}
 {{%FILTERS}}
 
-<ul class="nav nav-tabs">
-	<li class="active"><a href="#package-info" data-toggle="tab">Informations</a></li>
-	<li><a href="#package-files" data-toggle="tab">Fichiers{{#filesNbr}} ({{filesNbr}}){{/filesNbr}}</a></li>
-</ul>
-<div class="tab-content">
-	<div class="tab-pane active" id="package-info">
-		{{#metadata}}
-			<dl class="dl-horizontal">
-				<dt>Nom du paquet</dt>
-				<dd>{{name}}</dd>
+<dl class="dl-horizontal">
+	<dt>Nom du paquet</dt>
+	<dd>{{getPrettyName}}</dd>
 
-				{{#title}}
-					<dt>Titre</dt>
-					<dd>{{title}}</dd>
-				{{/title}}
+	<!--{{#title}}
+		<dt>Titre</dt>
+		<dd>{{title}}</dd>
+	{{/title}}-->
 
-				{{#subtitle}}
-					<dt>Sous-titre</dt>
-					<dd>{{subtitle}}</dd>
-				{{/subtitle}}
+	<dt>Version</dt>
+	<dd>{{getPrettyVersion}}</dd>
 
-				<dt>Version</dt>
-				<dd>{{version}}</dd>
+	{{#getDescription}}
+		<dt>Description</dt>
+		<dd>{{getDescription}}</dd>
+	{{/getDescription}}
 
-				{{#description}}
-					<dt>Description</dt>
-					<dd>{{description}}</dd>
-				{{/description}}
+	{{#getHomepage}}
+		<dt>Site Web</dt>
+		<dd><a href="{{getHomepage}}" target="_blank">{{getHomepage}}</a></dd>
+	{{/getHomepage}}
 
-				{{#url}}
-					<dt>Site Web</dt>
-					<dd><a href="{{url}}" target="_blank">{{url}}</a></dd>
-				{{/url}}
+	<dt>Auteur(s)</dt>
+	<dd>{{#getAuthors}}
+		{{name}}
+	{{/getAuthors}}</dd>
 
-				<dt>Responsable</dt>
-				<dd>{{maintainer}}</dd>
+	<dt>License</dt>
+	<dd>{{getLicense | join}}{{^getLicense}}<span class="muted">Aucune</span>{{/getLicense}}</dd>
 
-				<dt>License</dt>
-				<dd>{{license}}{{^license}}<span class="muted">Aucune</span>{{/license}}</dd>
+	<dt>D&eacute;pendances</dt>
+	<dd>
+		{{#requires}}{{getTarget}} <span class="muted">{{getPrettyConstraint}}</span><br />{{/requires}}
+		{{^requires}}<span class="muted">Aucune</span>{{/requires}}</dd>
 
-				<dt>D&eacute;pendances</dt>
-				<dd>{{#depends}}{{depends}}{{/depends}}{{^depends}}<span class="muted">Aucune</span>{{/depends}}</dd>
+	<dt>Date de publication</dt>
+	<dd>{{#getReleaseDate}}{{getReleaseDate.getTimestamp | date}}{{/getReleaseDate}}</dd>
 
-				<dt>Taille</dt>
-				<dd>{{size | filesize}} &agrave; t&eacute;l&eacute;charger, {{extractedSize | filesize}} une fois install&eacute;</dd>
-
-				<dt>Date de publication</dt>
-				<dd>{{#updateDate}}{{updateDate | strtotime | date}}{{/updateDate}}{{^updateDate}}<span class="muted">Non sp&eacute;cifi&eacute;e</span>{{/updateDate}}</dd>
-
-				<dt>D&eacute;p&ocirc;t</dt>
-				<dd>{{repository.name}}{{^repository.name}}<span class="muted">{{#installed?}}Local{{/installed?}}{{^installed?}}Inconnu{{/installed?}}</span>{{/repository.name}}</dd>
-			</dl>
-		{{/metadata}}
-	</div>
-	<div class="tab-pane" id="package-files">
-		<ul class="unstyled">
-			{{#filesList}}
-				<li>{{path}}</li>
-			{{/filesList}}
-		</ul>
-		{{^filesList}}
-			<p class="alert alert-info">Ce paquet ne contient aucun fichier.</p>
-		{{/filesList}}
-
-		{{#metadata.hasScripts}}
-			<p><small>Ce paquet contient des scripts d'installation et de suppression.</small></p>
-		{{/metadata.hasScripts}}
-	</div>
-</div>
+	<dt>Statut</dt>
+	<dd>{{getStability}}</dd>
+</dl>

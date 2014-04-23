@@ -50,6 +50,18 @@ class Page extends ResponseContent {
 	}
 
 	/**
+	 * Get one of this page's variables.
+	 * @param string|int $name  The variable's name.
+	 */
+	public function getVar($name) {
+		if (!isset($this->vars[$name])) {
+			return null;
+		}
+
+		return $this->vars[$name];
+	}
+
+	/**
 	 * Get global variables.
 	 * @return array
 	 */
@@ -263,16 +275,18 @@ class Page extends ResponseContent {
 				$text = $helper->render($text);
 			}
 
-			return $text;
+			return strtotime($text);
 		});
-		$mustache->addHelper('date', function($text, $helper = null) {
+		$mustache->addHelper('date', function($time, $helper = null) {
 			if (!empty($helper)) {
-				$text = $helper->render($text);
+				$time = $helper->render($time);
 			}
 
-			return $text;
+			$time = (int) $time;
+
+			return date('Y-m-d H:i:s', $time);
 		});
-		
+
 
 		//File size
 		$mustache->addHelper('filesize', function($value) {
@@ -289,6 +303,29 @@ class Page extends ResponseContent {
 			}
 
 			return (($bytes < 0) ? '-' : '') . $roundedBytes . ' ' . $suffixes[floor($base)];
+		});
+
+		//join
+		$mustache->addHelper('join', function($value) {
+			if (!is_array($value)) {
+				return $value;
+			}
+
+			return implode(', ', $value);
+		});
+
+		//debug
+		$mustache->addHelper('var_dump', function($value) {
+			if (!is_array($value)) {
+				return $value;
+			}
+
+			ob_start();
+			var_dump($value);
+			$out = ob_get_contents();
+			ob_end_clean();
+
+			return $out;
 		});
 
 		return $mustache;

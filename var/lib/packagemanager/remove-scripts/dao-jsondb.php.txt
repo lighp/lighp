@@ -1,4 +1,0 @@
-<?php
-$daos = new \core\Daos;
-
-$daos->unregisterDao('json');

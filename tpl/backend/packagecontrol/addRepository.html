@@ -22,6 +22,17 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label" for="repo-type">Type du d&eacute;p&ocirc;t</label>
+			<div class="controls">
+				<select name="repo-type">
+					<option>composer</option>
+					<option>vcs</option>
+					<option>pear</option>
+					<option>artifact</option>
+				</select>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label" for="repo-url">URL du d&eacute;p&ocirc;t</label>
 			<div class="controls">
 				<input type="url" name="repo-url" id="repo-url" placeholder="http://" value="{{repo-url}}" required class="input-xxlarge">
