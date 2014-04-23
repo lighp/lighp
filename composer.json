@@ -27,6 +27,13 @@
         "mustangostang/spyc": "0.5.*@dev",
         "ircmaxell/password-compat": "dev-master",
         "symfony/http-foundation": "~2.2",
-        "lighp/composer-lighp-installers": "dev-master"
+        "lighp/composer-lighp-installers": "dev-master",
+        "lighp/module-backend-main": "dev-master",
+        "lighp/module-backend-packagecontrol": "dev-master",
+        "lighp/module-backend-routes": "dev-master"
+    },
+    "suggest": {
+        "lighp/dao-jsondb": "For a basic file-based database",
+        "lighp/dao-pdo": "For PDO support"
     }
 }
