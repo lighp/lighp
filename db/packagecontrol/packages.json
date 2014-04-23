@@ -82,54 +82,54 @@
         "updateDate": "2014-01-12 13:10:29",
         "hasScripts": false
     },
-    "6": {
+    "10": {
         "name": "module-backend-routes",
         "title": "module-backend-routes",
         "subtitle": "",
-        "version": "0.1.2",
+        "version": "0.1.3",
         "description": "Backend module to manage routes",
         "url": "",
         "maintainer": "Simon Ser",
         "license": "GPLv3",
-        "size": 6373,
-        "extractedSize": 8680,
-        "updateDate": "2014-04-05 09:11:32",
+        "size": 6483,
+        "extractedSize": 9070,
+        "updateDate": "2014-04-20 17:47:40",
         "hasScripts": false
     },
-    "7": {
+    "11": {
         "name": "module-packagecontrol",
         "title": "Package control",
         "subtitle": "",
-        "version": "0.2.2",
+        "version": "0.2.3",
         "description": "A package control module, supporting Confiture specification.",
         "url": "",
         "maintainer": "Simon Ser",
         "license": "GPLv3",
         "depends": "lib-arraysearcher",
-        "size": 28352,
-        "extractedSize": 70719,
-        "updateDate": "2014-04-05 09:11:33",
+        "size": 28346,
+        "extractedSize": 70713,
+        "updateDate": "2014-04-20 17:47:41",
         "hasScripts": false
     },
-    "9": {
+    "12": {
         "name": "lighp-core",
         "title": "lighp-core",
         "subtitle": "Core files for Lighp",
-        "version": "1.0alpha1.5",
+        "version": "1.0alpha1.6",
         "description": "A light-weight PHP framework based on a package system.",
         "url": "http:\/\/lighp.github.io\/lighp\/",
         "maintainer": "Simon Ser",
         "license": "GPLv3",
-        "size": 103336,
-        "extractedSize": 162410,
-        "updateDate": "2014-04-05 12:15:52",
+        "size": 106223,
+        "extractedSize": 170164,
+        "updateDate": "2014-04-20 17:47:40",
         "hasScripts": false
     },
-    "10": {
+    "13": {
         "name": "module-backend-main",
         "title": "module-backend-main",
         "subtitle": "",
-        "version": "0.3.2",
+        "version": "0.3.3",
         "description": "Main module for backend.",
         "url": "",
         "maintainer": "Simon Ser",
@@ -137,7 +137,7 @@
         "depends": "lib-arraysearcher",
         "size": 11761,
         "extractedSize": 24287,
-        "updateDate": "2014-04-05 12:15:52",
+        "updateDate": "2014-04-20 17:47:40",
         "hasScripts": false
     }
 }

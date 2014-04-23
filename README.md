@@ -8,7 +8,7 @@ This framework is *unstable* (alpha version).
 Features
 --------
 
-* Powerfull package control system
+* Powerful package control system
 * Simple, fast and functionnal backend
 * Control what is stored in a file-based database and in a classic database
 * Works with [Mustache](http://mustache.github.com/) as template engine

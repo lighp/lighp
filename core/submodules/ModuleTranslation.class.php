@@ -2,9 +2,12 @@
 
 namespace core\submodules;
 
+use \InvalidArgumentException;
+use \RuntimeException;
 use \Spyc;
 use core\apps\Application;
 use core\fs\Pathfinder;
+use core\i18n\TranslationDictionary;
 
 /**
  * A module's translation.
@@ -19,10 +22,10 @@ class ModuleTranslation extends ModuleComponent {
 	protected $section;
 
 	/**
-	 * The translation data.
-	 * @var array
+	 * The translation dictionary.
+	 * @var TranslationDictionary
 	 */
-	protected $translationData;
+	protected $dict;
 
 	public function __construct(Application $app, $module, $section = null) {
 		parent::__construct($app, $module);
@@ -30,88 +33,57 @@ class ModuleTranslation extends ModuleComponent {
 		$this->setSection($section);
 	}
 
-	public function section() {
-		return $this->section;
+	public function open($module, $section = null) {
+		return new self($this->app(), $module, $section);
 	}
 
-	public function setSection($section) {
-		if (!is_string($section) || empty($section)) {
-			throw new \InvalidArgumentException('Invalid section name');
+	public function dict() {
+		if (empty($this->dict)) {
+			$this->dict = TranslationDictionary::fromYamlFile($this->_dictPathFromIndex($this->module()));
 		}
 
-		$this->section = $section;
-	}
-
-	protected function _filePath() {
-		return Pathfinder::getPathFor('locale').'/fr_FR/'.$this->module.'.yaml';
+		return $this->dict;
 	}
 
 	public function read() {
-		if (empty($this->translationData)) {
-			$translationData = Spyc::YAMLLoad($this->_filePath());
+		$dict = $this->dict();
 
-			if ($translationData === false) {
-				throw new \RuntimeException('Cannot open translation file "'.$this->_filePath().'"');
-			}
-
-			$this->translationData = $translationData;
+		$section = $this->section();
+		if (!empty($section) && isset($dict[$section])) {
+			return $dict[$section];
 		}
 
-		return $this->_getSection();
+		return $dict;
 	}
 
 	public function get($path = null) {
-		$sectionData = $this->read();
+		$dict = $this->dict(); //Make sure the dictionary is loaded
 
-		$result = $this->_followPath($path, $this->translationData);
-		if ($result !== false) {
-			return $result;
+		if (empty($path)) {
+			return $this->dict;
 		}
 
-		$result = $this->_followPath($path, $sectionData);
-		if ($result !== false) {
-			return $result;
+		if (isset($dict[$path])) {
+			return $dict[$path];
+		}
+
+		if (!empty($this->section())) {
+			$sectionPath = $this->section().'.'.$path;
+
+			if (isset($dict[$sectionPath])) {
+				return $dict[$sectionPath];
+			}
 		}
 
 		return $path;
 	}
 
-	protected function _followPath($path, array $data) {
-		$indexes = explode('.', $path);
-		
-		if (empty($path)) {
-			return $data;
-		}
-
-		foreach($indexes as $key => $index) {
-			$remainingIndexes = array_slice($indexes, $key);
-			$remainingPath = implode('.', $remainingIndexes);
-			if (isset($data[$remainingPath])) {
-				return $data[$remainingPath];
-			}
-
-			if (isset($data[$index])) {
-				$data = $data[$index];
-			} else {
-				return false;
-			}
-		}
-
-		return $data;
+	public function section() {
+		return $this->section;
 	}
 
-	protected function _getSection($section = null) {
-		if (empty($section)) {
-			$section = $this->section;
-		}
-
-		$translationData = $this->translationData;
-
-		if (!empty($section) && isset($translationData[$section])) {
-			return $translationData[$section];
-		} else {
-			return $translationData;
-		}
+	public function setSection($section) {
+		$this->section = $section;
 	}
 
 	public function __isset($path) {
@@ -120,5 +92,49 @@ class ModuleTranslation extends ModuleComponent {
 
 	public function __get($path) {
 		return $this->get($path);
+	}
+
+
+	protected function _dictPath($lang, $index) {
+		return Pathfinder::getPathFor('locale').'/'.$lang.'/'.$index.'.yaml';
+	}
+
+	protected function _dictPathFromIndex($index) {
+		$lang = $this->app()->user()->lang();
+
+		$filepath = $this->_dictPath($lang, $index);
+		if (!file_exists($filepath) && strpos($lang, '-') !== false) {
+			$lang = explode('-', $lang)[0];
+			$filepath = $this->_dictPath($lang, $index);
+		}
+		if (!file_exists($filepath)) {
+			$filepath = $this->_dictPath('en', $index);
+		}
+		if (!file_exists($filepath)) {
+			$langsDir = Pathfinder::getPathFor('locale');
+			$handle = opendir($langsDir);
+
+			$found = false;
+
+			while (($filename = readdir($handle)) !== false) {
+				if ($filename == '.' || $filename == '..' || !is_dir($langsDir.'/'.$filename)) {
+					continue;
+				}
+
+				$lang = $filename;
+				$filepath = $this->_dictPath($lang, $index);
+				if (file_exists($filepath)) {
+					$found = true;
+					break;
+				}
+			}
+			closedir($handle);
+
+			if (!$found) {
+				throw new RuntimeException('Cannot find the translation file with index "'.$index.'"');
+			}
+		}
+
+		return $filepath;
 	}
 }
