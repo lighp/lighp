@@ -1,9 +1,5 @@
 {
     "pdo": {
-        "callback": [
-            "\\core\\dao\\PDOFactory",
-            "getConnexion"
-        ],
         "config": {
             "dsn": "mysql:host=localhost;dbname=lighp",
             "username": "root",
@@ -12,11 +8,6 @@
         }
     },
     "json": {
-        "callback": [
-            "\\core\\dao\\JSONDBFactory",
-            "getLocalConnexion"
-        ],
-        "config": {},
         "default": true
     }
 }
