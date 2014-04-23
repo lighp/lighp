@@ -91,6 +91,11 @@ class PackagecontrolController extends \core\BackController {
 
 		$cachePath = Pathfinder::getPathFor('cache') . '/app/composer';
 		putenv('COMPOSER_HOME='.$cachePath);
+
+		//Define max. execution time
+		if(!ini_get('safe_mode')) { //Detect safe_mode, but sometimes it doesn't work well -> we use the @ operator
+			@set_time_limit(300); // 5min
+		}
 	}
 
 	protected function _getApp() {
