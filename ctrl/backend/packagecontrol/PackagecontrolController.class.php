@@ -95,6 +95,9 @@ class PackagecontrolController extends \core\BackController {
 		//Define max. execution time
 		if(!ini_get('safe_mode')) { //Detect safe_mode, but sometimes it doesn't work well -> we use the @ operator
 			@set_time_limit(300); // 5min
+			if (function_exists('ini_set')) {
+				@ini_set('memory_limit', '512M');
+			}
 		}
 	}
 
