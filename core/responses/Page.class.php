@@ -213,10 +213,7 @@ class Page extends ResponseContent {
 
 			$filesBaseDir = $type;
 			$relativePublicFilesDir = __DIR__.'/../../public/';
-
-			if (!is_dir($relativePublicFilesDir.'/'.$filesBaseDir)) {
-				return '';
-			}
+			$hasPublicFilesDir = is_dir($relativePublicFilesDir.'/'.$filesBaseDir);
 
 			//Core files
 			$coreFilesPath = $filesBaseDir.'/core';
@@ -228,7 +225,7 @@ class Page extends ResponseContent {
 
 					if (substr($scriptData['filename'], 0, 1) == '/') { //Absolute path
 						$filePath = substr($scriptData['filename'], 1);
-					} else { //Relative path
+					} elseif ($hasPublicFilesDir) { //Relative path
 						$filePath = $coreFilesPath.'/'.$scriptData['filename'];
 					}
 
@@ -236,16 +233,18 @@ class Page extends ResponseContent {
 				}
 			}
 
-			//Module file
-			$moduleFilePath = $filesBaseDir.'/app/'.$appName.'/'.$module.'.'.$type;
-			if (file_exists($relativePublicFilesDir.'/'.$moduleFilePath)) {
-				$linkedFiles[] = $moduleFilePath;
-			}
+			if ($hasPublicFilesDir) {
+				//Module file
+				$moduleFilePath = $filesBaseDir.'/app/'.$appName.'/'.$module.'.'.$type;
+				if (file_exists($relativePublicFilesDir.'/'.$moduleFilePath)) {
+					$linkedFiles[] = $moduleFilePath;
+				}
 
-			//Action file
-			$actionFilePath = $filesBaseDir.'/app/'.$appName.'/'.$module.'/'.$action.'.'.$type;
-			if (file_exists($relativePublicFilesDir.'/'.$actionFilePath)) {
-				$linkedFiles[] = $actionFilePath;
+				//Action file
+				$actionFilePath = $filesBaseDir.'/app/'.$appName.'/'.$module.'/'.$action.'.'.$type;
+				if (file_exists($relativePublicFilesDir.'/'.$actionFilePath)) {
+					$linkedFiles[] = $actionFilePath;
+				}
 			}
 
 			$linkedFilesTags = '';
