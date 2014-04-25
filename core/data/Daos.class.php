@@ -34,14 +34,90 @@ class Daos {
 		return new Config($configPath);
 	}
 
+	protected function _getInstalled() {
+		$dirPath = Pathfinder::getRoot().'/etc/core/dao';
+
+		$handle = opendir($dirPath);
+		$daos = array();
+
+		while (false !== ($entry = readdir($handle))) {
+			$configPath = $dirPath . '/' . $entry;
+
+			if (pathinfo($entry, PATHINFO_EXTENSION) !== 'json') {
+				continue;
+			}
+
+			$daoName = pathinfo($entry, PATHINFO_FILENAME);
+			$configFile = new Config($configPath);
+			$config = $configFile->read();
+
+			$daos[$daoName] = array(
+				'factory' => (isset($config['factory'])) ? $config['factory'] : null
+			);
+		}
+
+		closedir($handle);
+
+		return $daos;
+	}
+
+	/**
+	 * array_merge_recursive does indeed merge arrays, but it converts values with duplicate
+	 * keys to arrays rather than overwriting the value in the first array with the duplicate
+	 * value in the second array, as array_merge does. I.e., with array_merge_recursive,
+	 * this happens (documented behavior):
+	 *
+	 * array_merge_recursive(array('key' => 'org value'), array('key' => 'new value'));
+	 *     => array('key' => array('org value', 'new value'));
+	 *
+	 * array_merge_recursive_distinct does not change the datatypes of the values in the arrays.
+	 * Matching keys' values in the second array overwrite those in the first array, as is the
+	 * case with array_merge, i.e.:
+	 *
+	 * array_merge_recursive_distinct(array('key' => 'org value'), array('key' => 'new value'));
+	 *     => array('key' => array('new value'));
+	 *
+	 * Parameters are passed by reference, though only for performance reasons. They're not
+	 * altered by this function.
+	 * 
+	 * Source: http://php.net/manual/function.array-merge-recursive.php#92195
+	 *
+	 * @param array $a
+	 * @param array $b
+	 * @return array
+	 * @author Daniel <daniel (at) danielsmedegaardbuus (dot) dk>
+	 * @author Gabriel Sobrinho <gabriel (dot) sobrinho (at) gmail (dot) com>
+	 * @author emersion <contact (at) emersion (dot) fr>
+	 */
+	protected function _array_merge_recursive(array &$a, array &$b, $depth = 0, $_currentDepth = 0) {
+		$merged = $a;
+
+		foreach ($b as $key => &$value) {
+			if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
+				if ($depth !== 0 && $_currentDepth > $depth) {
+					$merged[$key] = $value;
+				} else {
+					$merged[$key] = $this->_array_merge_recursive($merged[$key], $value, $depth, $_currentDepth + 1);
+				}
+			} else {
+				$merged[$key] = $value;
+			}
+		}
+
+		return $merged;
+	}
+
 	/**
 	 * Load the DAOs' configuration.
 	 */
 	protected function _loadConfig() {
 		if (empty($this->config)) { //If config isn't already loaded
-			$config = $this->_getConfig();
+			$configFile = $this->_getConfig();
+			$config = $configFile->read();
 
-			$this->config = $config->read();
+			$installed = $this->_getInstalled();
+
+			$this->config = $this->_array_merge_recursive($installed, $config, 2);
 		}
 	}
 
@@ -63,10 +139,24 @@ class Daos {
 
 		//Create the DAO
 		$daoData = $this->config[$api];
-		$dao = call_user_func($daoData['callback'], $daoData['config']);
+		if (!isset($daoData['factory']) && isset($daoData['callback'])) {
+			$daoData['factory'] = $daoData['callback'];
+		}
+		if (!isset($daoData['config'])) {
+			$daoData['config'] = array();
+		}
+		if (empty($daoData['factory'])) {
+			throw new \RuntimeException('Unable to load DAO "'.$api.'" (no factory specified)');
+		}
+
+		try {
+			$dao = call_user_func($daoData['factory'], $daoData['config']);
+		} catch (\Exception $e) {
+			throw new \RuntimeException('Unable to load DAO "'.$api.'" (error when calling factory: '.$e->getMessage().')');
+		}
 
 		if ($dao === false) { //Check for errors
-			throw new \RuntimeException('Unable to load DAO "'.$api.'"');
+			throw new \RuntimeException('Unable to load DAO "'.$api.'" (error when calling factory)');
 		}
 
 		$this->daos[$api] = $dao; //Store the DAO in cache

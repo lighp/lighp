@@ -22,6 +22,8 @@
             "url": "https://github.com/lighp/lighp.repo/raw/master/"
         }
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": ">=5.3.0",
         "composer/composer": "1.0.*@dev",
@@ -32,6 +34,13 @@
         "components/jquery": "1.9.*",
         "components/bootstrap": "2.3.2",
         "components/mustache": "0.8.*",
-        "lighp/composer-lighp-installers": "dev-master"
+        "lighp/composer-lighp-installers": "dev-master",
+        "lighp/module-backend-main": "dev-master",
+        "lighp/module-backend-packagecontrol": "dev-master",
+        "lighp/module-backend-routes": "dev-master"
+    },
+    "suggest": {
+        "lighp/dao-jsondb": "For a basic file-based database",
+        "lighp/dao-pdo": "For PDO support"
     }
 }

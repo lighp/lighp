@@ -15,7 +15,8 @@ class Pathfinder {
 		'tmp' => 'var/tmp/',
 		'public' => 'public',
 		'locale' => 'share/locale/',
-		'tpl' => 'tpl/'
+		'tpl' => 'tpl/',
+		'config' => 'etc/'
 	];
 
 

@@ -51,6 +51,7 @@ class LoginController extends \core\BackController {
 				$this->app->user()->setAdmin(true);
 				$this->app->httpResponse()->redirect('');
 			} else {
+				sleep(3); //Delay to prevent bruteforce attacks
 				$this->page()->addVar('error', 'Incorrect username or password');
 			}
 		}

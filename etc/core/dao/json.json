@@ -1,0 +1,6 @@
+{
+    "factory": [
+        "\\core\\dao\\JSONDBFactory",
+        "getLocalConnexion"
+    ]
+}
