@@ -5,6 +5,10 @@
 		WEBSITE_ROOT: ''
 	};
 
+	Lighp.setWebsiteConf = function (websiteConf) {
+		Lighp.websiteConf = websiteConf;
+	};
+
 	Lighp._vars = {};
 	Lighp.setVars = function(vars) {
 		Lighp._vars = vars;
@@ -46,7 +50,7 @@
 			for (var key in getData) {
 				var value = getData[key];
 
-				getParams += (i == 0) ? '?' : '&';
+				getParams += (i === 0) ? '?' : '&';
 				getParams += encodeURIComponent(key) + '=' + encodeURIComponent(value);
 
 				i++;
@@ -218,9 +222,9 @@
 			return moduleApi.renderTpl(index, view, function (output) {
 				$output = $(output);
 				$container = $output.filter(container);
-				if ($container.length == 0) {
+				if ($container.length === 0) {
 					$container = $output.find(container);
-					if ($container.length == 0) {
+					if ($container.length === 0) {
 						content = output;
 					} else {
 						content = $container.html();
@@ -274,9 +278,11 @@
 				searchFields = [];
 			}
 
-			var escapedQuery = this._pregQuote(String(query).trim());
+			var escapedQuery = this._pregQuote(String(query).trim()),
+				i;
+			
 			escapedQuery = this._replaceAll(' ', '|', escapedQuery);
-			for (var i = 0; i < this._accentedChars.length; i++) {
+			for (i = 0; i < this._accentedChars.length; i++) {
 				var regex = '('+this._accentedChars[i]+')';
 				escapedQuery = escapedQuery.replace(new RegExp(regex, 'gi'), regex);
 			}
@@ -292,29 +298,32 @@
 			hitsPower = String(nbrItems).length;
 			hitsFactor = Math.pow(10, hitsPower);
 
-			for (var i = 0; i < this._data.length; i++) {
-				var item = this._data[i],
-					itemHits = 0;
+			var replaceMatches = function (match) {
+				fieldHits++;
+				return '<strong>'+match+'</strong>';
+			};
 
-				if (nbrFields == 0) {
-					for (var field in item) {
+			for (i = 0; i < this._data.length; i++) {
+				var item = this._data[i],
+					itemHits = 0,
+					field = '';
+
+				if (nbrFields === 0) {
+					for (field in item) {
 						nbrFields++;
 					}
 				}
 
 				var j = 0;
-				for (var field in item) {
+				for (field in item) {
 					var value = item[field];
 
-					if (nbrFields != 0 && !~$.inArray(field, searchFields)) {
+					if (nbrFields !== 0 && !~$.inArray(field, searchFields)) {
 						continue;
 					}
 
 					var fieldHits = 0;
-					item[field] = String(item[field]).replace(new RegExp('('+escapedQuery+')', 'gi'), function (match) {
-						fieldHits++;
-						return '<strong>'+match+'</strong>';
-					});
+					item[field] = String(item[field]).replace(new RegExp('('+escapedQuery+')', 'gi'), replaceMatches);
 
 					itemHits += fieldHits;
 

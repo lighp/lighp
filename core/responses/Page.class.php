@@ -86,7 +86,10 @@ class Page extends ResponseContent {
 			return array();
 		}
 		$conf = new Config(__DIR__.'/../../etc/core/'.$configFilename.'.json');
-		return $conf->read();
+		
+		$files = $conf->read();
+
+		return $files;
 	}
 
 	/**
@@ -210,31 +213,38 @@ class Page extends ResponseContent {
 
 			$filesBaseDir = $type;
 			$relativePublicFilesDir = __DIR__.'/../../public/';
-
-			if (!is_dir($relativePublicFilesDir.'/'.$filesBaseDir)) {
-				return '';
-			}
+			$hasPublicFilesDir = is_dir($relativePublicFilesDir.'/'.$filesBaseDir);
 
 			//Core files
 			$coreFilesPath = $filesBaseDir.'/core';
 			if (isset($coreLinkedFiles[$type])) {
 				foreach($coreLinkedFiles[$type] as $scriptData) {
-					$filePath = $coreFilesPath.'/'.$scriptData['filename'];
+					if (is_string($scriptData)) {
+						$scriptData = array('filename' => $scriptData);
+					}
+
+					if (substr($scriptData['filename'], 0, 1) == '/') { //Absolute path
+						$filePath = substr($scriptData['filename'], 1);
+					} elseif ($hasPublicFilesDir) { //Relative path
+						$filePath = $coreFilesPath.'/'.$scriptData['filename'];
+					}
 
 					$linkedFiles[] = $filePath;
 				}
 			}
 
-			//Module file
-			$moduleFilePath = $filesBaseDir.'/app/'.$appName.'/'.$module.'.'.$type;
-			if (file_exists($relativePublicFilesDir.'/'.$moduleFilePath)) {
-				$linkedFiles[] = $moduleFilePath;
-			}
+			if ($hasPublicFilesDir) {
+				//Module file
+				$moduleFilePath = $filesBaseDir.'/app/'.$appName.'/'.$module.'.'.$type;
+				if (file_exists($relativePublicFilesDir.'/'.$moduleFilePath)) {
+					$linkedFiles[] = $moduleFilePath;
+				}
 
-			//Action file
-			$actionFilePath = $filesBaseDir.'/app/'.$appName.'/'.$module.'/'.$action.'.'.$type;
-			if (file_exists($relativePublicFilesDir.'/'.$actionFilePath)) {
-				$linkedFiles[] = $actionFilePath;
+				//Action file
+				$actionFilePath = $filesBaseDir.'/app/'.$appName.'/'.$module.'/'.$action.'.'.$type;
+				if (file_exists($relativePublicFilesDir.'/'.$actionFilePath)) {
+					$linkedFiles[] = $actionFilePath;
+				}
 			}
 
 			$linkedFilesTags = '';
@@ -254,7 +264,7 @@ class Page extends ResponseContent {
 			}
 
 			if ($type == 'js') {
-				$linkedFilesTags .= '<script type="text/javascript">Lighp.websiteConf = '.json_encode($globalVars).';Lighp.setVars('.json_encode($pageVars).');</script>';
+				$linkedFilesTags .= '<script type="text/javascript">Lighp.setWebsiteConf('.json_encode($globalVars).');Lighp.setVars('.json_encode($pageVars).');</script>';
 			}
 
 			return $linkedFilesTags;

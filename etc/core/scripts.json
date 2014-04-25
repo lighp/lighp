@@ -1,12 +1,12 @@
 [
 	{
-		"filename":"jquery-1.9.1.min.js"
+		"filename":"/assets/jquery/jquery.min.js"
 	},
 	{
-		"filename":"bootstrap.min.js"
+		"filename":"/assets/bootstrap/js/bootstrap.min.js"
 	},
 	{
-		"filename":"mustache.js"
+		"filename":"/assets/mustache/mustache.js"
 	},
 	{
 		"filename":"lighp.js"

@@ -12,7 +12,9 @@
         }
     ],
     "config": {
-        "vendor-dir": "lib/vendor"
+        "vendor-dir": "lib/vendor",
+        "component-dir": "public/assets",
+        "component-baseurl": "assets"
     },
     "repositories": {
         "lighp": {
@@ -29,6 +31,9 @@
         "mustangostang/spyc": "0.5.*@dev",
         "ircmaxell/password-compat": "dev-master",
         "symfony/http-foundation": "~2.2",
+        "components/jquery": "1.9.*",
+        "components/bootstrap": "2.3.2",
+        "components/mustache": "0.8.*",
         "lighp/composer-lighp-installers": "dev-master",
         "lighp/module-backend-main": "dev-master",
         "lighp/module-backend-packagecontrol": "dev-master",
