@@ -1,35 +1,15 @@
 (function() {
-	var Lighp = (!window.Lighp) ? {} : window.Lighp;
-	window.Lighp = Lighp;
+	var Lighp = {};
 
-	if (!Lighp.websiteConf) {
-		Lighp.websiteConf = {
-			WEBSITE_ROOT: ''
-		};
-	}
-	if (!Lighp._vars) {
-		Lighp._vars = {};
-	}
+	Lighp.websiteConf = {
+		WEBSITE_ROOT: ''
+	};
 
-	//Requirejs
-	requirejs.config({
-		baseUrl: Lighp.websiteConf.WEBSITE_ROOT+'/assets',
-		paths: {
-			core: '../js/core',
-			app: '../js/app'
-		},
-		shim: {
-			jquery: {
-				//exports: '$'
-			},
-			mustache: {
-				exports: 'mustache'
-			}
-		}
-	});
-})();
+	Lighp.setWebsiteConf = function (websiteConf) {
+		Lighp.websiteConf = websiteConf;
+	};
 
-define('core/lighp', ['jquery','mustache','bootstrap'], function ($, mustache) {
+	Lighp._vars = {};
 	Lighp.setVars = function(vars) {
 		Lighp._vars = vars;
 	};
@@ -70,7 +50,7 @@ define('core/lighp', ['jquery','mustache','bootstrap'], function ($, mustache) {
 			for (var key in getData) {
 				var value = getData[key];
 
-				getParams += (!i) ? '?' : '&';
+				getParams += (i === 0) ? '?' : '&';
 				getParams += encodeURIComponent(key) + '=' + encodeURIComponent(value);
 
 				i++;
@@ -242,9 +222,9 @@ define('core/lighp', ['jquery','mustache','bootstrap'], function ($, mustache) {
 			return moduleApi.renderTpl(index, view, function (output) {
 				$output = $(output);
 				$container = $output.filter(container);
-				if (!$container.length) {
+				if ($container.length === 0) {
 					$container = $output.find(container);
-					if (!$container.length) {
+					if ($container.length === 0) {
 						content = output;
 					} else {
 						content = $container.html();
@@ -298,9 +278,11 @@ define('core/lighp', ['jquery','mustache','bootstrap'], function ($, mustache) {
 				searchFields = [];
 			}
 
-			var escapedQuery = this._pregQuote(String(query).trim());
+			var escapedQuery = this._pregQuote(String(query).trim()),
+				i;
+			
 			escapedQuery = this._replaceAll(' ', '|', escapedQuery);
-			for (var i = 0; i < this._accentedChars.length; i++) {
+			for (i = 0; i < this._accentedChars.length; i++) {
 				var regex = '('+this._accentedChars[i]+')';
 				escapedQuery = escapedQuery.replace(new RegExp(regex, 'gi'), regex);
 			}
@@ -316,12 +298,17 @@ define('core/lighp', ['jquery','mustache','bootstrap'], function ($, mustache) {
 			hitsPower = String(nbrItems).length;
 			hitsFactor = Math.pow(10, hitsPower);
 
-			for (var i = 0; i < this._data.length; i++) {
+			var replaceMatches = function (match) {
+				fieldHits++;
+				return '<strong>'+match+'</strong>';
+			};
+
+			for (i = 0; i < this._data.length; i++) {
 				var item = this._data[i],
 					itemHits = 0,
-					field;
+					field = '';
 
-				if (!nbrFields) {
+				if (nbrFields === 0) {
 					for (field in item) {
 						nbrFields++;
 					}
@@ -331,15 +318,12 @@ define('core/lighp', ['jquery','mustache','bootstrap'], function ($, mustache) {
 				for (field in item) {
 					var value = item[field];
 
-					if (nbrFields && !~$.inArray(field, searchFields)) {
+					if (nbrFields !== 0 && !~$.inArray(field, searchFields)) {
 						continue;
 					}
 
 					var fieldHits = 0;
-					item[field] = String(item[field]).replace(new RegExp('('+escapedQuery+')', 'gi'), function (match) {
-						fieldHits++;
-						return '<strong>'+match+'</strong>';
-					});
+					item[field] = String(item[field]).replace(new RegExp('('+escapedQuery+')', 'gi'), replaceMatches);
 
 					itemHits += fieldHits;
 
@@ -364,5 +348,5 @@ define('core/lighp', ['jquery','mustache','bootstrap'], function ($, mustache) {
 		}
 	};
 
-	return Lighp;
+	window.Lighp = Lighp;
 })();

@@ -89,12 +89,6 @@ class Page extends ResponseContent {
 		
 		$files = $conf->read();
 
-		if ($type == 'js') {
-			array_unshift($files, '/assets/require.js');
-		} elseif ($type == 'css') {
-			array_unshift($files, '/assets/require.css');
-		}
-
 		return $files;
 	}
 
@@ -271,7 +265,7 @@ class Page extends ResponseContent {
 			}
 
 			if ($type == 'js') {
-				$linkedFilesTags = '<script type="text/javascript">var Lighp = {};Lighp.websiteConf = '.json_encode($globalVars).';Lighp._vars = '.json_encode($pageVars).';</script>'.$linkedFilesTags;
+				$linkedFilesTags .= '<script type="text/javascript">Lighp.setWebsiteConf('.json_encode($globalVars).');Lighp.setVars('.json_encode($pageVars).');</script>';
 			}
 
 			return $linkedFilesTags;

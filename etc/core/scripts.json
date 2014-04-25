@@ -1,5 +1,14 @@
 [
 	{
+		"filename":"/assets/jquery/jquery.min.js"
+	},
+	{
+		"filename":"/assets/bootstrap/js/bootstrap.min.js"
+	},
+	{
+		"filename":"/assets/mustache/mustache.js"
+	},
+	{
 		"filename":"lighp.js"
 	}
 ]
