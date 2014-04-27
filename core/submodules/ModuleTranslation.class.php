@@ -67,8 +67,9 @@ class ModuleTranslation extends ModuleComponent {
 			return $dict[$path];
 		}
 
-		if (!empty($this->section())) {
-			$sectionPath = $this->section().'.'.$path;
+		$section = $this->section();
+		if (!empty($section)) {
+			$sectionPath = $section.'.'.$path;
 
 			if (isset($dict[$sectionPath])) {
 				return $dict[$sectionPath];
