@@ -11,7 +11,7 @@ use core\i18n\TranslationDictionary;
 
 /**
  * A module's translation.
- * @author Simon Ser
+ * @author emersion
  * @since 1.0alpha1
  */
 class ModuleTranslation extends ModuleComponent {
@@ -33,10 +33,20 @@ class ModuleTranslation extends ModuleComponent {
 		$this->setSection($section);
 	}
 
+	/**
+	 * Open another translation.
+	 * @param  string $module    The module's name.
+	 * @param  string $section   The section's name.
+	 * @return ModuleTranslation The translation.
+	 */
 	public function open($module, $section = null) {
 		return new self($this->app(), $module, $section);
 	}
 
+	/**
+	 * Get this translation's dictionary.
+	 * @return TranslationDictionary The dictionary.
+	 */
 	public function dict() {
 		if (empty($this->dict)) {
 			$this->dict = TranslationDictionary::fromYamlFile($this->_dictPathFromIndex($this->module()));
@@ -45,17 +55,25 @@ class ModuleTranslation extends ModuleComponent {
 		return $this->dict;
 	}
 
+	/**
+	 * Read this translation.
+	 * @return array The translation's data.
+	 */
 	public function read() {
 		$dict = $this->dict();
 
-		$section = $this->section();
-		if (!empty($section) && isset($dict[$section])) {
-			return $dict[$section];
+		if (!empty($this->section) && isset($dict[$this->section])) {
+			return $dict[$this->section];
 		}
 
 		return $dict;
 	}
 
+	/**
+	 * Get a translation value.
+	 * @param  string $path The translation's path.
+	 * @return string       The translation's value.
+	 */
 	public function get($path = null) {
 		$dict = $this->dict(); //Make sure the dictionary is loaded
 
@@ -67,9 +85,8 @@ class ModuleTranslation extends ModuleComponent {
 			return $dict[$path];
 		}
 
-		$section = $this->section();
-		if (!empty($section)) {
-			$sectionPath = $section.'.'.$path;
+		if (!empty($this->section)) {
+			$sectionPath = $this->section . '.' . $path;
 
 			if (isset($dict[$sectionPath])) {
 				return $dict[$sectionPath];
@@ -79,10 +96,18 @@ class ModuleTranslation extends ModuleComponent {
 		return $path;
 	}
 
+	/**
+	 * Get this translation's section.
+	 * @return string The section.
+	 */
 	public function section() {
 		return $this->section;
 	}
 
+	/**
+	 * Set this translation's section.
+	 * @param string $section The section.
+	 */
 	public function setSection($section) {
 		$this->section = $section;
 	}
@@ -96,10 +121,21 @@ class ModuleTranslation extends ModuleComponent {
 	}
 
 
+	/**
+	 * Get a dictionary's file path.
+	 * @param  string $lang  The language.
+	 * @param  string $index The dictionary's index.
+	 * @return string        The file path.
+	 */
 	protected function _dictPath($lang, $index) {
 		return Pathfinder::getPathFor('locale').'/'.$lang.'/'.$index.'.yaml';
 	}
 
+	/**
+	 * Get a dictionary's path from its index. The language is determined automatically.
+	 * @param  string $index The dictionary's index.
+	 * @return string        The file path.
+	 */
 	protected function _dictPathFromIndex($index) {
 		$lang = $this->app()->user()->lang();
 
