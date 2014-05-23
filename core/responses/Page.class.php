@@ -223,6 +223,16 @@ class Page extends ResponseContent {
 						$scriptData = array('filename' => $scriptData);
 					}
 
+					if (!empty($scriptData['app'])) {
+						if (!is_array($scriptData['app'])) {
+							$scriptData['app'] = array($scriptData['app']);
+						}
+
+						if (!in_array($appName, $scriptData['app'])) {
+							continue;
+						}
+					}
+
 					if (substr($scriptData['filename'], 0, 1) == '/') { //Absolute path
 						$filePath = substr($scriptData['filename'], 1);
 					} elseif ($hasPublicFilesDir) { //Relative path
