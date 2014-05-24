@@ -233,7 +233,9 @@ class Page extends ResponseContent {
 						}
 					}
 
-					if (substr($scriptData['filename'], 0, 1) == '/') { //Absolute path
+					if (substr($scriptData['filename'], 0, 2) == '//') { //URL
+						$filePath = $scriptData['filename'];
+					} elseif (substr($scriptData['filename'], 0, 1) == '/') { //Absolute path
 						$filePath = substr($scriptData['filename'], 1);
 					} elseif ($hasPublicFilesDir) { //Relative path
 						$filePath = $coreFilesPath.'/'.$scriptData['filename'];
@@ -259,12 +261,16 @@ class Page extends ResponseContent {
 
 			$linkedFilesTags = '';
 			foreach($linkedFiles as $filePath) {
+				if (substr($filePath, 0, 2) != '//') { //URL
+					$filePath = '{{WEBSITE_ROOT}}/'.$filePath;
+				}
+
 				switch($type) {
 					case 'js':
-						$tag = '<script type="text/javascript" src="{{WEBSITE_ROOT}}/'.$filePath.'"></script>';
+						$tag = '<script type="text/javascript" src="'.$filePath.'"></script>';
 						break;
 					case 'css':
-						$tag = '<link href="{{WEBSITE_ROOT}}/'.$filePath.'" rel="stylesheet" media="screen" />';
+						$tag = '<link href="'.$filePath.'" rel="stylesheet" media="screen" />';
 						break;
 					default:
 						$tag = '';
