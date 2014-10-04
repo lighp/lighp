@@ -2,7 +2,7 @@
     "name": "lighp/lighp",
     "description": "A light-weight php framework based on a package system.",
     "homepage": "http://lighp.github.io/lighp/",
-    "version": "1.0-alpha1",
+    "version": "1.0-alpha2",
     "license": "GPLv3",
     "type": "project",
     "authors": [
