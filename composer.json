@@ -13,6 +13,7 @@
     ],
     "config": {
         "vendor-dir": "lib/vendor",
+        "discard-changes": true,
         "component-dir": "public/assets",
         "component-baseurl": "assets"
     },
@@ -37,7 +38,7 @@
         "components/mustache": "0.8.*",
         "lighp/composer-lighp-installers": "dev-master",
         "lighp/module-backend-main": "dev-master",
-        "lighp/module-backend-packagecontrol": ">=0.4",
+        "lighp/module-backend-packagecontrol": "dev-master",
         "lighp/module-backend-routes": "dev-master"
     },
     "suggest": {
