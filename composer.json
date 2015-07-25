@@ -13,7 +13,6 @@
     ],
     "config": {
         "vendor-dir": "lib/vendor",
-        "discard-changes": true,
         "component-dir": "public/assets",
         "component-baseurl": "assets"
     },
