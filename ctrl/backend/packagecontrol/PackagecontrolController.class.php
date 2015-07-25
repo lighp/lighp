@@ -29,6 +29,12 @@ use Composer\Repository\ArrayRepository;
 use Composer\DependencyResolver\Pool;
 use Composer\DependencyResolver\DefaultPolicy;
 
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\PhpExecutableFinder;
+
+use SensioLabs\AnsiConverter\AnsiToHtmlConverter;
+
 class PackagecontrolController extends \core\BackController {
 	protected $composer;
 	protected $io;
@@ -86,11 +92,14 @@ class PackagecontrolController extends \core\BackController {
 		return $this->versionParser;
 	}
 
+	protected function _getComposerHome() {
+		return Pathfinder::getPathFor('cache') . '/app/composer';
+	}
+
 	protected function _initEnv() {
 		chdir(Pathfinder::getRoot());
 
-		$cachePath = Pathfinder::getPathFor('cache') . '/app/composer';
-		putenv('COMPOSER_HOME='.$cachePath);
+		putenv('COMPOSER_HOME='.$this->_getComposerHome());
 
 		//Define max. execution time
 		if(!ini_get('safe_mode')) { //Detect safe_mode, but sometimes it doesn't work well -> we use the @ operator
@@ -143,9 +152,84 @@ class PackagecontrolController extends \core\BackController {
 		$app = $this->_getApp();
 		$result = $app->run($input, $output);
 
-		$this->page()->addVar('output', $output->fetch());
+		$stdout = $output->fetch();
+
+		$converter = new AnsiToHtmlConverter();
+		$stdout = $converter->convert($stdout);
+
+		$this->page()->addVar('output', $stdout);
 
 		return $result;
+	}
+
+	protected function _downloadComposer($destPath) {
+		$downloadUrl = 'https://getcomposer.org/composer.phar';
+
+		if (copy($downloadUrl, $destPath) === false) {
+			throw new \Exception('Cannot download Composer');
+		}
+	}
+
+	protected function _ensureComposerAvailable() {
+		$destPath = Pathfinder::getRoot().'/composer.phar';
+
+		$doDownload = false;
+		if (!file_exists($destPath)) {
+			$doDownload = true;
+		} else {
+			$updateInterval = 30 * 24 * 60 * 60; // 30 days
+			if (time() - filemtime($destPath) > $updateInterval) {
+				$doDownload = true;
+			}
+		}
+
+		if ($doDownload) {
+			$this->_downloadComposer($destPath);
+		}
+
+		return $doDownload;
+	}
+
+	protected function _runCommandInProc($args = array()) {
+		$this->_initEnv();
+		$this->_ensureComposerAvailable();
+
+		$executableFinder = new PhpExecutableFinder();
+		$php = $executableFinder->find();
+		if ($php === false) {
+			throw new \RuntimeException('Unable to find the PHP executable.');
+		}
+
+		$builder = new ProcessBuilder();
+		$builder->setEnv('COMPOSER_HOME', $this->_getComposerHome());
+		$builder->setEnv('COMPOSER_DISCARD_CHANGES', 'true');
+		$builder->setWorkingDirectory(Pathfinder::getRoot());
+		$builder->setTimeout(250);
+		$builder->setPrefix(array($php, 'composer.phar', '--no-progress', '--ansi'/*, '--profile', '-vvv'*/));
+		$builder->setArguments($args);
+
+		$this->page()->addVar('arguments', implode(' ', $args));
+
+		$process = $builder->getProcess();
+		$process->run();
+
+		$stdout = trim($process->getOutput());
+		$stderr = trim($process->getErrorOutput());
+
+		$converter = new AnsiToHtmlConverter();
+		$stdout = $converter->convert($stdout);
+		$stderr = $converter->convert($stderr);
+
+		// Workaround for info being output in stderr
+		if (empty($stdout) && !empty($stderr)) {
+			$stdout = $stderr;
+			$stderr = '';
+		}
+
+		$this->page()->addVar('errorOutput', $stderr);
+		$this->page()->addVar('output', $stdout);
+
+		return $process;
 	}
 
 	protected function _getInstalledRepo(Composer $composer = null) {
@@ -321,15 +405,12 @@ class PackagecontrolController extends \core\BackController {
 		$pkgName = $request->getData('name');
 
 		if ($request->postExists('check')) {
-			$result = $this->_runCommand(array(
-				'command' => 'require',
-				'packages' => array($pkgName.' dev-master')
-			));
+			$process = $this->_runCommandInProc(array('require', $pkgName.' dev-master', '--prefer-dist'));
 
-			if ($result !== 0) {
-				$this->page()->addVar('error', 'Error (process returned '.$result.')');
-			} else {
+			if ($process->isSuccessful()) {
 				$this->page()->addVar('installed?', true);
+			} else {
+				$this->page()->addVar('error', 'Error (process returned '.$process->getExitCode().')');
 			}
 		}
 	}
@@ -384,17 +465,18 @@ class PackagecontrolController extends \core\BackController {
 
 		$pkgName = $request->getData('name');
 
-		$configFile = $this->_composerConfig();
+		/*$configFile = $this->_composerConfig();
 		$config = $configFile->read();
 
 		if (!isset($config['require']) || !isset($config['require'][$pkgName])) {
 			return;
-		}
+		}*/
 
 		$this->page()->addVar('isInstalled?', true);
 		$this->page()->addVar('package', $pkgName);
 
 		if ($request->postExists('check')) {
+			/*
 			//Update composer.json
 			unset($config['require'][$pkgName]);
 			$configFile->write($config);
@@ -409,6 +491,14 @@ class PackagecontrolController extends \core\BackController {
 				$this->page()->addVar('error', 'Error (process returned '.$result.')');
 			} else {
 				$this->page()->addVar('removed?', true);
+			}*/
+
+			$process = $this->_runCommandInProc(array('--no-update', 'remove', $pkgName));
+
+			if ($process->isSuccessful()) {
+				$this->page()->addVar('removed?', true);
+			} else {
+				$this->page()->addVar('error', 'Error (process returned '.$process->getExitCode().')');
 			}
 		}
 	}
@@ -420,30 +510,25 @@ class PackagecontrolController extends \core\BackController {
 		$this->page()->addVar('upgrades?', true);
 
 		if ($request->postExists('check')) {
-			$result = $this->_runCommand(array(
-				'command' => 'update'
-			));
+			$process = $this->_runCommandInProc(array('update', '--prefer-dist'));
 
-			if ($result !== 0) {
-				$this->page()->addVar('error', 'Error (process returned '.$result.')');
-			} else {
+			if ($process->isSuccessful()) {
 				$this->page()->addVar('upgraded?', true);
+			} else {
+				$this->page()->addVar('error', 'Error (process returned '.$process->getExitCode().')');
 			}
 		} else {
-			$result = $this->_runCommand(array(
-				'command' => 'update',
-				'--dry-run' => true
-			));
+			$process = $this->_runCommandInProc(array('update', '--dry-run'));
 
-			if ($result !== 0) {
-				$this->page()->addVar('error', 'Error (process returned '.$result.')');
-			} else {
+			if ($process->isSuccessful()) {
 				$output = $this->page()->getVar('output');
 
 				//Ugly workaround to detect if we need to update or not
 				if (strpos($output, 'Nothing to install or update') !== false) {
 					$this->page()->addVar('upgrades?', false);
 				}
+			} else {
+				$this->page()->addVar('error', 'Error (process returned '.$process->getExitCode().')');
 			}
 		}
 	}

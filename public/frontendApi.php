@@ -4,7 +4,7 @@ if (!ini_get('display_errors')) {
 }
 date_default_timezone_set('Europe/Paris');
 
-require '../core/autoload.php';
+require __DIR__.'/../core/autoload.php';
 
 use core\apps\FrontendApiApplication;
 use core\fs\Pathfinder;

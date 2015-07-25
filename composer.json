@@ -36,6 +36,7 @@
         "components/bootstrap": "2.3.2",
         "components/mustache": "0.8.*",
         "lighp/composer-lighp-installers": "dev-master",
+        "lighp/lighp-core": "dev-master",
         "lighp/module-backend-main": "dev-master",
         "lighp/module-backend-packagecontrol": "dev-master",
         "lighp/module-backend-routes": "dev-master"

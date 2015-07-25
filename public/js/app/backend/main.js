@@ -40,10 +40,7 @@
 			var query = $input.val();
 
 			if (event.which == 9) { //Tab
-				autoCompletedQuery = mainApi.autoComplete(query);
-				if (autoCompletedQuery != query) {
-					$input.val(autoCompletedQuery);
-				}
+				$input.val(mainApi.autoComplete(query));
 
 				event.preventDefault();
 			} else if (event.which == 27) { //Esc
@@ -62,8 +59,7 @@
 		}
 
 		var output = input;
-		var keywords = input.split(' '),
-			pageVars = Lighp.vars();
+		var keywords = input.split(' '), pageVars = Lighp.vars();
 
 		if (pageVars.backends) { //Main page
 			//...
@@ -71,20 +67,19 @@
 			keywords.unshift(pageVars.backend.name);
 		}
 
-		var completed = false,
-			keywordLength,
-			i;
+		var completed = false;
 		switch(keywords.length) {
 			case 1: //Module name
 				var keyword = keywords[0];
-				keywordLength = keyword.length;
 
 				if (pageVars.backends) {
+					var keywordLength = keyword.length;
+
 					if (keywordLength === 0) {
 						break;
 					}
 
-					for(i = 0; i < pageVars.backends.length; i++) {
+					for(var i = 0; i < pageVars.backends.length; i++) {
 						var backendData = pageVars.backends[i];
 
 						if (backendData.name.substr(0, keywordLength) == keyword) {
@@ -96,19 +91,19 @@
 				}
 				break;
 			case 2: //Module action
-				var moduleName = keywords[0];
-				keyword = keywords[1];
-				keywordLength = keyword.length;
+				var moduleName = keywords[0], keyword = keywords[1];
 
 				if (pageVars.backends || pageVars.backend) {
+					var keywordLength = keyword.length;
+
 					if (keywordLength === 0) {
 						break;
 					}
 
-					var actions = [];
+					var actions;
 
 					if (pageVars.backends) {
-						for (i = 0; i < pageVars.backends.length; i++) {
+						for (var i = 0; i < pageVars.backends.length; i++) {
 							if (pageVars.backends[i].name == moduleName) {
 								actions = pageVars.backends[i].actions;
 								break;
@@ -117,17 +112,18 @@
 					} else if (pageVars.backend) {
 						backend = pageVars.backend;
 
-						actions = backend.actions;
+						actions = {};
+						for (var i = 0; i < backend.actions.length; i++) {
+							var actionData = backend.actions[i];
+							actions[actionData.name] = actionData;
+						}
 					}
 
-					if (!actions.length) {
+					if (!actions) {
 						break;
 					}
 
-					for (i = 0; i < actions.length; i++) {
-						var actionData = actions[i],
-							actionName = actionData.name;
-						
+					for (var actionName in actions) {
 						if (actionName.substr(0, keywordLength) == keyword) {
 							output += actionName.substr(keywordLength);
 							completed = true;

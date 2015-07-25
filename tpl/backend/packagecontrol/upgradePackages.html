@@ -15,8 +15,8 @@
 	{{#upgrades?}}
 		{{#error}}
 			<div class="alert alert-block alert-error">
-				<h4 class="alert-heading">Erreur lors de l'installation</h4>
-				<p>Le paquet n'a pas p&ucirc; &eacute;t&eacute; install&eacute; : {{error}}</p>
+				<h4 class="alert-heading">Erreur lors de la mise à jour</h4>
+				<p>La mise à jour n'a pas pû être installée : {{error}}</p>
 			</div>
 		{{/error}}
 
@@ -26,14 +26,16 @@
 
 		{{> partials/output}}
 
-		<form action="" method="post">
-			<input type="hidden" name="check" value="1">
+		{{^error}}
+			<form action="" method="post">
+				<input type="hidden" name="check" value="1">
 
-			<div class="form-actions">
-				<button type="submit" class="btn btn-primary"><i class="icon-arrow-down icon-white"></i>&nbsp;Mettre à jour</button>
-				<a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Annuler</a>
-			</div>
-		</form>
+				<div class="form-actions">
+					<button type="submit" class="btn btn-primary"><i class="icon-arrow-down icon-white"></i>&nbsp;Mettre à jour</button>
+					<a class="btn" href="{{#buildUrl}}main showModule packagecontrol{{/buildUrl}}">Annuler</a>
+				</div>
+			</form>
+		{{/error}}
 	{{/upgrades?}}
 	{{^upgrades?}}
 		<div class="alert alert-block alert-info">

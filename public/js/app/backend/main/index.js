@@ -56,6 +56,7 @@ $(function() {
 		loadingRequest = Lighp.backend.main.insertTpl('index', newView, function (data) {
 			Lighp.loading(false);
 			$(searchFormGoBackSel).toggle(searchQuery.length > 0);
+			attachEvents();
 		}, '#main-stack-container');
 	}
 

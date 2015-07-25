@@ -16,30 +16,34 @@ $(function() {
 		$(mainStackSel).empty();
 	}
 
+	var oldView = Lighp.vars();
 	function executeShowModule() {
-		abortLoadingRequest();
-
 		var searchQuery = $(searchFormQuerySel).val();
 
-		var req = Lighp.backend.main.execute('showModule', {
-			module: Lighp.vars().backend.name,
-			q: searchQuery
-		});
-
-		loadingRequest = req;
+		var newView = $.extend(true, {}, oldView);
 
 		Lighp.loading(true, {
 			container: $(mainStackSel).parent()
 		});
+		emptyMainStack();
 
-		req.execute(function(view) {
-			loadingRequest = Lighp.backend.main.insertTpl('showModule', view, function (data) {
-				Lighp.loading(false);
+		if (searchQuery.length) {
+			newView.searchQuery = searchQuery;
 
-				$(searchFormGoBackSel).toggle(searchQuery.length > 0);
-				attachEvents();
-			}, '#main-stack-container');
-		});
+			var actions = [];
+			for (var j = 0; j < oldView.backend.actions.length; j++) {
+				var action = $.extend({}, oldView.backend.actions[j]);
+				actions.push(action);
+			}
+
+			var searcher = new Lighp.ArraySearcher(actions);
+			newView.backend.actions = searcher.search(searchQuery, ['title', 'name']);
+		}
+
+		loadingRequest = Lighp.backend.main.insertTpl('showModule', newView, function (data) {
+			Lighp.loading(false);
+			$(searchFormGoBackSel).toggle(searchQuery.length > 0);
+		}, '#main-stack-container');
 	}
 
 	function attachEvents() {

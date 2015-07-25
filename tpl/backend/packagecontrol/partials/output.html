@@ -1,1 +1,8 @@
-{{#output}}<pre style="background-color: black; color: white;">{{{output}}}</pre>{{/output}}
+{{#errorOutput}}
+	{{#error}}<strong>Erreur :</strong>{{/error}}
+	<pre style="background-color: black; color: {{#error}}red{{/error}}{{^error}}white{{/error}}">{{{errorOutput}}}</pre>
+{{/errorOutput}}
+
+{{#output}}
+	<pre style="background-color: black; color: white;">{{#arguments}}&gt; composer {{arguments}}{{/arguments}}<br />{{{output}}}</pre>
+{{/output}}
