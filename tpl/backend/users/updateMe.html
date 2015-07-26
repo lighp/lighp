@@ -1,0 +1,41 @@
+{{#updated?}}
+	<div class="alert alert-block alert-success">
+		<h4 class="alert-heading">Identifiants modifiés</h4>
+		<p>Les identifiants ont bien été modifiés.</p>
+		<p><a class="btn" href="{{#buildUrl}}main showModule users{{/buildUrl}}">Retour</a></p>
+	</div>
+{{/updated?}}
+{{^updated?}}
+	{{#error}}
+		<div class="alert alert-block alert-error">
+			<button class="close" data-dismiss="alert" type="button">&times;</button>
+			<h4 class="alert-heading">Erreur</h4>
+			<p>Une erreur est survenue lors de la modification des identifiants : {{error}}.</p>
+		</div>
+	{{/error}}
+
+	<form action="" method="post" class="form-horizontal">
+		<div class="control-group">
+			<label class="control-label" for="currentPassword">Mot de passe actuel</label>
+			<div class="controls">
+				<input type="password" name="current-password" id="currentPassword" placeholder="Mot de passe" required>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="newPassword">Nouveau mot de passe</label>
+			<div class="controls">
+				<input type="password" name="new-password" id="newPassword" placeholder="Nouveau mot de passe" required>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<input type="password" name="confirm-password" id="confirmPassword" placeholder="Confirmer le nouveau mot de passe" required>
+			</div>
+		</div>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">Valider</button>
+			<a class="btn" href="{{#buildUrl}}main showModule users{{/buildUrl}}">Annuler</a>
+		</div>
+	</form>
+{{/updated?}}

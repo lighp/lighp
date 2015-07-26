@@ -1,0 +1,25 @@
+{{#error}}
+	<div class="alert alert-block alert-error">
+		<button class="close" data-dismiss="alert" type="button">&times;</button>
+		<h4 class="alert-heading">Erreur</h4>
+		<p>Une erreur est survenue lors de la connexion : {{error}}.</p>
+	</div>
+{{/error}}
+
+<form action="" method="post" class="form-horizontal">
+	<div class="control-group">
+		<label class="control-label" for="inputUsername">Nom d'utilisateur</label>
+		<div class="controls">
+			<input type="text" name="login-username" id="inputUsername" placeholder="Nom d'utilisateur" required autofocus>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="inputPassword">Mot de passe</label>
+		<div class="controls">
+			<input type="password" name="login-password" id="inputPassword" placeholder="Mot de passe" required>
+		</div>
+	</div>
+	<div class="form-actions">
+		<button type="submit" class="btn btn-primary">Valider</button>
+	</div>
+</form>

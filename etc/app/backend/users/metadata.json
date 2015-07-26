@@ -8,6 +8,9 @@
 		"insert":{
 			"title":"Ajouter un utilisateur"
 		},
+		"updateMe":{
+			"title":"Modifier mon compte"
+		},
 		"delete":{
 			"title":"Supprimer un utilisateur",
 			"list":{

@@ -34,7 +34,7 @@ class UsersController extends \core\BackController {
 		}
 	}
 
-	public function executeIndex(HTTPRequest $request) {
+	public function executeLogin(HTTPRequest $request) {
 		$this->page()->addVar('title', 'Connexion');
 
 		$manager = $this->managers->getManagerOf('users');
@@ -53,7 +53,11 @@ class UsersController extends \core\BackController {
 
 			if ($cryptoManager->verifyPassword($password, $user['password'])) {
 				$this->_rehashPassword($user, $password);
-				$this->app->user()->setAdmin(true);
+
+				$sessionUser = $this->app->user();
+				$sessionUser->setUsername($username);
+				$sessionUser->setAdmin(true);
+
 				$this->app->httpResponse()->redirect('');
 			} else {
 				sleep(3); // Delay to prevent bruteforce attacks
@@ -66,11 +70,50 @@ class UsersController extends \core\BackController {
 		$this->page()->addVar('title', 'Déconnexion');
 
 		$this->app->user()->setAdmin(false);
-		$this->app->httpResponse()->redirect('');
+		$this->app->httpResponse()->redirect('..');
 	}
 
 	public function executeUpdateMe(HTTPRequest $request) {
-		// TODO
+		$this->page()->addVar('title', 'Modifier les identifiants de connexion');
+		$this->_addBreadcrumb();
+
+		$manager = $this->managers->getManagerOf('users');
+		$cryptoManager = $this->managers->getManagerOf('crypto');
+
+		if ($request->postExists('current-password')) {
+			$password = $request->postData('current-password');
+
+			$username = $this->app->user()->username();
+			try {
+				$user = $manager->getByUsername($username);
+			} catch (\Exception $e) {
+				return $this->executeLogout($request);
+			}
+
+			if ($cryptoManager->verifyPassword($password, $user['password'])) {
+				$newPassword = $request->postData('new-password');
+				$confirmPassword = $request->postData('confirm-password');
+
+				if ($newPassword !== $confirmPassword) {
+					$this->page()->addVar('error', 'Passwords does\'t match');
+					return;
+				}
+
+				$user['password'] = $cryptoManager->hashPassword($newPassword);
+
+				try {
+					$manager->update($user);
+				} catch (\Exception $e) {
+					$this->page()->addVar('error', $e->getMessage());
+					return;
+				}
+
+				$this->page()->addVar('updated?', true);
+			} else {
+				sleep(3); // Delay to prevent bruteforce attacks
+				$this->page()->addVar('error', 'Incorrect password');
+			}
+		}
 	}
 
 	public function executeInsert(HTTPRequest $request) {
@@ -90,7 +133,7 @@ class UsersController extends \core\BackController {
 
 			$passwordConfirm = $request->postData('password-confirm');
 			if ($userData['password'] !== $passwordConfirm) {
-				$this->page()->addVar('error', 'Les deux mots de passe ne correspondent pas');
+				$this->page()->addVar('error', 'Passwords does\'t match');
 				return;
 			}
 
