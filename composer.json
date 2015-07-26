@@ -22,6 +22,9 @@
             "url": "https://github.com/lighp/lighp.repo/raw/master/"
         }
     },
+    "scripts": {
+        "server": "echo 'Starting server at http://localhost:8000'; php -t public -S localhost:8000 public/router.php"
+    },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
