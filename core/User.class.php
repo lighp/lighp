@@ -22,6 +22,16 @@ class User extends ApplicationComponent {
 		return ($session->has('user_logged') && $session->get('user_logged') === true);
 	}
 
+	public function username() {
+		$session = $this->app()->httpRequest()->session();
+
+		if (!$session->has('user_username')) {
+			return null;
+		}
+
+		return $session->get('user_username');
+	}
+
 	public function lang() {
 		$session = $this->app()->httpRequest()->session();
 
@@ -72,7 +82,17 @@ class User extends ApplicationComponent {
 			throw new InvalidArgumentException('Invalid user logged value');
 		}
 
-		$session->set('user_admin', $isLogged);
+		$session->set('user_logged', $isLogged);
+	}
+
+	public function setUsername($username) {
+		$session = $this->app()->httpRequest()->session();
+
+		if (empty($username)) {
+			throw new InvalidArgumentException('Invalid user username');
+		}
+
+		$session->set('user_username', $username);
 	}
 
 	public function setPermissions(array $permissions) {

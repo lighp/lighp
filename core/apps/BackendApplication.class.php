@@ -21,7 +21,7 @@ class BackendApplication extends Application {
 		if ($this->user->isAdmin()) {
 			$controller = $this->getController();
 		} else {
-			$controller = new \ctrl\backend\login\LoginController($this, 'login', 'index');
+			$controller = new \ctrl\backend\users\UsersController($this, 'users', 'login');
 		}
 
 		$controller->execute();
