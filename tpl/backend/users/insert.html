@@ -1,0 +1,41 @@
+{{#inserted?}}
+	<div class="alert alert-block alert-success">
+		<h4 class="alert-heading">Utilisateur ajouté</h4>
+		<p>Le nouvel utilisateur a bien été créé.</p>
+		<p><a class="btn" href="{{#buildUrl}}main showModule users{{/buildUrl}}">Retour</a></p>
+	</div>
+{{/inserted?}}
+
+{{^inserted?}}
+	{{#error}}
+		<div class="alert alert-block alert-error">
+			<h4 class="alert-heading">Erreur lors de l'ajout</h4>
+			<p>Le nouvel utilisateur n'a pas pu être ajouté : {{error}}</p>
+		</div>
+	{{/error}}
+
+	<form action="" method="post" class="form-horizontal">
+		<div class="control-group">
+			<label class="control-label" for="username">Nom d'utilisateur</label>
+			<div class="controls">
+				<input type="text" name="username" id="username" value="{{user.username}}" placeholder="Nom d'utilisateur" pattern="[a-zA-Z0-9-_.]+" required><span class="help-inline">(seuls les caractères alphanumériques et les suivants sont acceptés : &laquo; _, -, . &raquo;)</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="repo-url">Mot de passe</label>
+			<div class="controls">
+				<input type="password" name="password" id="password" placeholder="Mot de passe" required>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<input type="password" name="password-confirm" id="password-confirm" placeholder="Confirmer le mot de passe" required>
+			</div>
+		</div>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">Valider</button>
+			<a class="btn" href="{{#buildUrl}}main showModule users{{/buildUrl}}">Annuler</a>
+		</div>
+	</form>
+{{/inserted?}}

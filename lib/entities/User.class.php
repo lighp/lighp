@@ -11,14 +11,17 @@ class User extends Entity {
 
 	public function setUsername($username) {
 		if (!is_string($username) || empty($username)) {
-			throw new InvalidArgumentException('Invalid user username');
+			throw new InvalidArgumentException('Invalid user username: empty username');
+		}
+		if ($username === 'me') {
+			throw new InvalidArgumentException('Invalid user username: this username is reserved');
 		}
 		$this->username = $username;
 	}
 
 	public function setPassword($password) {
 		if (!is_string($password) || empty($password)) {
-			throw new InvalidArgumentException('Invalid user password');
+			throw new InvalidArgumentException('Invalid user password: empty password');
 		}
 		$this->password = $password;
 	}
