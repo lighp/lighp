@@ -3,3 +3,4 @@
 /var/tmp/
 /composer.phar
 /composer.lock
+/public/assets/
