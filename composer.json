@@ -42,7 +42,8 @@
         "lighp/lighp-core": "dev-master",
         "lighp/module-backend-main": "dev-master",
         "lighp/module-backend-packagecontrol": "dev-master",
-        "lighp/module-backend-routes": "dev-master"
+        "lighp/module-backend-routes": "dev-master",
+        "lighp/module-backend-assets": "dev-master"
     },
     "suggest": {
         "lighp/dao-jsondb": "For a basic file-based database",
