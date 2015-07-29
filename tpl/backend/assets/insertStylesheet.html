@@ -1,0 +1,37 @@
+{{#inserted?}}
+	<div class="alert alert-block alert-success">
+		<h4 class="alert-heading">Fichier ajouté</h4>
+		<p>Le fichier a bien été ajouté.</p>
+		<p><a class="btn" href="{{#buildUrl}}main showModule assets{{/buildUrl}}">Retour</a></p>
+	</div>
+{{/inserted?}}
+
+{{^inserted?}}
+	{{#error}}
+		<div class="alert alert-block alert-error">
+			<h4 class="alert-heading">Erreur lors de l'ajout</h4>
+			<p>Le fichier n'a pas pu être ajouté : {{error}}</p>
+		</div>
+	{{/error}}
+
+	<form action="" method="post" class="form-horizontal">
+		<p>Sélectionnez un fichier soit en entrant le nom d'un fichier existant, soit en en envoyant un nouveau.</p>
+
+		<div class="control-group">
+			<label class="control-label" for="filename">Fichier</label>
+			<div class="controls">
+				<input type="text" name="filename" id="filename" value="{{filename}}" placeholder="Chemin du fichier"><span class="help-inline">(le fichier doit être présent dans le dossier <code>public/</code>)</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<input type="file" name="file" id="file">
+			</div>
+		</div>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">Valider</button>
+			<a class="btn" href="{{#buildUrl}}main showModule assets{{/buildUrl}}">Annuler</a>
+		</div>
+	</form>
+{{/inserted?}}

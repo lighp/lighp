@@ -1,0 +1,24 @@
+{
+	"title":"Feuilles de style & fichiers Javascript",
+	"icon":"",
+	"actions":{
+		"insertStylesheet":{
+			"title":"Ajouter une feuille de style"
+		},
+		"insertScript":{
+			"title":"Ajouter un fichier Javascript"
+		},
+		"deleteStylesheet":{
+			"title":"Supprimer une feuille de style",
+			"list":{
+				"items":"stylesheets"
+			}
+		},
+		"deleteScript":{
+			"title":"Supprimer un fichier Javascript",
+			"list":{
+				"items":"scripts"
+			}
+		}
+	}
+}

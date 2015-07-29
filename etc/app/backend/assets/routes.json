@@ -1,0 +1,20 @@
+[
+	{
+		"url":"/admin/assets/stylesheet/new/?",
+		"action":"insertStylesheet"
+	},
+	{
+		"url":"/admin/assets/script/new/?",
+		"action":"insertScript"
+	},
+	{
+		"url":"/admin/assets/stylesheet/([0-9]+)/delete/?",
+		"action":"deleteStylesheet",
+		"vars": ["index"]
+	},
+	{
+		"url":"/admin/assets/script/([0-9]+)/delete/?",
+		"action":"deleteScript",
+		"vars": ["index"]
+	}
+]
