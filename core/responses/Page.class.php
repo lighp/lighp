@@ -66,7 +66,7 @@ class Page extends ResponseContent {
 	 * @return array
 	 */
 	public function globalVars() {
-		$json = file_get_contents(__DIR__.'/../../etc/core/website.json');
+		$json = file_get_contents(Pathfinder::getPathFor('config').'/core/website.json');
 		$data = json_decode($json, true);
 
 		$vars = array();
@@ -85,7 +85,7 @@ class Page extends ResponseContent {
 		} else {
 			return array();
 		}
-		$conf = new Config(__DIR__.'/../../etc/core/'.$configFilename.'.json');
+		$conf = new Config(Pathfinder::getPathFor('config').'/core/'.$configFilename.'.json');
 		
 		$files = $conf->read();
 
@@ -212,7 +212,7 @@ class Page extends ResponseContent {
 			$linkedFiles = array();
 
 			$filesBaseDir = $type;
-			$relativePublicFilesDir = __DIR__.'/../../public/';
+			$relativePublicFilesDir = Pathfinder::getPathFor('public');
 			$hasPublicFilesDir = is_dir($relativePublicFilesDir.'/'.$filesBaseDir);
 
 			//Core files

@@ -68,7 +68,8 @@ abstract class BackController extends ApplicationComponent {
 		$this->managers = new Managers($daos);
 		$this->config = new ModuleConfig($app, $module);
 		$this->translation = new ModuleTranslation($app, $module, $action);
-		$this->responseContent = new Page($app, $module, $action);
+
+		$this->setResponseType('Page');
 		$this->responseContent->setTranslation($this->translation);
 	}
 
@@ -102,6 +103,17 @@ abstract class BackController extends ApplicationComponent {
 	}
 
 	/**
+	 * Set this controller's response type.
+	 * @param string $type The type name.
+	 * @return ResponseContent The response content.
+	 */
+	public function setResponseType($type) {
+		$className = '\\core\\responses\\'.$type;
+		$this->responseContent = new $className($this->app, $this->module, $this->action);
+		return $this->responseContent();
+	}
+
+	/**
 	 * Get this back controller's response's content.
 	 * @return ResponseContent
 	 */
@@ -114,7 +126,13 @@ abstract class BackController extends ApplicationComponent {
 	 * @return Page
 	 */
 	public function page() {
-		return $this->responseContent;
+		$content = $this->responseContent();
+
+		if ($content instanceof Page) {
+			return $content;
+		} else {
+			throw new \RuntimeException('This controller\'s response content is not a Page');
+		}
 	}
 
 	/**
