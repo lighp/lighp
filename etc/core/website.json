@@ -1,6 +1,6 @@
 {
 	"name":"Lighp",
 	"description":"A light-weight php framework based on a package system.",
-	"author":"Simon Ser",
+	"author":"emersion",
 	"root":""
 }
